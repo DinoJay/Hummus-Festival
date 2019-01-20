@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import * as rough from 'roughjs/dist/rough.umd';
 
 export default function ReactRough(props) {
-  const {height, width, render, children} = props;
+  const {height, width, render, prepend = null, children} = props;
   const refSVG = React.createRef();
 
   useEffect(() => {
@@ -18,26 +18,49 @@ export default function ReactRough(props) {
       React.Children.toArray(children).map(child => {
         console.log('child', child);
         const type = child.type.displayName.toLowerCase();
-        const {translate = [0, 0], ...props} = child.props;
+        const {translate = [0, 0], filter, ...props} = child.props;
         // const {points, ...opts} = child.props;
         const args = Object.keys(props).map(key => child.props[key]);
         const shape = rc[type](...args);
 
-        d3.select(svg)
+        const cont = d3
+          .select(svg)
+          .select('#rough')
           .append('g')
-          .style('transform', `translate(${translate[0]}px,${translate[1]}px)`)
-          .node()
-          .appendChild(shape);
+          .style('transform', `translate(${translate[0]}px,${translate[1]}px)`);
+        // .attr('filter', filter);
+
+        cont.node().appendChild(shape);
+
+        cont.select('path:nth-child(1)').attr('filter', filter);
+
+        // d3.select(svg)
+        //   .append('defs')
+        //   .append('filter')
+        //   .attr('id', 'f1')
+        //   .attr('x', 0)
+        //   .attr('y', 0)
+        //   .append('feGaussianBlur')
+        //   .attr('in', 'SourceGraphic')
+        //   .attr('stdDeviation', 15);
       });
     }
     return () => {
-      while (svg.lastChild) {
-        svg.removeChild(svg.lastChild);
-      }
+      d3.select(svg)
+        .selectAll('#rough g')
+        .remove();
+      // while (svg.lastChild) {
+      //   svg.removeChild(svg.lastChild);
+      // }
     };
   });
 
-  return <svg width={width} height={height} ref={refSVG} />;
+  return (
+    <svg width={width} height={height} ref={refSVG}>
+      {prepend}
+      <g id="rough" filter="url(#goo)" />
+    </svg>
+  );
 }
 
 export const Arc = ({x, y, width, height, start, stop, closed, options}) => (
