@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import * as rough from 'roughjs/dist/rough.umd';
 
 export default function ReactRough(props) {
-  const {height, width, render, prepend = null, children} = props;
+  const {height, width, render, prepend = null, append, children} = props;
   const refSVG = React.createRef();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function ReactRough(props) {
       React.Children.toArray(children).map(child => {
         console.log('child', child);
         const type = child.type.displayName.toLowerCase();
-        const {translate = [0, 0], filter, ...props} = child.props;
+        const {translate = [0, 0], filter, id, ...props} = child.props;
         // const {points, ...opts} = child.props;
         const args = Object.keys(props).map(key => child.props[key]);
         const shape = rc[type](...args);
@@ -32,7 +32,8 @@ export default function ReactRough(props) {
 
         cont.node().appendChild(shape);
 
-        cont.select('path:nth-child(1)').attr('filter', filter);
+        cont.select('path:nth-child(1)').attr('filter', filter).attr('id', id);
+
 
         // d3.select(svg)
         //   .append('defs')
@@ -59,6 +60,7 @@ export default function ReactRough(props) {
     <svg width={width} height={height} ref={refSVG}>
       {prepend}
       <g id="rough" filter="url(#goo)" />
+      {append}
     </svg>
   );
 }

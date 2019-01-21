@@ -10,9 +10,10 @@ const tinyGabArc = 0.000001;
 
 const setColor = hex =>
   chroma(hex)
-    .saturate(0)
-    .brighten(1);
-// .alpha(0.9);
+    .saturate(2)
+    .brighten(2)
+    .alpha(0.4)
+    .css();
 
 const data = [
   {
@@ -68,7 +69,7 @@ const data = [
 
 function NavRing(props) {
   const {className, width, height, style} = props;
-  const [arcData, setArcData] = useState([]);
+  const [pieData, setPieData] = useState([]);
 
   const radius = Math.min(width, height) / 2;
   useEffect(() => {
@@ -78,10 +79,10 @@ function NavRing(props) {
       // .padAngle(100)
       .value(d => d.size);
 
-    setArcData(pie(data));
+    setPieData(pie(data));
   }, []);
 
-  console.log('arcData', arcData);
+  console.log('pieData', pieData);
   const outerArc = d3
     .arc()
     // TODO: padding
@@ -96,10 +97,10 @@ function NavRing(props) {
 
   const labelArc = d3
     .arc()
-    .outerRadius(radius - 40)
-    .innerRadius(radius - 40);
+    .innerRadius(radius + 10)
+    .outerRadius(radius + 40);
 
-  const arcs0 = arcData.map(a => (
+  const arcs0 = pieData.map(a => (
     <Path
       points={outerArc(a)}
       translate={[radius, radius]}
@@ -115,7 +116,7 @@ function NavRing(props) {
       }}
     />
   ));
-  const arcs1 = arcData.map(({data, ...a}) => (
+  const arcs1 = pieData.map(({data, ...a}, i) => (
     <Path
       points={innerArc(a)}
       translate={[radius, radius]}
@@ -271,47 +272,91 @@ function NavRing(props) {
     </filter>
   );
 
+  const polyLines = pieData.map(d => {
+    const innerPoint = outerArc.centroid(d);
+    const outerPoint = labelArc.centroid(d);
+    const x =
+      outerArc.centroid(d)[0] + width / 2 > width / 2 ? width / 2 : -width / 2;
+
+    const pData = [innerPoint, [x, outerPoint[1]]];
+    console.log('pData', pData);
+    const line = d3.line()(pData);
+    return <path d={line} stroke="black" />;
+  });
+
+  const texts = pieData.map(d => {
+    const innerPoint = outerArc.centroid(d);
+    const outerPoint = labelArc.centroid(d);
+    const x =
+      outerArc.centroid(d)[0] + width / 2 > width / 2 ? width / 2 : -width / 2;
+
+    const pData = [innerPoint, [x, outerPoint[1]]];
+    console.log('pData', pData);
+    // const line = d3.line()(pData);
+
+    return (
+      <text transform={`translate(${innerPoint})`} style={{fontSize: 19}}>
+        {d.data.outerLabel}
+      </text>
+    );
+  });
+
+  console.log('polyLines', polyLines);
+
   return (
     <div className={className} style={style}>
       <ReactRough
         width={width}
         height={height}
         prepend={
-          <defs>
-            <filter id="f1" x="0" y="0">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-            </filter>
-            {morph}
-            {watercolor}
-            <filter id="turb">
-              <feTurbulence
-                baseFrequency=".01"
-                type="fractalNoise"
-                numOctaves="3"
-              />
-              <feDisplacementMap
-                in2="turbulence"
-                in="SourceGraphic"
-                scale="50"
-                xChannelSelector="R"
-                yChannelSelector="G"
-              />
-            </filter>
-            <filter id="goo">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="10"
-                result="blur"
-              />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -4"
-                result="goo"
-              />
-              <feBlend in="SourceGraphic" in2="goo" result="goo" />
-            </filter>
-          </defs>
+          <>
+            <defs>
+              <filter id="f1" x="0" y="0">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+              </filter>
+              {morph}
+              {watercolor}
+              <filter id="turb">
+                <feTurbulence
+                  baseFrequency=".01"
+                  type="fractalNoise"
+                  numOctaves="3"
+                />
+                <feDisplacementMap
+                  in2="turbulence"
+                  in="SourceGraphic"
+                  scale="50"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                />
+              </filter>
+              <filter id="goo">
+                <feGaussianBlur
+                  in="SourceGraphic"
+                  stdDeviation="10"
+                  result="blur"
+                />
+                <feColorMatrix
+                  in="blur"
+                  mode="matrix"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -4"
+                  result="goo"
+                />
+                <feBlend in="SourceGraphic" in2="goo" result="goo" />
+              </filter>
+            </defs>
+          </>
+        }
+        append={
+          <g transform={`translate(${[radius, radius]})`}>
+            {polyLines}
+            {texts}
+            {data.map((d, i) => (
+              <text>
+                <textPath xlinkHref={`#outerArc${i}`}>{d.outerLabel}</textPath>
+              </text>
+            ))}
+          </g>
         }>
         {arcs0}
         {arcs1}
