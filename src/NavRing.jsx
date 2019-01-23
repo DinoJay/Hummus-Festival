@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import PropTypes from 'prop-types';
+import uniqBy from 'lodash/uniqBy';
 
 import ReactRough, {Path, Arc, Rectangle, Line, Circle} from './ReactRough';
 
@@ -12,76 +13,103 @@ const setColor = hex =>
   chroma(hex)
     .saturate(2)
     .brighten(2)
-    .alpha(0.4)
+    .alpha(0.7)
     .css();
 
-const data = [
+const initData = [
   {
     outerLabel: 'caos',
     innerLabel: "l'io",
-    fill: setColor('tomato'),
+    fill: 'palevioletred',
+    color: 'tomato',
     size: 5 / 16,
   },
   {
     outerLabel: 'scelta',
     innerLabel: 'azione',
     fill: setColor('orange'),
+    color: 'orange',
     size: 3 / 16,
   },
   {
     outerLabel: 'Attezioen',
     innerLabel: 'La Forma',
     fill: setColor('gold'),
+    color: 'gold',
     size: 4 / 16,
   },
   {
     outerLabel: 'Repulsion',
-    innerLabel: "l'altro",
+    innerLabel: 'La Forma',
     fill: setColor('lightgreen'),
+    color: 'lightgreen',
     size: 3 / 16,
   },
   {
     outerLabel: 'dialobo',
     innerLabel: "l'altro",
     fill: setColor('#0D98BA'),
+    color: '#0D98BA',
     size: 3 / 16,
   },
   {
     outerLabel: 'Reflessione',
     innerLabel: "Il'se",
-    age: '45-64',
-    fill: setColor('purple'),
+    // fill: 'palevioletred',
+    fill: setColor('tomato'),
+    color: 'purple',
     size: 4 / 16,
   },
   {
     outerLabel: 'transformation',
-    innerLabel: null,
+    innerLabel: "Il'se",
     fill: 'violet',
+    color: 'violet',
     size: 3 / 16,
   },
   {
     outerLabel: 'integrazione',
     innerLabel: 'Il Tutto',
     fill: setColor('lightblue'),
+    color: 'lightblue',
     size: 5 / 16,
   }
 ];
 
+const labels = uniqBy(initData, d => d.innerLabel);
+
+const pie = d3
+  .pie()
+  .sort(null)
+  // .padAngle(100)
+  .value(d => d.size);
+
+const Btn = ({className, active, onClick, d}) => (
+  <div
+    className={`${className} cursor-pointer rounded-full p-1 px-2`}
+    style={{
+      color: !active ? d.color : 'white',
+      background: active && d.color,
+    }}
+    onClick={onClick}>
+    {d.innerLabel}
+  </div>
+);
+
 function NavRing(props) {
   const {className, width, height, style} = props;
-  const [pieData, setPieData] = useState([]);
+  // const [data, setData] = useState([...initData]);
 
-  const radius = Math.min(width, height) / 2;
-  useEffect(() => {
-    const pie = d3
-      .pie()
-      .sort(null)
-      // .padAngle(100)
-      .value(d => d.size);
+  const [id, setId] = useState(null);
+  const data =
+    id !== null ? initData.filter(d => d.innerLabel === id) : initData;
 
-    setPieData(pie(data));
-  }, []);
-
+  const radius = Math.min(width, height) / 2 - 40;
+  // useEffect(() => {
+  //
+  //   setPieData();
+  // }, []);
+  const pieData = pie(data);
   console.log('pieData', pieData);
   const outerArc = d3
     .arc()
@@ -97,46 +125,88 @@ function NavRing(props) {
 
   const labelArc = d3
     .arc()
-    .innerRadius(radius + 10)
-    .outerRadius(radius + 40);
+    .innerRadius(radius - 30)
+    .outerRadius(radius - 40);
 
   const arcs0 = pieData.map(a => (
-    <Path
-      points={outerArc(a)}
-      translate={[radius, radius]}
-      options={{
-        // stroke: 'red',
-        // strokeWidth: 4,
-        // bowing: 3,
-        // sketch: 5.8,
-        // hachureAngle: 10, // angle of hachure,
-        // hachureGap: 20,
-        // fill: 'rgba(255,255,0,0.4)',
-        fillStyle: 'solid'
+    <path
+      d={outerArc(a)}
+      style={{
+        // transform: `translate(${radius}, ${radius})`,
+        stroke: 'black',
+        fill: 'none'
       }}
+      options={
+        {
+          // stroke: 'red',
+          // strokeWidth: 4,
+          // bowing: 3,
+          // sketch: 5.8,
+          // hachureAngle: 10, // angle of hachure,
+          // hachureGap: 20,
+          // fill: 'rgba(255,255,0,0.4)',
+          // fillStyle: 'solid'
+        }
+      }
     />
   ));
+
+  const labelArcs = pieData.map((a, i) => (
+    <path
+      stroke="white"
+      id={`outerArc${i}`}
+      style={{stroke: 'white', fill: 'none'}}
+      d={labelArc(a)}
+    />
+  ));
+
   const arcs1 = pieData.map(({data, ...a}, i) => (
+    <path
+      d={innerArc(a)}
+      filter={`url(#${data.color})`}
+      style={
+        {
+          // transform: `translate(${radius}, ${radius})`,
+          // stroke: 'black',
+          // fill: data.fill
+        }
+      }
+    />
+  ));
+
+  // const strokeArcs1 = pieData.map(({data, ...a}, i) => (
+  //   <path
+  //     d={innerArc(a)}
+  //     style={{
+  //       // transform: `translate(${radius}, ${radius})`,
+  //       stroke: 'black',
+  //       fill: 'none'
+  //     }}
+  //   />
+  // ));
+
+  const roughArcs = pieData.map(({data, ...a}, i) => (
     <Path
-      points={innerArc(a)}
+      d={innerArc(a)}
       translate={[radius, radius]}
-      filter={`url(#${data.fill})`}
       options={{
         stroke: 'black',
-        // strokeWidth: 3,
+        strokeWidth: 1,
         bowing: 2,
         sketch: 15.8,
         // hachureAngle: 60, // angle of hachure,
         // hachureGap: 3,
-        fill: data.fill,
-        fillStyle: 'solid'
+        // fill: data.fill,
+        fillStyle: 'solid',
+        hachureAngle: 60, // angle of hachure,
+        hachureGap: 299,
       }}
     />
   ));
   const watercolor = data.map(d => (
     <>
       <filter
-        id={d.fill}
+        id={d.color}
         colorInterpolationFilters="sRGB"
         x="0%"
         y="0%"
@@ -284,8 +354,8 @@ function NavRing(props) {
     return <path d={line} stroke="black" />;
   });
 
-  const texts = pieData.map(d => {
-    const innerPoint = outerArc.centroid(d);
+  const texts = pieData.map((d, i) => {
+    const innerPoint = innerArc.centroid(d);
     const outerPoint = labelArc.centroid(d);
     const x =
       outerArc.centroid(d)[0] + width / 2 > width / 2 ? width / 2 : -width / 2;
@@ -296,7 +366,7 @@ function NavRing(props) {
 
     return (
       <text transform={`translate(${innerPoint})`} style={{fontSize: 19}}>
-        {d.data.outerLabel}
+        {d.data.innerLabel}
       </text>
     );
   });
@@ -304,69 +374,106 @@ function NavRing(props) {
   console.log('polyLines', polyLines);
 
   return (
-    <div className={className} style={style}>
-      <ReactRough
-        width={width}
-        height={height}
-        prepend={
-          <>
-            <defs>
-              <filter id="f1" x="0" y="0">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-              </filter>
-              {morph}
-              {watercolor}
-              <filter id="turb">
-                <feTurbulence
-                  baseFrequency=".01"
-                  type="fractalNoise"
-                  numOctaves="3"
-                />
-                <feDisplacementMap
-                  in2="turbulence"
-                  in="SourceGraphic"
-                  scale="50"
-                  xChannelSelector="R"
-                  yChannelSelector="G"
-                />
-              </filter>
-              <filter id="goo">
-                <feGaussianBlur
-                  in="SourceGraphic"
-                  stdDeviation="10"
-                  result="blur"
-                />
-                <feColorMatrix
-                  in="blur"
-                  mode="matrix"
-                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -4"
-                  result="goo"
-                />
-                <feBlend in="SourceGraphic" in2="goo" result="goo" />
-              </filter>
-            </defs>
-          </>
-        }
-        append={
-          <g transform={`translate(${[radius, radius]})`}>
-            {polyLines}
-            {texts}
+    <div
+      className={`${className} flex flex-col items-center justify-center`}
+      style={style}>
+      <div className="m-4 text-3xl text-center">
+        <h1 className="cursor-pointer" onClick={() => setId(null)}>
+          Hummus
+        </h1>
+        {labels.slice(0, labels.length / 2).map(d => (
+          <Btn
+            className="m-1 mx-2"
+            d={d}
+            active={d.innerLabel === id}
+            onClick={() => setId(d.innerLabel)}
+          />
+        ))}
+      </div>
+      <div className="flex-grow">
+        <svg width={radius * 2} height={radius * 2}>
+          <defs>
+            <filter id="f1" x="0" y="0">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+            </filter>
+            {morph}
+            {watercolor}
+            <filter id="turb">
+              <feTurbulence
+                baseFrequency=".01"
+                type="fractalNoise"
+                numOctaves="3"
+              />
+              <feDisplacementMap
+                in2="turbulence"
+                in="SourceGraphic"
+                scale="50"
+                xChannelSelector="R"
+                yChannelSelector="G"
+              />
+            </filter>
+            <filter id="goo">
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="40"
+                result="blur"
+              />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -4"
+                result="goo"
+              />
+              <feBlend in="SourceGraphic" in2="goo" result="goo" />
+            </filter>
+          </defs>
+
+          <g
+            filter="url(#goo)"
+            style={{transform: `translate(${radius}px, ${radius}px)`}}>
+            {arcs1}
+          </g>
+          <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
+            {arcs0}
+          </g>
+          <g
+            style={{
+              transform: `translate(${radius}px,${radius}px)`,
+            }}>
+            {labelArcs}
             {data.map((d, i) => (
-              <text>
-                <textPath xlinkHref={`#outerArc${i}`}>{d.outerLabel}</textPath>
+              <text style={{fontSize: 23, color: d.color}}>
+                <textPath fill={d.color} xlinkHref={`#outerArc${i}`}>
+                  {d.outerLabel}
+                </textPath>
               </text>
             ))}
           </g>
-        }>
-        {arcs0}
-        {arcs1}
-        <Circle
-          translate={[0, 0]}
-          x={radius}
-          y={radius}
-          diameter={2 * radius}
-        />
-      </ReactRough>
+          <ReactRough
+            width={width}
+            height={height}
+            prepend={null}
+            append={null}>
+            <Circle
+              translate={[0, 0]}
+              x={radius}
+              y={radius}
+              diameter={2 * radius}
+            />
+            {roughArcs}
+          </ReactRough>
+        </svg>
+      </div>
+      <div className="m-4 text-3xl text-center">
+        {labels.slice(labels.length / 2).map(d => (
+          <Btn
+            className="m-1 mx-2"
+            d={d}
+            active={d.innerLabel === id}
+            onClick={() => setId(d.innerLabel)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -8,8 +8,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const loaders = require('./webpack.loaders');
 
-const apiTokens = require('./api-keys.json');
-
 const alias = require('./alias');
 
 // const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
@@ -23,11 +21,10 @@ module.exports = {
     // 'babel-polyfill',
     './src/index.jsx', // your app's entry point
   ],
-  mode: 'production',
+  // mode: 'production',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-    chunkFilename: '[contenthash].bundle.css',
+    filename: 'main.js',
     // publicPath: path.join(__dirname, 'dist'),
   },
   resolve: {
@@ -66,9 +63,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/template.html',
     }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    }),
-    new webpack.EnvironmentPlugin(apiTokens),
+    // new webpack.DefinePlugin({
+    //   'process.env.NODE_ENV': JSON.stringify('production'),
+    // }),
+    require('autoprefixer'),
   ],
 };

@@ -55,12 +55,13 @@ function App() {
     setSize([Math.min(width, maxWidth), Math.min(height, maxHeight)]);
   }, []);
 
-  console.log('size', size);
+  // console.log('size', size);
 
   return (
-    <div ref={contRef} className="w-screen h-screen flex justify-center">
-      <div>
-        <h1>Hummus</h1>
+    <div
+      ref={contRef}
+      className="w-screen h-screen flex flex-col justify-center items-center">
+      <div className="border p-1">
         <NavRing
           width={size[0]}
           height={size[1]}
