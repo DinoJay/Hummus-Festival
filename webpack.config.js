@@ -74,12 +74,12 @@ module.exports = {
     new ErrorOverlayPlugin(),
     new HtmlWebpackPlugin({
       template: './src/template.html',
-      title: "Hummus"
+      title: 'Humus'
     }),
     // new webpack.EnvironmentPlugin(apiTokens),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
-    require('autoprefixer'),
+    // require('autoprefixer'),
   ],
 };

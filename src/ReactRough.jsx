@@ -16,8 +16,8 @@ export default function ReactRough(props) {
     // .filter(c => /[A-Z]/.test(c.type.displayName[0]))
     if (children) {
       React.Children.toArray(children).map(child => {
-        console.log('child', child);
-        const type = child.type.displayName.toLowerCase();
+        console.log('child', child.type.name);
+        const type = child.type.name.toLowerCase();
         const {translate = [0, 0], filter, id, ...props} = child.props;
         // const {points, ...opts} = child.props;
         const args = Object.keys(props).map(key => child.props[key]);
@@ -32,8 +32,10 @@ export default function ReactRough(props) {
 
         cont.node().appendChild(shape);
 
-        cont.select('path:nth-child(1)').attr('filter', filter).attr('id', id);
-
+        cont
+          .select('path:nth-child(1)')
+          .attr('filter', filter)
+          .attr('id', id);
 
         // d3.select(svg)
         //   .append('defs')

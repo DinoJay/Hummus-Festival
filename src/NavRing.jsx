@@ -1,13 +1,83 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash/uniqBy';
+import isEqual from 'lodash/isEqual';
 
-import ReactRough, {Path, Arc, Rectangle, Line, Circle} from './ReactRough';
+// import posed from 'react-pose';
+import {styler, tween, easing} from 'popmotion';
 
-const tinyGabArc = 0.000001;
+import {interpolate} from 'flubber';
+
+// import ReactRough, {Path, Arc, Rectangle, Line, Circle} from './ReactRough';
+//
+//           <ReactRough
+//             width={width}
+//             height={height}
+//             prepend={null}
+//             append={null}>
+//             <Circle
+//               translate={[0, 0]}
+//               x={radius}
+//               y={radius}
+//               diameter={2 * radius}
+//             />
+//             {roughArcs}
+//           </ReactRough>
+
+// const Icon = posed.path({}
+//   pathIds.reduce((config, id) => {
+//     config[id] = {
+//       d: paths[id],
+//       transition: morphTransition
+//     };
+//
+//     return config;
+//   }, {})
+// );
+
+function memo(value) {
+  const getMemoized = useMemo(() => {
+    let memoized;
+    return current => {
+      if (!isEqual(current, memoized)) {
+        memoized = current;
+      }
+      return memoized;
+    };
+  }, []);
+  return getMemoized(value);
+}
+
+const MemPath = ({d, ...props}) => {
+  const oldD = memo(d);
+  const ref = React.createRef();
+  useEffect(
+    () => {
+      setTimeout(() => {
+        console.log('d', d );
+        console.log('oldD', oldD );
+        if (ref.current) {
+          const shape = styler(ref.current);
+          tween({
+            from: 0,
+            to: 1,
+            // duration: 700,
+            // ease: easing.easeInOut,
+            // flip: Infinity,
+          })
+            .pipe(interpolate(d, oldD))
+            .start(shape.set('d'));
+        }
+      }, 400);
+    },
+    [d],
+  );
+
+  return <path ref={ref} {...props} />;
+};
 
 const setColor = hex =>
   chroma(hex)
@@ -128,9 +198,11 @@ function NavRing(props) {
     .innerRadius(radius - 30)
     .outerRadius(radius - 40);
 
-  const arcs0 = pieData.map(a => (
-    <path
+  console.log('outerLabel', pieData);
+  const arcs0 = pieData.map((a, i) => (
+    <MemPath
       d={outerArc(a)}
+      key={a.data.outerLabel}
       style={{
         // transform: `translate(${radius}, ${radius})`,
         stroke: 'black',
@@ -185,24 +257,24 @@ function NavRing(props) {
   //   />
   // ));
 
-  const roughArcs = pieData.map(({data, ...a}, i) => (
-    <Path
-      d={innerArc(a)}
-      translate={[radius, radius]}
-      options={{
-        stroke: 'black',
-        strokeWidth: 1,
-        bowing: 2,
-        sketch: 15.8,
-        // hachureAngle: 60, // angle of hachure,
-        // hachureGap: 3,
-        // fill: data.fill,
-        fillStyle: 'solid',
-        hachureAngle: 60, // angle of hachure,
-        hachureGap: 299,
-      }}
-    />
-  ));
+  // const roughArcs = pieData.map(({data, ...a}, i) => (
+  //   <Path
+  //     d={innerArc(a)}
+  //     translate={[radius, radius]}
+  //     options={{
+  //       stroke: 'black',
+  //       strokeWidth: 1,
+  //       bowing: 2,
+  //       sketch: 15.8,
+  //       // hachureAngle: 60, // angle of hachure,
+  //       // hachureGap: 3,
+  //       // fill: data.fill,
+  //       fillStyle: 'solid',
+  //       hachureAngle: 60, // angle of hachure,
+  //       hachureGap: 299,
+  //     }}
+  //   />
+  // ));
   const watercolor = data.map(d => (
     <>
       <filter
@@ -449,19 +521,6 @@ function NavRing(props) {
               </text>
             ))}
           </g>
-          <ReactRough
-            width={width}
-            height={height}
-            prepend={null}
-            append={null}>
-            <Circle
-              translate={[0, 0]}
-              x={radius}
-              y={radius}
-              diameter={2 * radius}
-            />
-            {roughArcs}
-          </ReactRough>
         </svg>
       </div>
       <div className="m-4 text-3xl text-center">
