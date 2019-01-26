@@ -5,6 +5,7 @@ import chroma from 'chroma-js';
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
+import cloneDeep from 'lodash/cloneDeep';
 
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
@@ -41,37 +42,45 @@ import {interpolate} from 'flubber';
 function memo(value) {
   const getMemoized = useMemo(() => {
     let memoized;
+    let tmp = value;
     return current => {
       if (!isEqual(current, memoized)) {
+        tmp = cloneDeep(memoized);
         memoized = current;
       }
-      return memoized;
+      return tmp;
     };
   }, []);
   return getMemoized(value);
 }
 
-const MemPath = ({d, ...props}) => {
+const MemPath = ({d, defaultD, ...props}) => {
   const oldD = memo(d);
   const ref = React.createRef();
+
+  // if (oldD !== d)
+
+  // console.log('current', d, 'memoized', oldD);
+
   useEffect(
     () => {
-      setTimeout(() => {
-        console.log('d', d );
-        console.log('oldD', oldD );
-        if (ref.current) {
-          const shape = styler(ref.current);
-          tween({
-            from: 0,
-            to: 1,
-            // duration: 700,
-            // ease: easing.easeInOut,
-            // flip: Infinity,
-          })
-            .pipe(interpolate(d, oldD))
-            .start(shape.set('d'));
-        }
-      }, 400);
+      // setTimeout(() => {
+      // console.log('d', d);
+      // console.log('equal', oldD === d);
+      if (ref.current) {
+        const arg = oldD ? [oldD, d] : [defaultD, d];
+        const shape = styler(ref.current);
+        tween({
+          from: 0,
+          to: 1,
+          duration: 700,
+          // ease: easing.anticipate,
+          // flip: Infinity,
+        })
+          .pipe(interpolate(...arg))
+          .start(shape.set('d'));
+      }
+      // }, 400);
     },
     [d],
   );
@@ -181,6 +190,13 @@ function NavRing(props) {
   // }, []);
   const pieData = pie(data);
   console.log('pieData', pieData);
+
+  const initArc = d3
+    .arc()
+    // TODO: padding
+    .outerRadius(radius)
+    .innerRadius(radius - 10);
+
   const outerArc = d3
     .arc()
     // TODO: padding
@@ -197,11 +213,16 @@ function NavRing(props) {
     .arc()
     .innerRadius(radius - 30)
     .outerRadius(radius - 40);
-
+  const defaultD = initArc({
+    endAngle: 0,
+    startAngle: 0,
+    value: 1,
+  });
   console.log('outerLabel', pieData);
   const arcs0 = pieData.map((a, i) => (
     <MemPath
       d={outerArc(a)}
+      defaultD={defaultD}
       key={a.data.outerLabel}
       style={{
         // transform: `translate(${radius}, ${radius})`,
@@ -224,7 +245,8 @@ function NavRing(props) {
   ));
 
   const labelArcs = pieData.map((a, i) => (
-    <path
+    <MemPath
+      defaultD={defaultD}
       stroke="white"
       id={`outerArc${i}`}
       style={{stroke: 'white', fill: 'none'}}
@@ -233,8 +255,9 @@ function NavRing(props) {
   ));
 
   const arcs1 = pieData.map(({data, ...a}, i) => (
-    <path
+    <MemPath
       d={innerArc(a)}
+      defaultD={defaultD}
       filter={`url(#${data.color})`}
       style={
         {
@@ -487,7 +510,7 @@ function NavRing(props) {
             <filter id="goo">
               <feGaussianBlur
                 in="SourceGraphic"
-                stdDeviation="40"
+                stdDeviation="20"
                 result="blur"
               />
               <feColorMatrix
