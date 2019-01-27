@@ -60,21 +60,21 @@ const MemPath = ({d, defaultD, ...props}) => {
 
   // if (oldD !== d)
 
-  // console.log('current', d, 'memoized', oldD);
+  console.log('oldDef', defaultD);
 
   useEffect(
     () => {
       // setTimeout(() => {
       // console.log('d', d);
-      // console.log('equal', oldD === d);
+      // console.log('defaultD', defaultD);
       if (ref.current) {
         const arg = oldD ? [oldD, d] : [defaultD, d];
         const shape = styler(ref.current);
         tween({
           from: 0,
           to: 1,
-          duration: 700,
-          // ease: easing.anticipate,
+          duration: 500,
+          ease: easing.linear,
           // flip: Infinity,
         })
           .pipe(interpolate(...arg))
@@ -163,6 +163,8 @@ const pie = d3
   // .padAngle(100)
   .value(d => d.size);
 
+const initPieData = cloneDeep(pie(initData));
+
 const Btn = ({className, active, onClick, d}) => (
   <div
     className={`${className} cursor-pointer rounded-full p-1 px-2`}
@@ -180,22 +182,43 @@ function NavRing(props) {
   // const [data, setData] = useState([...initData]);
 
   const [id, setId] = useState(null);
-  const data =
-    id !== null ? initData.filter(d => d.innerLabel === id) : initData;
-
+  const data = initData;
   const radius = Math.min(width, height) / 2 - 40;
   // useEffect(() => {
   //
   //   setPieData();
   // }, []);
-  const pieData = pie(data);
-  console.log('pieData', pieData);
+  const tmpData = pie(
+    id !== null
+      ? data.map(d => ({...d, size: d.innerLabel !== id ? 0 : d.size}))
+      : data,
+  );
+  const sumId = tmpData.reduce(
+    (acc, d) => (d.innerLabel === id ? acc + 1 : acc),
+    0,
+  );
+  console.log('sumId', sumId);
+
+  const pieData = tmpData.map(
+    d =>
+      // if (id !== null && d.data.innerLabel !== id) {
+      //   return {...d, endAngle: d.startAngle};
+      // }
+      // if (d.data.innerLabel === id) {
+      //   return {...d, endAngle: (2 * Math.PI) 1 + d.startAngle};
+      // }
+      d,
+  );
+
+  // console.log('pieData', pieData);
 
   const initArc = d3
     .arc()
     // TODO: padding
     .outerRadius(radius)
     .innerRadius(radius - 10);
+  // .startAngle(Math.PI/2)
+  // .endAngle(Math.PI );
 
   const outerArc = d3
     .arc()
@@ -213,16 +236,21 @@ function NavRing(props) {
     .arc()
     .innerRadius(radius - 30)
     .outerRadius(radius - 40);
+
   const defaultD = initArc({
-    endAngle: 0,
-    startAngle: 0,
-    value: 1,
+    startAngle: Math.PI / 2,
+    endAngle: Math.PI,
+    value: 100,
   });
-  console.log('outerLabel', pieData);
+
+  console.log('initPieData', initPieData);
+  // initPieData.find(d => a.data.id === d.data.id)
   const arcs0 = pieData.map((a, i) => (
     <MemPath
       d={outerArc(a)}
-      defaultD={defaultD}
+      defaultD={initArc(
+        initPieData.find(d => a.data.outerLabel === d.data.outerLabel),
+      )}
       key={a.data.outerLabel}
       style={{
         // transform: `translate(${radius}, ${radius})`,
@@ -246,7 +274,9 @@ function NavRing(props) {
 
   const labelArcs = pieData.map((a, i) => (
     <MemPath
-      defaultD={defaultD}
+      defaultD={initArc(
+        initPieData.find(d => a.data.outerLabel === d.data.outerLabel),
+      )}
       stroke="white"
       id={`outerArc${i}`}
       style={{stroke: 'white', fill: 'none'}}
@@ -254,11 +284,14 @@ function NavRing(props) {
     />
   ));
 
-  const arcs1 = pieData.map(({data, ...a}, i) => (
+  const arcs1 = pieData.map((a, i) => (
     <MemPath
       d={innerArc(a)}
-      defaultD={defaultD}
-      filter={`url(#${data.color})`}
+      key={a.data.outerLabel}
+      defaultD={initArc(
+        initPieData.find(d => a.data.outerLabel === d.data.outerLabel),
+      )}
+      filter={`url(#${a.data.color})`}
       style={
         {
           // transform: `translate(${radius}, ${radius})`,
@@ -298,7 +331,7 @@ function NavRing(props) {
   //     }}
   //   />
   // ));
-  const watercolor = data.map(d => (
+  const watercolor = initData.map(d => (
     <>
       <filter
         id={d.color}
@@ -466,7 +499,7 @@ function NavRing(props) {
     );
   });
 
-  console.log('polyLines', polyLines);
+  // console.log('polyLines', polyLines);
 
   return (
     <div
