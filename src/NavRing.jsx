@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
+import sortBy from 'lodash/sortBy';
 
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
@@ -54,13 +55,15 @@ function memo(value) {
   return getMemoized(value);
 }
 
-const MemPath = ({d, defaultD, ...props}) => {
-  const oldD = memo(d);
+const MemPath = ({data, arc, defaultData, ...props}) => {
+  const olData = memo(data);
   const ref = React.createRef();
 
-  // if (oldD !== d)
+  // console.log('data', olData);
+  // if (oldAngle !== d)
 
-  console.log('oldDef', defaultD);
+  // console.log('oldAngle', oldAngle);
+  // console.log('angle', angle);
 
   useEffect(
     () => {
@@ -68,21 +71,21 @@ const MemPath = ({d, defaultD, ...props}) => {
       // console.log('d', d);
       // console.log('defaultD', defaultD);
       if (ref.current) {
-        const arg = oldD ? [oldD, d] : [defaultD, d];
+        // const arg = oldD ? [oldD, d] : [defaultD, d];
         const shape = styler(ref.current);
         tween({
-          from: 0,
-          to: 1,
+          from: olData ? olData.endAngle : defaultData.endAngle,
+          to: data.endAngle,
           duration: 500,
-          ease: easing.linear,
+          ease: easing.easeInOut,
           // flip: Infinity,
         })
-          .pipe(interpolate(...arg))
+          .pipe(d => arc({endAngle: d, startAngle: data.startAngle}))
           .start(shape.set('d'));
       }
       // }, 400);
     },
-    [d],
+    [data.endAngle],
   );
 
   return <path ref={ref} {...props} />;
@@ -159,7 +162,8 @@ const labels = uniqBy(initData, d => d.innerLabel);
 
 const pie = d3
   .pie()
-  .sort(null)
+  .sort((a, b) => b.size - a.size)
+  // .sort(null)
   // .padAngle(100)
   .value(d => d.size);
 
@@ -188,27 +192,22 @@ function NavRing(props) {
   //
   //   setPieData();
   // }, []);
-  const tmpData = pie(
-    id !== null
-      ? data.map(d => ({...d, size: d.innerLabel !== id ? 0 : d.size}))
-      : data,
-  );
-  const sumId = tmpData.reduce(
-    (acc, d) => (d.innerLabel === id ? acc + 1 : acc),
-    0,
-  );
-  console.log('sumId', sumId);
+  const sum = data.filter(d => d.innerLabel === id).length;
+  const pData = pie(data);
+  const pieData = sortBy(pData, a => a.startAngle).map(d => {
+    if (id !== null && d.data.innerLabel !== id) {
+      return {...d, endAngle: d.startAngle};
+    }
 
-  const pieData = tmpData.map(
-    d =>
-      // if (id !== null && d.data.innerLabel !== id) {
-      //   return {...d, endAngle: d.startAngle};
-      // }
-      // if (d.data.innerLabel === id) {
-      //   return {...d, endAngle: (2 * Math.PI) 1 + d.startAngle};
-      // }
-      d,
-  );
+    if (d.data.innerLabel === id) {
+      if (sum === 2) {
+        const other = pData.find(e => e.data.innerLabel === id || e.id !== id);
+        return {...d, endAngle: d.startAngle + Math.PI};
+      }
+      return {...d, endAngle: d.startAngle + 2 * Math.PI};
+    }
+    return d;
+  });
 
   // console.log('pieData', pieData);
 
@@ -216,7 +215,7 @@ function NavRing(props) {
     .arc()
     // TODO: padding
     .outerRadius(radius)
-    .innerRadius(radius - 10);
+    .innerRadius(radius);
   // .startAngle(Math.PI/2)
   // .endAngle(Math.PI );
 
@@ -247,10 +246,9 @@ function NavRing(props) {
   // initPieData.find(d => a.data.id === d.data.id)
   const arcs0 = pieData.map((a, i) => (
     <MemPath
-      d={outerArc(a)}
-      defaultD={initArc(
-        initPieData.find(d => a.data.outerLabel === d.data.outerLabel),
-      )}
+      data={a}
+      arc={outerArc}
+      defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
       key={a.data.outerLabel}
       style={{
         // transform: `translate(${radius}, ${radius})`,
@@ -274,22 +272,24 @@ function NavRing(props) {
 
   const labelArcs = pieData.map((a, i) => (
     <MemPath
-      defaultD={initArc(
-        initPieData.find(d => a.data.outerLabel === d.data.outerLabel),
+      data={a}
+      arc={labelArc}
+      defaultData={initPieData.find(
+        d => a.data.outerLabel === d.data.outerLabel,
       )}
       stroke="white"
       id={`outerArc${i}`}
       style={{stroke: 'white', fill: 'none'}}
-      d={labelArc(a)}
     />
   ));
 
   const arcs1 = pieData.map((a, i) => (
     <MemPath
-      d={innerArc(a)}
+      data={a}
+      arc={innerArc}
       key={a.data.outerLabel}
-      defaultD={initArc(
-        initPieData.find(d => a.data.outerLabel === d.data.outerLabel),
+      defaultData={initPieData.find(
+        d => a.data.outerLabel === d.data.outerLabel,
       )}
       filter={`url(#${a.data.color})`}
       style={
@@ -470,35 +470,6 @@ function NavRing(props) {
     </filter>
   );
 
-  const polyLines = pieData.map(d => {
-    const innerPoint = outerArc.centroid(d);
-    const outerPoint = labelArc.centroid(d);
-    const x =
-      outerArc.centroid(d)[0] + width / 2 > width / 2 ? width / 2 : -width / 2;
-
-    const pData = [innerPoint, [x, outerPoint[1]]];
-    console.log('pData', pData);
-    const line = d3.line()(pData);
-    return <path d={line} stroke="black" />;
-  });
-
-  const texts = pieData.map((d, i) => {
-    const innerPoint = innerArc.centroid(d);
-    const outerPoint = labelArc.centroid(d);
-    const x =
-      outerArc.centroid(d)[0] + width / 2 > width / 2 ? width / 2 : -width / 2;
-
-    const pData = [innerPoint, [x, outerPoint[1]]];
-    console.log('pData', pData);
-    // const line = d3.line()(pData);
-
-    return (
-      <text transform={`translate(${innerPoint})`} style={{fontSize: 19}}>
-        {d.data.innerLabel}
-      </text>
-    );
-  });
-
   // console.log('polyLines', polyLines);
 
   return (
@@ -562,7 +533,7 @@ function NavRing(props) {
             {arcs1}
           </g>
           <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
-            {arcs0}
+            <g />
           </g>
           <g
             style={{
