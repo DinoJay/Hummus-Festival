@@ -7,11 +7,10 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
-
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
 
-import {interpolate} from 'flubber';
+const MIN_ANGLE = 0.001;
 
 // import ReactRough, {Path, Arc, Rectangle, Line, Circle} from './ReactRough';
 //
@@ -74,13 +73,19 @@ const MemPath = ({data, arc, defaultData, ...props}) => {
         // const arg = oldD ? [oldD, d] : [defaultD, d];
         const shape = styler(ref.current);
         tween({
-          from: olData ? olData.endAngle : defaultData.endAngle,
-          to: data.endAngle,
-          duration: 500,
+          from: {
+            startAngle: olData ? olData.startAngle : defaultData.startAngle,
+            endAngle: olData ? olData.endAngle : defaultData.endAngle
+          },
+          to: {startAngle: data.startAngle, endAngle: data.endAngle},
+          duration: data.data.size === MIN_ANGLE ? 500 : 300,
           ease: easing.easeInOut,
           // flip: Infinity,
         })
-          .pipe(d => arc({endAngle: d, startAngle: data.startAngle}))
+          .pipe(d => {
+            console.log('angle', d);
+            return arc(d);
+          })
           .start(shape.set('d'));
       }
       // }, 400);
@@ -192,22 +197,30 @@ function NavRing(props) {
   //
   //   setPieData();
   // }, []);
-  const sum = data.filter(d => d.innerLabel === id).length;
-  const pData = pie(data);
-  const pieData = sortBy(pData, a => a.startAngle).map(d => {
-    if (id !== null && d.data.innerLabel !== id) {
-      return {...d, endAngle: d.startAngle};
-    }
-
-    if (d.data.innerLabel === id) {
-      if (sum === 2) {
-        const other = pData.find(e => e.data.innerLabel === id || e.id !== id);
-        return {...d, endAngle: d.startAngle + Math.PI};
-      }
-      return {...d, endAngle: d.startAngle + 2 * Math.PI};
-    }
-    return d;
+  const MIN_ANGLE = 0.001;
+  const fData = data.map(d => {
+    if (id === null) return d;
+    if (d.innerLabel === id) return {...d, size: 10};
+    return {...d, size: MIN_ANGLE};
   });
+
+  const pData = pie(fData);
+  const pieData = sortBy(pData, a => -a.startAngle);
+
+  // .map(d => {
+  // if (id !== null && d.data.innerLabel !== id) {
+  //   return {...d, endAngle: d.startAngle};
+  // }
+
+  //   if (d.data.innerLabel === id) {
+  //     if (sum === 2) {
+  //       const other = pData.find(e => e.data.innerLabel === id || e.id !== id);
+  //       return {...d, endAngle: d.startAngle + Math.PI};
+  //     }
+  //     return {...d, endAngle: d.startAngle + 2 * Math.PI};
+  //   }
+  //   return d;
+  // });
 
   // console.log('pieData', pieData);
 
@@ -227,6 +240,7 @@ function NavRing(props) {
 
   const innerArc = d3
     .arc()
+    .padAngle(0.22)
     // TODO: padding
     .outerRadius(radius / 1.5)
     .innerRadius(0);
