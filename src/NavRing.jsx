@@ -268,7 +268,7 @@ function NavRing(props) {
   //
   //   setPieData();
   // }, []);
-  const MIN_ANGLE = 0.1;
+  const MIN_ANGLE = 0.05;
   const fData = data.map(d => {
     if (id === null) return d;
     if (d.innerLabel === id) return {...d, size: 10};

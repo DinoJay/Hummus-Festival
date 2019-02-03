@@ -3,40 +3,150 @@ import * as d3 from 'd3';
 
 import {stickman1, stickman2, stickman3, stickman4} from './stickmen';
 
+import {ArcPath, SimplePath} from '../ArcPath';
+
 export default function Landing(props) {
   const {width, height, radius: initRadius} = props;
   const pathStyle = {stroke: 'black', fill: 'none', strokeWidth: 4};
+  const invisiblePathStyle = {
+    stroke: 'transparent',
+    fill: 'none',
+    strokeWidth: 4
+  };
 
   const radius = initRadius - 100;
 
   const circleGen = d3
     .arc()
-    // TODO: padding
-    .outerRadius(radius);
-  // .innerRadius(width - 10);
-  const circleD = circleGen({startAngle: 0, endAngle: 360});
+    .startAngle(((90 * Math.PI) / 2) * 180)
+    .outerRadius((radius * 3) / 4);
 
+  const topCircleGen = d3
+    .arc()
+    .startAngle(((90 * Math.PI) / 2) * 180)
+    // .endAngle((-90 * Math.PI) / 180 + 2 * Math.PI)
+
+    // TODO: padding
+    .outerRadius((radius * 3) / 4);
+
+  const bottomCircleGen = d3
+    .arc()
+    .startAngle(Math.PI)
+    // .startAngle(((90 * Math.PI) / 2) * 180)
+    // .endAngle((-90 * Math.PI) / 180 + 2 * Math.PI)
+
+    // TODO: padding
+    .outerRadius((radius * 3) / 4);
+
+  // .innerRadius(width - 10);
+  const circleD = topCircleGen({startAngle: 0, endAngle: 360});
+
+  const svgRef = React.createRef();
   console.log('circleD', circleD);
   return (
     <section>
-      <svg width={width} height={height}>
+      <svg ref={svgRef} width={width} height={height}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
-          <path d={circleD} style={pathStyle} />
+          <ArcPath
+            svgRef={svgRef}
+            data={{startAngle: 0, endAngle: 2 * Math.PI}}
+            pathFn={circleGen}
+            defaultData={{startAngle: 0, endAngle: 2 * Math.PI}}
+            options={{
+              // stroke: 'red',
+              // strokeWidth: 1,
+
+              // hachureGap: 2,
+              bowing: 10,
+              sketch: 1.8,
+              // hachureAngle: 10, // angle of hachure,
+              // hachureGap: 5,
+              fill: 'lightblue',
+              stroke: 'black',
+              fillStyle: 'zigzag'
+            }}
+            style={
+              {
+                // transform: `translate(${radius}, ${radius})`,
+                // stroke: 'black',
+                // fill: data.fill
+              }
+            }
+          />
+          <path
+            d={circleD}
+            id="bottomTitle"
+            style={pathStyle}
+            style={invisiblePathStyle}
+          />
+          <path
+            d={bottomCircleGen({startAngle: 0, endAngle: 160})}
+            id="topTitle"
+            style={invisiblePathStyle}
+          />
           <g
             style={{
-              transform: `translate(${-radius / 2}px, ${0}px)`
+              fontSize: '12vh',
+              fontFamily: 'Cabin Sketch',
+              fontStyle: 'bold'
             }}>
-            <g style={{transform: `scale(1)`}}>
-              <path d={stickman1} style={pathStyle} />
+            <text x={5} dy={-30}>
+              <textPath
+                xlinkHref="#topTitle"
+                textAnchor="middle"
+                startOffset="50%">
+                *Humus*
+              </textPath>
+            </text>
+            <text x={5} dy={100} style={{fontSize: 100}}>
+              <textPath
+                xlinkHref="#bottomTitle"
+                textAnchor="middle"
+                startOffset="50%">
+                Festival
+              </textPath>
+            </text>
+          </g>
+          <g
+            style={{
+              transform: `translate(${-radius / 2}px, ${-40}px)`
+            }}>
+            <g style={{transform: `translate(-100px) scale(2)`}}>
+              <SimplePath
+                svgRef={svgRef}
+                sketchOpts={{sketch: 10, bowing: 3, strokeWidth: 3}}
+                d={stickman1}
+                style={pathStyle}
+              />
             </g>
-            <g style={{transform: `translate(${100}px)`}}>
-              <path d={stickman2} style={pathStyle} />
+            <g style={{transform: `translate(${100}px, ${-50}px) scale(2)`}}>
+              <SimplePath
+                svgRef={svgRef}
+                sketchOpts={{sketch: 10, bowing: 3, strokeWidth: 3}}
+                d={stickman2}
+                style={pathStyle}
+              />
             </g>
-            <g style={{transform: `translate(${200}px)`}}>
-              <path d={stickman3} style={pathStyle} />
+            <g style={{transform: `translate(${200}px, ${40}px) scale(2)`}}>
+              <SimplePath
+                sketchOpts={{
+                  sketch: 10,
+                  bowing: 3,
+                  // stroke: '#666666',
+                  strokeWidth: 3
+                }}
+                d={stickman3}
+                svgRef={svgRef}
+                style={pathStyle}
+              />
             </g>
-            <g style={{transform: `translate(${300}px)`}}>
-              <path d={stickman4} style={pathStyle} />
+            <g style={{transform: `translate(${radius + 80}px) scale(2) `}}>
+              <SimplePath
+                sketchOpts={{sketch: 100, bowing: 4, strokeWidth: 3}}
+                d={stickman4}
+                svgRef={svgRef}
+                style={pathStyle}
+              />
             </g>
           </g>
         </g>

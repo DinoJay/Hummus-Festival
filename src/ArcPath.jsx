@@ -5,7 +5,17 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import * as rough from 'roughjs/dist/rough.umd';
 
-import {styler, tween, easing} from 'popmotion';
+import {
+  styler,
+  chain,
+  delay,
+  tween,
+  keyframes,
+  spring,
+  easing,
+  schedule,
+  everyframe
+} from 'popmotion';
 
 function memo(value) {
   const getMemoized = useMemo(() => {
@@ -28,6 +38,7 @@ export const ArcPath = ({
   pathFn,
   defaultData,
   options,
+  animOpts = {},
   ...props
 }) => {
   const olData = memo(data);
@@ -43,8 +54,9 @@ export const ArcPath = ({
             endAngle: olData ? olData.endAngle : defaultData.endAngle
           },
           to: {startAngle: data.startAngle, endAngle: data.endAngle},
-          duration: 400,
-          ease: easing.backOut,
+          duration: 700,
+          // ease: easing.backOut,
+          ...animOpts
           // ease: easing.easeInOut,
           // flip: Infinity,
         })
@@ -64,5 +76,48 @@ export const ArcPath = ({
     },
     [data.endAngle],
   );
+  return <g {...props} ref={ref} />;
+};
+
+export const SimplePath = ({
+  d,
+  svgRef,
+  sketchOpts,
+  animOpts = {},
+  ...props
+}) => {
+  // const olData = memo(data);
+  const ref = React.createRef();
+
+  useEffect(() => {
+    if (ref.current) {
+      const rc = rough.svg(svgRef.current);
+
+      d3.select(ref.current)
+        .selectAll('path')
+        .remove();
+
+      chain(
+        keyframes({
+          values: [{sketch: 1}, {sketch: 20}],
+          duration: 5000,
+          easings: easing.easeInOut,
+
+          // times: [0, 0.2, 1],
+          // loop: Infinity,
+        }),
+      ).start(o => {
+        // console.log('o', o);
+        d3.select(ref.current)
+          .selectAll('path')
+          .remove();
+        const sketchShape = rc.path(d, {...sketchOpts});
+        if (ref.current) ref.current.appendChild(sketchShape);
+      });
+
+      const sketchShape = rc.path(d, sketchOpts);
+      if (ref.current) ref.current.appendChild(sketchShape);
+    }
+  }, []);
   return <g {...props} ref={ref} />;
 };

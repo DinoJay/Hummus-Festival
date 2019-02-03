@@ -10,7 +10,7 @@ import './styles/index.scss';
 
 const WebFontConfig = {
   google: {
-    families: ['Roboto', 'Frijole', 'Concert One', 'Slackey', 'Bowlby One SC']
+    families: ['Roboto', 'Cabin Sketch', 'Concert One', 'Slackey', 'Bowlby One SC']
   }
 };
 
