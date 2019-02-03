@@ -10,6 +10,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
+import {ArcPath} from './ArcPath';
 
 // import ReactRough, {Path, Arc, Rectangle, Line, Circle} from './ReactRough';
 //
@@ -37,69 +38,6 @@ import {styler, tween, easing} from 'popmotion';
 //     return config;
 //   }, {})
 // );
-
-function memo(value) {
-  const getMemoized = useMemo(() => {
-    let memoized;
-    let tmp = value;
-    return current => {
-      if (!isEqual(current, memoized)) {
-        tmp = cloneDeep(memoized);
-        memoized = current;
-      }
-      return tmp;
-    };
-  }, []);
-  return getMemoized(value);
-}
-
-const MemPath = ({data, forwardRef, arc, defaultData, options, ...props}) => {
-  const olData = memo(data);
-  const ref = React.createRef();
-
-  useEffect(
-    () => {
-      // setTimeout(() => {
-      // console.log('d', d);
-      // console.log('defaultD', defaultD);
-      if (ref.current) {
-        const rc = rough.svg(forwardRef.current);
-        // const arg = oldD ? [oldD, d] : [defaultD, d];
-        // const shape = styler(ref.current);
-        tween({
-          from: {
-            startAngle: olData ? olData.startAngle : defaultData.startAngle,
-            endAngle: olData ? olData.endAngle : defaultData.endAngle
-          },
-          to: {startAngle: data.startAngle, endAngle: data.endAngle},
-          duration: 400,
-          ease: easing.backOut,
-          // ease: easing.easeInOut,
-          // flip: Infinity,
-        })
-          .pipe(d => arc(d))
-          .start({
-            update(d) {
-              d3.select(ref.current)
-                .selectAll('path')
-                .remove();
-
-              const sketchShape = rc.path(d, options);
-              if (ref.current) ref.current.appendChild(sketchShape);
-            },
-            complete() {
-              // d3.select(ref.current)
-              //   .selectAll('path:nth-child(2)')
-              //   .remove();
-            }
-          }); // }, 400);
-      }
-    },
-    [data.endAngle],
-  );
-
-  return <g {...props} ref={ref} />;
-};
 
 const setColor = hex =>
   chroma(hex)
@@ -377,10 +315,10 @@ function NavRing(props) {
   console.log('initPieData', initPieData);
   // initPieData.find(d => a.data.id === d.data.id)
   const arcs0 = pieData.map((a, i) => (
-    <MemPath
-      forwardRef={svgRef}
+    <ArcPath
+      svgRef={svgRef}
       data={a}
-      arc={outerArc}
+      pathFn={outerArc}
       defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
       key={a.data.outerLabel}
       style={{
@@ -402,10 +340,10 @@ function NavRing(props) {
   ));
 
   const labelArcs = pieData.map((a, i) => (
-    <MemPath
-      forwardRef={svgRef}
+    <ArcPath
+      svgRef={svgRef}
       data={a}
-      arc={labelArc}
+      pathFn={labelArc}
       defaultData={initPieData.find(
         d => a.data.outerLabel === d.data.outerLabel,
       )}
@@ -417,10 +355,10 @@ function NavRing(props) {
   ));
 
   const arcs1 = pieData.map((a, i) => (
-    <MemPath
-      forwardRef={svgRef}
+    <ArcPath
+      svgRef={svgRef}
       data={a}
-      arc={innerArc}
+      pathFn={innerArc}
       key={a.data.outerLabel}
       defaultData={initPieData.find(
         d => a.data.outerLabel === d.data.outerLabel,
