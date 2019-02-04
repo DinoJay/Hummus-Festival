@@ -1,9 +1,12 @@
 import React from 'react';
 import * as d3 from 'd3';
 
+import chroma from 'chroma-js';
 import {stickman1, stickman2, stickman3, stickman4} from './stickmen';
 
 import {ArcPath, SimplePath} from '../ArcPath';
+
+const BLACK = '#404040';
 
 export default function Landing(props) {
   const {width, height, radius: initRadius} = props;
@@ -43,6 +46,12 @@ export default function Landing(props) {
 
   const svgRef = React.createRef();
   console.log('circleD', circleD);
+  const stickmmenSketchOpts = {
+    sketch: 10,
+    bowing: 10,
+    strokeWidth: 2,
+    stroke: BLACK,
+  };
   return (
     <section>
       <svg ref={svgRef} width={width} height={height}>
@@ -53,17 +62,13 @@ export default function Landing(props) {
             pathFn={circleGen}
             defaultData={{startAngle: 0, endAngle: 2 * Math.PI}}
             options={{
-              // stroke: 'red',
-              // strokeWidth: 1,
-
-              // hachureGap: 2,
               bowing: 10,
-              sketch: 1.8,
-              // hachureAngle: 10, // angle of hachure,
-              // hachureGap: 5,
-              fill: 'lightblue',
-              stroke: 'black',
-              fillStyle: 'zigzag'
+              sketch: 5.8,
+              strokeWidth: 2,
+              fillWeight: 5,
+              fill: chroma('lightblue').alpha(0.5),
+              stroke: '#404040',
+              fillStyle: 'hachure'
             }}
             style={
               {
@@ -94,7 +99,8 @@ export default function Landing(props) {
               <textPath
                 xlinkHref="#topTitle"
                 textAnchor="middle"
-                startOffset="50%">
+                startOffset="50%"
+                fill={BLACK}>
                 *Humus*
               </textPath>
             </text>
@@ -102,7 +108,8 @@ export default function Landing(props) {
               <textPath
                 xlinkHref="#bottomTitle"
                 textAnchor="middle"
-                startOffset="50%">
+                startOffset="50%"
+                fill={BLACK}>
                 Festival
               </textPath>
             </text>
@@ -114,27 +121,22 @@ export default function Landing(props) {
             <g style={{transform: `translate(-100px) scale(2)`}}>
               <SimplePath
                 svgRef={svgRef}
-                sketchOpts={{sketch: 10, bowing: 3, strokeWidth: 3}}
                 d={stickman1}
+                sketchOpts={stickmmenSketchOpts}
                 style={pathStyle}
               />
             </g>
             <g style={{transform: `translate(${100}px, ${-50}px) scale(2)`}}>
               <SimplePath
                 svgRef={svgRef}
-                sketchOpts={{sketch: 10, bowing: 3, strokeWidth: 3}}
+                sketchOpts={stickmmenSketchOpts}
                 d={stickman2}
                 style={pathStyle}
               />
             </g>
             <g style={{transform: `translate(${200}px, ${40}px) scale(2)`}}>
               <SimplePath
-                sketchOpts={{
-                  sketch: 10,
-                  bowing: 3,
-                  // stroke: '#666666',
-                  strokeWidth: 3
-                }}
+                sketchOpts={stickmmenSketchOpts}
                 d={stickman3}
                 svgRef={svgRef}
                 style={pathStyle}
@@ -142,7 +144,7 @@ export default function Landing(props) {
             </g>
             <g style={{transform: `translate(${radius + 80}px) scale(2) `}}>
               <SimplePath
-                sketchOpts={{sketch: 100, bowing: 4, strokeWidth: 3}}
+                sketchOpts={stickmmenSketchOpts}
                 d={stickman4}
                 svgRef={svgRef}
                 style={pathStyle}

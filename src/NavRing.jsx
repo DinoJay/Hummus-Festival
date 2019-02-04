@@ -12,6 +12,8 @@ import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
 import {ArcPath} from './ArcPath';
 
+const BLACK = '#404040';
+
 // import ReactRough, {Path, Arc, Rectangle, Line, Circle} from './ReactRough';
 //
 //           <ReactRough
@@ -49,6 +51,7 @@ const setColor = hex =>
 const initData = [
   {
     outerLabel: 'caos',
+    connector: '↗',
     innerLabel: "l'io",
     fill: setColor('tomato'),
     color: setColor('tomato'),
@@ -56,6 +59,7 @@ const initData = [
   },
   {
     outerLabel: 'scelta',
+    connector: '↜',
     innerLabel: 'azione',
     fill: setColor('orange'),
     color: 'orange',
@@ -64,6 +68,7 @@ const initData = [
   {
     outerLabel: 'Attezioen',
     innerLabel: 'La Forma',
+    connector: '◗',
     fill: setColor('gold'),
     color: 'gold',
     size: 4 / 16,
@@ -77,6 +82,7 @@ const initData = [
   },
   {
     outerLabel: 'dialobo',
+    connector: '↯',
     innerLabel: "l'altro",
     fill: setColor('#0D98BA'),
     color: '#0D98BA',
@@ -85,12 +91,14 @@ const initData = [
   {
     outerLabel: 'Reflessione',
     innerLabel: "Il'se",
+    connector: '↹',
     fill: setColor('tomato'),
     color: 'purple',
     size: 4 / 16,
   },
   {
     outerLabel: 'transformation',
+    connector: '⇝',
     innerLabel: "Il'se",
     fill: 'violet',
     color: 'violet',
@@ -98,6 +106,7 @@ const initData = [
   },
   {
     outerLabel: 'integrazione',
+    connector: '▣',
     innerLabel: 'Il Tutto',
     fill: setColor('lightblue'),
     color: 'lightblue',
@@ -245,15 +254,15 @@ const pie = d3
 
 const initPieData = cloneDeep(pie(initData));
 
-const Btn = ({className, active, onClick, d}) => (
+const Btn = ({className, label, active, onClick, color}) => (
   <div
     className={`${className} cursor-pointer rounded-full p-1 px-2`}
     style={{
-      color: !active ? d.color : 'white',
-      background: active && d.color,
+      color: !active ? color : 'white',
+      background: active && color,
     }}
     onClick={onClick}>
-    {d.innerLabel}
+    {label}
   </div>
 );
 
@@ -268,7 +277,7 @@ function NavRing(props) {
   //
   //   setPieData();
   // }, []);
-  const MIN_ANGLE = 0.05;
+  const MIN_ANGLE = 0.0255;
   const fData = data.map(d => {
     if (id === null) return d;
     if (d.innerLabel === id) return {...d, size: 10};
@@ -280,23 +289,28 @@ function NavRing(props) {
 
   const svgRef = React.createRef();
 
-  const initArc = d3
-    .arc()
-    // TODO: padding
-    .outerRadius(radius)
-    .innerRadius(radius);
+  // const initArc = d3
+  //   .arc()
+  //   // TODO: padding
+  //   .outerRadius(radius)
+  //   .innerRadius(radius)
+  //   .startAngle(Math.PI);
   // .startAngle(Math.PI/2)
   // .endAngle(Math.PI );
 
   const outerArc = d3
     .arc()
+    // .startAngle(Math.PI)
+    // .endAngle(2 * Math.PI)
     // TODO: padding
     .outerRadius(radius - 30)
     .innerRadius(radius / 1.5);
 
   const innerArc = d3
     .arc()
-    .padAngle(0.1)
+    // .padAngle(0.1)
+    // .startAngle(Math.PI)
+    // .endAngle(Math.PI / 2)
     // TODO: padding
     .outerRadius(radius / 1.5)
     .innerRadius(0);
@@ -312,29 +326,29 @@ function NavRing(props) {
   //   value: 100,
   // });
 
-  console.log('initPieData', initPieData);
-  // initPieData.find(d => a.data.id === d.data.id)
-  const arcs0 = pieData.map((a, i) => (
+  const outsideArcs = pieData.map((a, i) => (
     <ArcPath
       svgRef={svgRef}
       data={a}
       pathFn={outerArc}
       defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
       key={a.data.outerLabel}
-      style={{
-        // transform: `translate(${radius}, ${radius})`,
-        stroke: 'black',
-        fill: 'none'
-      }}
+      style={
+        {
+          // transform: `translate(${radius}, ${radius})`,
+          // fill: 'none'
+        }
+      }
       options={{
         // stroke: 'red',
         // strokeWidth: 4,
         // bowing: 3,
-        sketch: 5.8,
-        // hachureAngle: 10, // angle of hachure,
-        // hachureGap: 20,
-        fill: 'rgba(255,255,0,0.4)',
-        // fillStyle: 'solid'
+        fillWidth: 3,
+        sketch: 30.8,
+        bowing: 10,
+        stroke: BLACK,
+        fill: a.data.fill,
+        fillStyle: 'zigzag'
       }}
     />
   ));
@@ -348,13 +362,12 @@ function NavRing(props) {
         d => a.data.outerLabel === d.data.outerLabel,
       )}
       stroke="white"
-      filter={`url(#${a.data.color})`}
-      id={`outerArc${i}`}
+      id={`outerArc+${a.data.outerLabel}`}
       style={{stroke: 'white', fill: 'none'}}
     />
   ));
 
-  const arcs1 = pieData.map((a, i) => (
+  const insideArcs = pieData.map(a => (
     <ArcPath
       svgRef={svgRef}
       data={a}
@@ -365,15 +378,11 @@ function NavRing(props) {
       )}
       options={{
         // stroke: 'red',
-        strokeWidth: 1,
-
-        hachureGap: 2,
-        // bowing: 3,
-        // sketch: 5.8,
-        // hachureAngle: 10, // angle of hachure,
-        // hachureGap: 5,
-        fill: a.data.fill,
-        stroke: a.data.fill,
+        fillWidth: 10,
+        sketch: 30.8,
+        bowing: 5,
+        stroke: BLACK,
+        fill: a.data.color,
         fillStyle: 'zigzag'
       }}
       style={
@@ -422,17 +431,27 @@ function NavRing(props) {
     <div
       className={`${className} flex flex-col items-center justify-center`}
       style={style}>
+      <div onClick={() => setId(null)}>all</div>
+
       <div className="m-4 text-3xl text-center">
-        <h1 className="cursor-pointer" onClick={() => setId(null)}>
-          Hummus
-        </h1>
         {labels.slice(0, labels.length / 2).map(d => (
-          <Btn
-            className="m-1 mx-2"
-            d={d}
-            active={d.innerLabel === id}
-            onClick={() => setId(d.innerLabel)}
-          />
+          <div className="flex justify-center items-center">
+            <Btn
+              className="m-1 mx-2"
+              color={d.color}
+              label={d.outerLabel}
+              active={d.innerLabel === id}
+              onClick={() => setId(d.innerLabel)}
+            />
+            <div style={{color: d.color}}>{d.connector}</div>
+            <Btn
+              className="m-1 mx-2"
+              color={d.color}
+              label={d.innerLabel}
+              active={d.innerLabel === id}
+              onClick={() => setId(d.innerLabel)}
+            />
+          </div>
         ))}
       </div>
       <div className="flex-grow">
@@ -472,20 +491,25 @@ function NavRing(props) {
               <feBlend in="SourceGraphic" in2="goo" result="goo" />
             </filter>
           </defs>
-
-          <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
-            {arcs1}
+          <g
+            id="labelArcs"
+            style={{transform: `translate(${radius}px, ${radius}px)`}}>
+            {labelArcs}
           </g>
           <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
-            {arcs0}
+            {outsideArcs}
+          </g>
+          <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
+            {insideArcs}
           </g>
           <g
+            id="labels"
             style={{
-              transform: `translate(${radius}px,${radius}px)`,
+              transform: `translate(${radius}px,${radius}px)`
             }}>
-            {data.map((d, i) => (
+            {data.map(d => (
               <text style={{fontSize: 23, color: d.color}}>
-                <textPath fill={d.color} xlinkHref={`#outerArc${i}`}>
+                <textPath fill={d.color} xlinkHref={`#outerArc${d.outerLabel}`}>
                   {d.outerLabel}
                 </textPath>
               </text>
@@ -495,12 +519,24 @@ function NavRing(props) {
       </div>
       <div className="m-4 text-3xl text-center">
         {labels.slice(labels.length / 2).map(d => (
-          <Btn
-            className="m-1 mx-2"
-            d={d}
-            active={d.innerLabel === id}
-            onClick={() => setId(d.innerLabel)}
-          />
+          <div className="flex justify-around items-center">
+            <Btn
+              className="m-1 mx-2"
+              label={d.outerLabel}
+              color={d.color}
+              active={d.innerLabel === id}
+              onClick={() => setId(d.innerLabel)}
+            />
+            <div className="" style={{color: d.color}}>
+              {d.connector}
+            </div>
+            <Btn
+              className="m-1 mx-2"
+              color={d.color}
+              label={d.innerLabel}
+              active={d.innerLabel === id}
+            />
+          </div>
         ))}
       </div>
     </div>
