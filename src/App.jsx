@@ -15,6 +15,7 @@ function App() {
   useEffect(() => {
     const width = contRef.current.scrollWidth;
     const height = contRef.current.scrollHeight;
+    console.log('width', width, 'height', height);
     setSize({
       width: Math.min(width, maxWidth),
       radius: Math.min(width, maxWidth) / 2,

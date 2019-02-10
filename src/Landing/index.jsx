@@ -9,7 +9,7 @@ import {ArcPath, SimplePath} from '../ArcPath';
 const BLACK = '#404040';
 
 export default function Landing(props) {
-  const {width, height, radius: initRadius} = props;
+  const {width, height, radius: initRadius = 100} = props;
   const pathStyle = {stroke: 'black', fill: 'none', strokeWidth: 4};
   const invisiblePathStyle = {
     stroke: 'transparent',
@@ -18,11 +18,14 @@ export default function Landing(props) {
   };
 
   const radius = initRadius - 100;
+  console.log('initRadius', initRadius);
 
   const circleGen = d3
     .arc()
-    .startAngle(((90 * Math.PI) / 2) * 180)
-    .outerRadius((radius * 3) / 4);
+    .innerRadius(0)
+    .outerRadius((initRadius * 5) / 9)
+    .startAngle(0)
+    .endAngle(Math.PI * 2);
 
   const topCircleGen = d3
     .arc()
@@ -56,12 +59,10 @@ export default function Landing(props) {
     <section>
       <svg ref={svgRef} width={width} height={height}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
-          <ArcPath
+          <SimplePath
             svgRef={svgRef}
-            data={{startAngle: 0, endAngle: 2 * Math.PI}}
-            pathFn={circleGen}
-            defaultData={{startAngle: 0, endAngle: 2 * Math.PI}}
-            options={{
+            d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
+            sketchOpts={{
               bowing: 10,
               sketch: 5.8,
               strokeWidth: 2,
