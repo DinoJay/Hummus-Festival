@@ -7,10 +7,16 @@ import {stickman1, stickman2, stickman3, stickman4} from './stickmen';
 import {ArcPath, SimplePath} from '../ArcPath';
 
 const BLACK = '#404040';
+const BLUE = '#0362a4';
+const ORANGE = '#f7823d';
+const PURPLE = '#253583';
+const GREEN = '#56a567';
+const LIGHTBLUE = '#01a9d0';
+const YELLOW = '#f8c640';
 
 export default function Landing(props) {
   const {width, height, radius: initRadius = 100} = props;
-  const pathStyle = {stroke: 'black', fill: 'none', strokeWidth: 4};
+  const pathStyle = {stroke: BLACK, fill: 'none', strokeWidth: 2};
   const invisiblePathStyle = {
     stroke: 'transparent',
     fill: 'none',
@@ -50,11 +56,17 @@ export default function Landing(props) {
   const svgRef = React.createRef();
   console.log('circleD', circleD);
   const stickmmenSketchOpts = {
-    sketch: 10,
-    bowing: 10,
+    roughness: 1,
+    bowing: 0,
     strokeWidth: 2,
     stroke: BLACK,
   };
+  const titleStyle = {
+    fontSize: '12vh',
+    fontFamily: 'Cabin Sketch',
+    fontStyle: 'bold',
+  };
+
   return (
     <section>
       <svg ref={svgRef} width={width} height={height}>
@@ -63,13 +75,11 @@ export default function Landing(props) {
             svgRef={svgRef}
             d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
             sketchOpts={{
-              bowing: 10,
-              sketch: 5.8,
+              bowing: 0,
+              roughness: 2.5,
               strokeWidth: 2,
-              fillWeight: 5,
-              fill: chroma('lightblue').alpha(0.5),
+              fill: 'none',
               stroke: '#404040',
-              fillStyle: 'hachure'
             }}
             style={
               {
@@ -79,23 +89,34 @@ export default function Landing(props) {
               }
             }
           />
-          <path
-            d={circleD}
-            id="bottomTitle"
-            style={pathStyle}
-            style={invisiblePathStyle}
+          <SimplePath
+            svgRef={svgRef}
+            d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
+            sketchOpts={{
+              bowing: 0,
+              roughness: 8,
+              sketch: 1.8,
+              strokeWidth: 2,
+              fillWeight: 5,
+              fill: chroma(LIGHTBLUE).alpha(0.24),
+              stroke: 'none',
+              fillStyle: 'zigzag'
+            }}
+            style={
+              {
+                // transform: `translate(${radius}, ${radius})`,
+                // stroke: 'black',
+                // fill: data.fill
+              }
+            }
           />
+          <path d={circleD} id="bottomTitle" style={invisiblePathStyle} />
           <path
             d={bottomCircleGen({startAngle: 0, endAngle: 160})}
             id="topTitle"
             style={invisiblePathStyle}
           />
-          <g
-            style={{
-              fontSize: '12vh',
-              fontFamily: 'Cabin Sketch',
-              fontStyle: 'bold'
-            }}>
+          <g style={titleStyle}>
             <text x={5} dy={-30}>
               <textPath
                 xlinkHref="#topTitle"
@@ -123,16 +144,20 @@ export default function Landing(props) {
               <SimplePath
                 svgRef={svgRef}
                 d={stickman1}
-                sketchOpts={stickmmenSketchOpts}
-                style={pathStyle}
+                sketchOpts={{...stickmmenSketchOpts, stroke: BLACK}}
+                style={{...pathStyle}}
               />
             </g>
             <g style={{transform: `translate(${100}px, ${-50}px) scale(2)`}}>
               <SimplePath
                 svgRef={svgRef}
-                sketchOpts={stickmmenSketchOpts}
+                sketchOpts={{
+                  ...stickmmenSketchOpts,
+                  roughness: 0,
+                  // stroke: BLACK
+                }}
                 d={stickman2}
-                style={pathStyle}
+                style={{...pathStyle, opacity: 0.9}}
               />
             </g>
             <g style={{transform: `translate(${200}px, ${40}px) scale(2)`}}>
@@ -145,6 +170,8 @@ export default function Landing(props) {
             </g>
             <g style={{transform: `translate(${radius + 80}px) scale(2) `}}>
               <SimplePath
+                interval={1000}
+                times={1}
                 sketchOpts={stickmmenSketchOpts}
                 d={stickman4}
                 svgRef={svgRef}
