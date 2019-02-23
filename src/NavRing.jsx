@@ -1,7 +1,6 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import * as d3 from 'd3';
 import chroma from 'chroma-js';
-import * as rough from 'roughjs/dist/rough.umd';
 
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash/uniqBy';
@@ -41,6 +40,26 @@ const BLACK = '#404040';
 //   }, {})
 // );
 
+const Description = props => {
+  const {style, text, preview} = props;
+  const [ext, setExt] = useState(false);
+
+  return (
+    <div
+      className="absolute rounded-full bg-white border-2 border-black flex flex-col items-center justify-center p-2"
+      onClick={() => setExt(!ext)}
+      style={{
+        height: ext ? '100%' : '10%',
+        width: ext ? '100%' : '10%',
+        transition: 'width 300ms, height 300ms',
+        transform: 'translate(-50%,-50%)',
+        ...style
+      }}>
+      {ext ? text : preview}
+    </div>
+  );
+};
+
 const setColor = hex =>
   chroma(hex)
     .saturate(2)
@@ -55,7 +74,7 @@ const initData = [
     innerLabel: "l'io",
     fill: setColor('tomato'),
     color: setColor('tomato'),
-    size: 5 / 16,
+    size: 5 / 16
   },
   {
     outerLabel: 'scelta',
@@ -63,7 +82,7 @@ const initData = [
     innerLabel: 'azione',
     fill: setColor('orange'),
     color: 'orange',
-    size: 3 / 16,
+    size: 3 / 16
   },
   {
     outerLabel: 'Attezioen',
@@ -71,14 +90,14 @@ const initData = [
     connector: '◗',
     fill: setColor('gold'),
     color: 'gold',
-    size: 4 / 16,
+    size: 4 / 16
   },
   {
     outerLabel: 'Repulsion',
     innerLabel: 'La Forma',
     fill: setColor('lightgreen'),
     color: 'lightgreen',
-    size: 3 / 16,
+    size: 3 / 16
   },
   {
     outerLabel: 'dialobo',
@@ -86,7 +105,7 @@ const initData = [
     innerLabel: "l'altro",
     fill: setColor('#0D98BA'),
     color: '#0D98BA',
-    size: 3 / 16,
+    size: 3 / 16
   },
   {
     outerLabel: 'Reflessione',
@@ -94,7 +113,7 @@ const initData = [
     connector: '↹',
     fill: setColor('tomato'),
     color: 'purple',
-    size: 4 / 16,
+    size: 4 / 16
   },
   {
     outerLabel: 'transformation',
@@ -102,7 +121,7 @@ const initData = [
     innerLabel: "Il'se",
     fill: 'violet',
     color: 'violet',
-    size: 3 / 16,
+    size: 3 / 16
   },
   {
     outerLabel: 'integrazione',
@@ -110,8 +129,8 @@ const initData = [
     innerLabel: 'Il Tutto',
     fill: setColor('lightblue'),
     color: 'lightblue',
-    size: 5 / 16,
-  }
+    size: 5 / 16
+  },
 ];
 
 const watercolor = initData.map(d => (
@@ -259,7 +278,7 @@ const Btn = ({className, label, active, onClick, color}) => (
     className={`${className} cursor-pointer rounded-full p-1 px-2`}
     style={{
       color: !active ? color : 'white',
-      background: active && color,
+      background: active && color
     }}
     onClick={onClick}>
     {label}
@@ -313,7 +332,7 @@ function NavRing(props) {
     // .endAngle(Math.PI / 2)
     // TODO: padding
     .outerRadius(radius / 1.5)
-    .innerRadius(0);
+    .innerRadius(50);
 
   const labelArc = d3
     .arc()
@@ -348,7 +367,7 @@ function NavRing(props) {
         bowing: 10,
         stroke: BLACK,
         fill: a.data.fill,
-        fillStyle: 'zigzag'
+        fillStyle: 'zigzag',
       }}
     />
   ));
@@ -383,7 +402,7 @@ function NavRing(props) {
         bowing: 5,
         stroke: BLACK,
         fill: a.data.color,
-        fillStyle: 'zigzag'
+        fillStyle: 'zigzag',
       }}
       style={
         {
@@ -454,7 +473,22 @@ function NavRing(props) {
           </div>
         ))}
       </div>
-      <div className="flex-grow">
+      <div className="relative flex-grow">
+        <Description
+          preview="YO"
+          text="this is fire the strongest element on our earth,
+          this is fire the strongest element on our earth,
+this is fire the strongest element on our earth
+pthis is fire the strongest element on our earth,
+this is fire the strongest element on our earth,
+this is fire the strongest element on our earth
+          "
+          style={{
+            left: radius,
+            top: radius,
+          }}
+        />
+
         <svg ref={svgRef} width={radius * 2} height={radius * 2}>
           <defs>
             <filter id="f1" x="0" y="0">
@@ -502,10 +536,11 @@ function NavRing(props) {
           <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
             {insideArcs}
           </g>
+
           <g
             id="labels"
             style={{
-              transform: `translate(${radius}px,${radius}px)`
+              transform: `translate(${radius}px,${radius}px)`,
             }}>
             {data.map(d => (
               <text style={{fontSize: 23, color: d.color}}>

@@ -31,6 +31,10 @@ function ellipseGen(myr) {
   );
 }
 
+const AnimPath = props => (
+  <SimplePath times={Infinity} interval={300} {...props} />
+);
+
 export default function Landing(props) {
   const {width, height, radius: initRadius = 100} = props;
   const pathStyle = {stroke: BLACK, fill: 'none', strokeWidth: 2};
@@ -65,9 +69,9 @@ export default function Landing(props) {
 
   const svgRef = React.createRef();
   const stickmmenSketchOpts = {
-    roughness: 1,
-    bowing: 0,
-    strokeWidth: 1,
+    roughness: 0.2,
+    bowing: 100,
+    strokeWidth: 1.5,
     stroke: BLACK,
     fillStyle: 'zigzag'
   };
@@ -87,7 +91,7 @@ export default function Landing(props) {
             d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
             sketchOpts={{
               bowing: 0,
-              roughness: 1,
+              roughness: 2,
               strokeWidth: 2,
               fill: 'none',
               stroke: '#404040',
@@ -112,11 +116,9 @@ export default function Landing(props) {
             d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
             sketchOpts={{
               bowing: 0,
-              // roughness: 8,
-              sketch: 1.8,
+              sketch: 10.8,
               strokeWidth: 2,
               fillWeight: 5,
-              // fill: chroma(LIGHTBLUE).alpha(0.24),
               stroke: 'none',
               fillStyle: 'zigzag'
             }}
@@ -181,9 +183,7 @@ export default function Landing(props) {
               transform: `translate(${-radius / 2}px, ${-40}px)`
             }}>
             <g style={{transform: `translate(-100px,100px) scale(2)`}}>
-              <SimplePath
-                interval={400}
-                times={1}
+              <AnimPath
                 svgRef={svgRef}
                 d={stickman1}
                 sketchOpts={{...stickmmenSketchOpts, fill: YELLOW}}
@@ -192,140 +192,31 @@ export default function Landing(props) {
             </g>
             <g
               style={{
-                transform: `translate(${radius / 2 -
-                  radius / 3}px, ${100}px) scale(2)`
+                transform: `translate(${radius / 2 +
+                  radius / 7}px, ${100}px) scale(2)`
               }}>
-              <SimplePath
+              <AnimPath
                 svgRef={svgRef}
                 sketchOpts={{
                   ...stickmmenSketchOpts,
-                  fill: GREEN
-                  // roughness: 0.5,
+                  fill: GREEN,
+                  // bowing: 50,
+                  // roughness: 0.2,
                   // stroke: BLACK
                 }}
-                interval={400}
-                times={1}
                 d={stickman2}
                 style={{...pathStyle}}
               />
             </g>
-            <g
-              style={{
-                transform: `translate(${70}px, ${-radius / 2 + 30}px) scale(2)`
-              }}>
-              <SimplePath
-                interval={400}
-                times={1}
-                svgRef={svgRef}
-                sketchOpts={{
-                  ...stickmmenSketchOpts,
-                  roughness: 0.5,
-                  // stroke: BLACK
-                }}
-                interval={1}
-                times={1}
-                d={questionmark}
-                style={{...pathStyle, opacity: 0.9}}
-              />
-              <g
-                style={{
-                  transform: `translate(${7}px, ${12}px) scale(2)`
-                }}>
-                <SimplePath
-                  interval={400}
-                  times={1}
-                  svgRef={svgRef}
-                  sketchOpts={{
-                    ...stickmmenSketchOpts,
-                    // roughness: 0.5,
-                    // stroke: BLACK
-                  }}
-                  d={dot}
-                  style={{...pathStyle, opacity: 0.9}}
-                />
-              </g>
-            </g>
 
-            <g
-              style={{
-                transform: `translate(${100}px, ${-radius / 2 +
-                  20}px) scale(2)`
-              }}>
-              <SimplePath
-                svgRef={svgRef}
-                sketchOpts={{
-                  ...stickmmenSketchOpts,
-                  roughness: 0.5,
-                  // stroke: BLACK
-                }}
-                interval={400}
-                times={1}
-                d={bar}
-                style={{...pathStyle, opacity: 0.9}}
-              />
-              <g
-                style={{
-                  transform: `translate(${2}px, ${12}px) scale(2)`
-                }}>
-                <SimplePath
-                  svgRef={svgRef}
-                  sketchOpts={{
-                    ...stickmmenSketchOpts,
-                    // roughness: 0.5,
-                    // stroke: BLACK
-                  }}
-                  interval={400}
-                  times={1}
-                  d={dot}
-                  style={{...pathStyle, opacity: 0.9}}
-                />
-              </g>
-            </g>
-            <g
-              style={{
-                transform: `translate(${114}px, ${-radius / 2 +
-                  20}px) scale(2)`
-              }}>
-              <SimplePath
-                svgRef={svgRef}
-                sketchOpts={{
-                  ...stickmmenSketchOpts,
-                  roughness: 0.5,
-                  // stroke: BLACK
-                }}
-                interval={400}
-                times={1}
-                d={bar}
-                style={{...pathStyle, opacity: 0.9}}
-              />
-              <g
-                style={{
-                  transform: `translate(${4}px, ${12}px) scale(2)`
-                }}>
-                <SimplePath
-                  svgRef={svgRef}
-                  sketchOpts={{
-                    ...stickmmenSketchOpts,
-                    // roughness: 0.5,
-                    // stroke: BLACK
-                  }}
-                  interval={1}
-                  times={1}
-                  d={dot}
-                  style={{...pathStyle, opacity: 0.9}}
-                />
-              </g>
-            </g>
             <g
               style={{
                 transform: `translate(${radius / 2 +
                   radius / 3}px, ${100}px) scale(2)`
               }}>
-              <SimplePath
-                sketchOpts={{...stickmmenSketchOpts, fill: ORANGE}}
-                interval={400}
-                times={1}
+              <AnimPath
                 d={stickman3}
+                sketchOpts={{...stickmmenSketchOpts, fill: ORANGE}}
                 svgRef={svgRef}
                 style={pathStyle}
               />
@@ -334,9 +225,7 @@ export default function Landing(props) {
               style={{
                 transform: `translate(${radius + 100}px, 70px) scale(2) `
               }}>
-              <SimplePath
-                interval={400}
-                times={100}
+              <AnimPath
                 sketchOpts={{...stickmmenSketchOpts, fill: 'tomato'}}
                 d={stickman4}
                 svgRef={svgRef}
