@@ -22,6 +22,12 @@ const GREEN = '#56a567';
 const LIGHTBLUE = '#01a9d0';
 const YELLOW = '#f8c640';
 
+console.log(
+  'LIGHTBLUE',
+  chroma(LIGHTBLUE)
+    .alpha(0.14)
+    .css(),
+);
 function ellipseGen(myr) {
   return (
     `M${0},${0} ` +
@@ -32,25 +38,35 @@ function ellipseGen(myr) {
 }
 
 const AnimPath = props => (
-  <SimplePath times={Infinity} interval={300} {...props} />
+  <SimplePath times={Infinity} interval={500} {...props} />
 );
 
+const stickmmenSketchOpts = {
+  roughness: 0.25,
+  bowing: 100,
+  strokeWidth: 1.5,
+  stroke: BLACK,
+  fillStyle: 'zigzag',
+};
+
 export default function Landing(props) {
-  const {width, height, radius: initRadius = 100} = props;
+  const {width, circleWidth, height, className} = props;
   const pathStyle = {stroke: BLACK, fill: 'none', strokeWidth: 2};
   const invisiblePathStyle = {
     stroke: 'transparent',
     fill: 'none',
     strokeWidth: 4
   };
-
-  const radius = initRadius - 120;
-  console.log('initRadius', initRadius);
-
+  const radius = circleWidth / 2;
+  const titleStyle = {
+    fontSize: radius / 2,
+    fontFamily: 'Cabin Sketch',
+    fontStyle: 'bold',
+  };
   const circleGen = d3
     .arc()
     .innerRadius(0)
-    .outerRadius((initRadius * 5) / 10)
+    .outerRadius((circleWidth * 5) / 10)
     .startAngle(0)
     .endAngle(Math.PI * 2);
 
@@ -68,23 +84,13 @@ export default function Landing(props) {
   const circleD = bottomCircleGen({startAngle: 0, endAngle: 360});
 
   const svgRef = React.createRef();
-  const stickmmenSketchOpts = {
-    roughness: 0.2,
-    bowing: 100,
-    strokeWidth: 1.5,
-    stroke: BLACK,
-    fillStyle: 'zigzag'
-  };
-  const titleStyle = {
-    fontSize: '12vh',
-    fontFamily: 'Cabin Sketch',
-    fontStyle: 'bold',
-  };
-  const ell = ellipseGen(300);
-  console.log('ell', ell);
+
+  const stickmanScale = width / 300;
+
+  const offset = 30;
   return (
-    <section>
-      <svg ref={svgRef} width={width} height={height}>
+    <section className={className}>
+      <svg ref={svgRef} width={width} height={width + offset}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
           <SimplePath
             svgRef={svgRef}
@@ -95,7 +101,6 @@ export default function Landing(props) {
               strokeWidth: 2,
               fill: 'none',
               stroke: '#404040',
-              bowing: 0,
               sketch: 1.8,
               strokeWidth: 2,
               fillWeight: 5,
@@ -145,6 +150,7 @@ export default function Landing(props) {
             }}
             style={
               {
+                // filter: 'url(#gooey)'
                 // transform: `translate(${radius}, ${radius})`,
                 // stroke: 'black',
                 // fill: data.fill
@@ -157,8 +163,8 @@ export default function Landing(props) {
             id="topTitle"
             style={invisiblePathStyle}
           />
-          <g style={titleStyle}>
-            <text x={5} dy={-30}>
+          <g>
+            <text x={5} dy={-30} style={{...titleStyle}}>
               <textPath
                 xlinkHref="#topTitle"
                 textAnchor="middle"
@@ -167,7 +173,7 @@ export default function Landing(props) {
                 *Humus*
               </textPath>
             </text>
-            <text x={5} dy={100} style={{fontSize: 100}}>
+            <text x={5} dy={100} style={{...titleStyle}}>
               <textPath
                 xlinkHref="#bottomTitle"
                 textAnchor="middle"
@@ -182,56 +188,52 @@ export default function Landing(props) {
               // display: 'none',
               transform: `translate(${-radius / 2}px, ${-40}px)`
             }}>
-            <g style={{transform: `translate(-100px,100px) scale(2)`}}>
-              <AnimPath
-                svgRef={svgRef}
-                d={stickman1}
-                sketchOpts={{...stickmmenSketchOpts, fill: YELLOW}}
-                style={{...pathStyle}}
-              />
-            </g>
-            <g
+            <AnimPath
+              svgRef={svgRef}
+              d={stickman1}
+              sketchOpts={{...stickmmenSketchOpts, fill: YELLOW}}
+              style={{
+                transform: `translate(${-radius /
+                  1.5}px,100px) scale(${stickmanScale})`,
+                ...pathStyle,
+              }}
+            />
+            <AnimPath
+              svgRef={svgRef}
+              sketchOpts={{
+                ...stickmmenSketchOpts,
+                fill: GREEN,
+                // bowing: 50,
+                // roughness: 0.2,
+                // stroke: BLACK
+              }}
+              d={stickman2}
               style={{
                 transform: `translate(${radius / 2 +
-                  radius / 7}px, ${100}px) scale(2)`
-              }}>
-              <AnimPath
-                svgRef={svgRef}
-                sketchOpts={{
-                  ...stickmmenSketchOpts,
-                  fill: GREEN,
-                  // bowing: 50,
-                  // roughness: 0.2,
-                  // stroke: BLACK
-                }}
-                d={stickman2}
-                style={{...pathStyle}}
-              />
-            </g>
-
-            <g
+                  radius / 7}px, ${100}px) scale(${stickmanScale})`,
+                ...pathStyle,
+              }}
+            />
+            <AnimPath
+              d={stickman3}
+              sketchOpts={{...stickmmenSketchOpts, fill: ORANGE}}
+              svgRef={svgRef}
               style={{
+                ...pathStyle,
                 transform: `translate(${radius / 2 +
-                  radius / 3}px, ${100}px) scale(2)`
-              }}>
-              <AnimPath
-                d={stickman3}
-                sketchOpts={{...stickmmenSketchOpts, fill: ORANGE}}
-                svgRef={svgRef}
-                style={pathStyle}
-              />
-            </g>
-            <g
+                  radius / 3}px, ${100}px) scale(${stickmanScale})`
+              }}
+            />
+            <AnimPath
+              sketchOpts={{...stickmmenSketchOpts, fill: 'tomato'}}
+              d={stickman4}
+              svgRef={svgRef}
               style={{
-                transform: `translate(${radius + 100}px, 70px) scale(2) `
-              }}>
-              <AnimPath
-                sketchOpts={{...stickmmenSketchOpts, fill: 'tomato'}}
-                d={stickman4}
-                svgRef={svgRef}
-                style={pathStyle}
-              />
-            </g>
+                ...pathStyle,
+                transform: `translate(${radius * 2 -
+                  70}px, 70px) scale(${stickmanScale}) `
+              }}
+            />
           </g>
         </g>
       </svg>

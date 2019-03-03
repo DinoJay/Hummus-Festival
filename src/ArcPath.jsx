@@ -71,7 +71,7 @@ export const ArcPath = ({
           endAngle: olData ? olData.endAngle : defaultData.endAngle,
         },
         to: {startAngle: data.startAngle, endAngle: data.endAngle},
-        duration: 700,
+        duration: 500,
         // ease: easing.backOut,
         ...animOpts,
         // ease: easing.easeInOut,
@@ -119,37 +119,54 @@ const MemPath = ({d, defaultD = 'M0,0 L10,0 L10,10Z', ...props}) => {
 };
 
 function circleGen() {
-  //set defaults
-  var r = function(d) { return d.radius; },
-      x = function(d) { return d.x; },
-      y = function(d) { return d.y; };
+  // set defaults
+  let r = function(d) {
+    return d.radius;
+  };
 
-  //returned function to generate circle path
+  let x = function(d) {
+    return d.x;
+  };
+
+  let y = function(d) {
+    return d.y;
+  };
+
+  // returned function to generate circle path
   function circle(d) {
-    var cx = d3.functor(x).call(this, d),
-        cy = d3.functor(y).call(this, d),
-        myr = d3.functor(r).call(this, d);
+    const cx = d3.functor(x).call(this, d);
 
-    return "M" + cx + "," + cy + " " +
-           "m" + -myr + ", 0 " +
-           "a" + myr + "," + myr + " 0 1,0 " + myr*2  + ",0 " +
-           "a" + myr + "," + myr + " 0 1,0 " + -myr*2 + ",0Z";
+    const cy = d3.functor(y).call(this, d);
+
+    const myr = d3.functor(r).call(this, d);
+
+    return (
+      `M${cx},${cy} ` +
+      `m${-myr}, 0 ` +
+      `a${myr},${myr} 0 1,0 ${myr * 2},0 ` +
+      `a${myr},${myr} 0 1,0 ${-myr * 2},0Z`
+    );
   }
 
-  //getter-setter methods
+  // getter-setter methods
   circle.r = function(value) {
-    if (!arguments.length) return r; r = value; return circle;
+    if (!arguments.length) return r;
+    r = value;
+    return circle;
   };
   circle.x = function(value) {
-    if (!arguments.length) return x; x = value; return circle;
+    if (!arguments.length) return x;
+    x = value;
+    return circle;
   };
   circle.y = function(value) {
-    if (!arguments.length) return y; y = value; return circle;
+    if (!arguments.length) return y;
+    y = value;
+    return circle;
   };
 
   return circle;
 }
-
 
 export const Ellipse = ({
   d,
@@ -171,6 +188,7 @@ export const Ellipse = ({
       const intervalId = setIntervalX(
         () => {
           const sketchShape = rc.ellipse(300, 100, 150, 80, {...sketchOpts});
+          // console.log('sketchShape', sketchShape);
           setShape(sketchShape.outerHTML);
         },
         interval,
@@ -205,6 +223,8 @@ export const SimplePath = ({
       const intervalId = setIntervalX(
         () => {
           const sketchShape = rc.path(d, {...sketchOpts});
+
+          // console.log('sketchShape', sketchShape);
           setShape(sketchShape.outerHTML);
         },
         interval,
@@ -219,18 +239,17 @@ export const SimplePath = ({
   return <g {...props} ref={ref} dangerouslySetInnerHTML={{__html: shape}} />;
 };
 
-export const AnimPath = ({
-  d,
-  svgRef,
-  sketchOpts,
-  animOpts = {},
-  interval = 0,
-  times = 1,
-  style,
-  ...props
-}) => {
-  const ref = React.createRef();
-
+export const AnimPath = props => {
+  const {
+    d,
+    svgRef,
+    sketchOpts,
+    animOpts = {},
+    interval = 0,
+    times = 1,
+    style,
+    className,
+  } = props;
   const [shape, setShape] = useState(null);
 
   useEffect(
@@ -239,15 +258,9 @@ export const AnimPath = ({
 
       const intervalId = setIntervalX(
         () => {
-          const sketchShape = rc.path(d, {...sketchOpts});
-          const p = d3.select(sketchShape).selectAll('path');
-          if (p.node()) {
-            const dStr = p.node().getAttribute('d');
-            setShape(dStr);
-          }
-          // const d = p.attr('d');
-          // const d = !p.empty() || p.attr('d');
-          // console.log('d', d);
+          const sketchShape = rc.path(d, {...sketchOpts}).outerHTML;
+          // TODO: remove defs
+          setShape(sketchShape);
         },
         interval,
         times,
@@ -255,8 +268,14 @@ export const AnimPath = ({
 
       return () => clearInterval(intervalId);
     },
-    [d],
+    [d, sketchOpts],
   );
 
-  return <MemPath d={shape} style={style} />;
+  return (
+    <g
+      className={className}
+      style={style}
+      dangerouslySetInnerHTML={{__html: shape}}
+    />
+  );
 };

@@ -11,34 +11,9 @@ import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
 import {ArcPath} from './ArcPath';
 
+import colors from './colors';
+
 const BLACK = '#404040';
-
-// import ReactRough, {Path, Arc, Rectangle, Line, Circle} from './ReactRough';
-//
-//           <ReactRough
-//             width={width}
-//             height={height}
-//             prepend={null}
-//             append={null}>
-//             <Circle
-//               translate={[0, 0]}
-//               x={radius}
-//               y={radius}
-//               diameter={2 * radius}
-//             />
-//             {roughArcs}
-//           </ReactRough>
-
-// const Icon = posed.path({}
-//   pathIds.reduce((config, id) => {
-//     config[id] = {
-//       d: paths[id],
-//       transition: morphTransition
-//     };
-//
-//     return config;
-//   }, {})
-// );
 
 const Description = props => {
   const {style, text, preview} = props;
@@ -49,86 +24,101 @@ const Description = props => {
       className="absolute rounded-full bg-white border-2 border-black flex flex-col items-center justify-center p-2"
       onClick={() => setExt(!ext)}
       style={{
-        height: ext ? '100%' : '10%',
-        width: ext ? '100%' : '10%',
+        height: ext ? '100%' : '15%',
+        width: ext ? '100%' : '15%',
         transition: 'width 300ms, height 300ms',
         transform: 'translate(-50%,-50%)',
         ...style
       }}>
-      {ext ? text : preview}
+      {ext ? (
+        text
+      ) : (
+        <div className="m-4 text-4xl " style={{fontFamily: '"Cabin Sketch"'}}>
+          {preview}
+        </div>
+      )}
     </div>
   );
 };
-
 const setColor = hex =>
   chroma(hex)
     .saturate(2)
     .brighten(2)
-    .alpha(0.7)
+    .alpha(0.2)
     .css();
 
 const initData = [
   {
+    index: 0,
     outerLabel: 'caos',
     connector: '↗',
     innerLabel: "l'io",
-    fill: setColor('tomato'),
-    color: setColor('tomato'),
+    // fill: '#E42149',
+    fill: colors.red[3],
+    color: colors.red[5],
     size: 5 / 16
   },
   {
+    index: 1,
     outerLabel: 'scelta',
     connector: '↜',
     innerLabel: 'azione',
-    fill: setColor('orange'),
-    color: 'orange',
+    fill: colors.orange[3],
+    color: colors.orange[5],
     size: 3 / 16
   },
   {
+    index: 2,
     outerLabel: 'Attezioen',
     innerLabel: 'La Forma',
     connector: '◗',
-    fill: setColor('gold'),
-    color: 'gold',
-    size: 4 / 16
-  },
-  {
-    outerLabel: 'Repulsion',
-    innerLabel: 'La Forma',
-    fill: setColor('lightgreen'),
-    color: 'lightgreen',
+    // fill: '#FFF146',
+    fill: colors.yellow[3],
+    color: colors.yellow[5],
     size: 3 / 16
   },
   {
+    index: 3,
+    outerLabel: 'Repulsion',
+    innerLabel: 'La Forma',
+    fill: colors.lime[3],
+    color: colors.lime[5],
+    size: 3 / 16
+  },
+  {
+    index: 4,
     outerLabel: 'dialobo',
     connector: '↯',
     innerLabel: "l'altro",
-    fill: setColor('#0D98BA'),
-    color: '#0D98BA',
+    fill: colors.cyan[3],
+    color: colors.cyan[5],
     size: 3 / 16
   },
   {
+    index: 5,
     outerLabel: 'Reflessione',
     innerLabel: "Il'se",
     connector: '↹',
-    fill: setColor('tomato'),
-    color: 'purple',
-    size: 4 / 16
-  },
-  {
-    outerLabel: 'transformation',
-    connector: '⇝',
-    innerLabel: "Il'se",
-    fill: 'violet',
-    color: 'violet',
+    fill: colors.fuschia[3],
+    color: colors.fuschia[5],
     size: 3 / 16
   },
   {
+    index: 6,
+    outerLabel: 'transformation',
+    connector: '⇝',
+    innerLabel: "Il'se",
+    fill: colors.indigo[3],
+    color: colors.indigo[5],
+    size: 3 / 16
+  },
+  {
+    index: 7,
     outerLabel: 'integrazione',
     connector: '▣',
     innerLabel: 'Il Tutto',
-    fill: setColor('lightblue'),
-    color: 'lightblue',
+    fill: '#0091E5',
+    color: colors.blue[5],
     size: 5 / 16
   },
 ];
@@ -136,7 +126,7 @@ const initData = [
 const watercolor = initData.map(d => (
   <>
     <filter
-      id={d.color}
+      id={d.fill}
       colorInterpolationFilters="sRGB"
       x="0%"
       y="0%"
@@ -160,9 +150,9 @@ const watercolor = initData.map(d => (
         in="cloud"
         result="wispy"
         type="matrix"
-        values="4 0 0 0 -1
-                                       4 0 0 0 -1
-                                       4 0 0 0 -1
+        values="1 0 0 0 -1
+                                       1 0 0 0 1
+                                       4 0 0 0 1
                                        1 0 0 0 0
                                        "
       />
@@ -266,7 +256,7 @@ const labels = uniqBy(initData, d => d.innerLabel);
 
 const pie = d3
   .pie()
-  .sort((a, b) => b.size - a.size)
+  .sort((a, b) => a.index - b.index)
   // .sort(null)
   // .padAngle(100)
   .value(d => d.size);
@@ -286,17 +276,21 @@ const Btn = ({className, label, active, onClick, color}) => (
 );
 
 function NavRing(props) {
-  const {className, width, height, style} = props;
+  const {className, width, circleWidth, height, style} = props;
   // const [data, setData] = useState([...initData]);
 
   const [id, setId] = useState(null);
   const data = initData;
-  const radius = Math.min(width, height) / 2 - 40;
+  const radius = (circleWidth * 2) / 3;
+
+  console.log('radius', radius);
+
+  // circleWidth / 2;
   // useEffect(() => {
   //
   //   setPieData();
   // }, []);
-  const MIN_ANGLE = 0.0255;
+  const MIN_ANGLE = 0.0385;
   const fData = data.map(d => {
     if (id === null) return d;
     if (d.innerLabel === id) return {...d, size: 10};
@@ -323,16 +317,18 @@ function NavRing(props) {
     // .endAngle(2 * Math.PI)
     // TODO: padding
     .outerRadius(radius - 30)
-    .innerRadius(radius / 1.5);
+    .innerRadius(radius / 1.7);
 
   const innerArc = d3
     .arc()
     // .padAngle(0.1)
-    // .startAngle(Math.PI)
+    // .startAngle(0)
+    // .startAngle(0)
+    // .endAngle(Math.PI * 2)
     // .endAngle(Math.PI / 2)
     // TODO: padding
-    .outerRadius(radius / 1.5)
-    .innerRadius(50);
+    .outerRadius(radius / 1.7)
+    .innerRadius(0);
 
   const labelArc = d3
     .arc()
@@ -345,32 +341,67 @@ function NavRing(props) {
   //   value: 100,
   // });
 
-  const outsideArcs = pieData.map((a, i) => (
-    <ArcPath
-      svgRef={svgRef}
-      data={a}
-      pathFn={outerArc}
-      defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
-      key={a.data.outerLabel}
-      style={
-        {
+  // const fillStyle zigzag 'dots';
+
+  const strokeOpts = {
+    bowing: 2,
+    roughness: 2,
+    // sketch: 1.8,
+    strokeWidth: 1,
+    fillWeight: 10,
+    fill: 'none',
+    // stroke: 'none'
+
+    // fillStyle: 'hachure',
+    // hachureGap: 3,
+    // fillWidth: 200,
+    // sketch: 30.8,
+    // bowing: 10,
+  };
+  const sketchOpts = {
+    bowing: 20,
+    roughness: 0.9,
+    strokeWidth: 12,
+    fillWeight: 28,
+    // fill: chroma(LIGHTBLUE).alpha(0.14),
+    stroke: 'none',
+    fillStyle: 'zigzag',
+  };
+
+  const outsideArcs = (opts, stroke = false) =>
+    pieData.map((a, i) => (
+      <ArcPath
+        className="watercolor-effect"
+        svgRef={svgRef}
+        data={a}
+        pathFn={d =>
+          outerArc({
+            ...d,
+            startAngle: d.startAngle,
+            endAngle: d.endAngle
+          })
+        }
+        defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
+        key={a.data.outerLabel}
+        style={{
+          mixBlendMode: 'multiply',
+          opacity: 0.5,
+          filter: `url(#gooey)`
+          // filter: `url(#dilate)`
           // transform: `translate(${radius}, ${radius})`,
           // fill: 'none'
-        }
-      }
-      options={{
-        // stroke: 'red',
-        // strokeWidth: 4,
-        // bowing: 3,
-        fillWidth: 3,
-        sketch: 30.8,
-        bowing: 10,
-        stroke: BLACK,
-        fill: a.data.fill,
-        fillStyle: 'zigzag',
-      }}
-    />
-  ));
+        }}
+        options={{
+          // stroke: 'red',
+          // strokeWidth: 4,
+          // bowing: 3,
+          // stroke: BLACK,
+          fill: a.data.fill,
+          ...opts
+          // fillStyle: 'zigzag',
+        }}
+      />
+    ));
 
   const labelArcs = pieData.map((a, i) => (
     <ArcPath
@@ -386,70 +417,92 @@ function NavRing(props) {
     />
   ));
 
-  const insideArcs = pieData.map(a => (
-    <ArcPath
-      svgRef={svgRef}
-      data={a}
-      pathFn={innerArc}
-      key={a.data.outerLabel}
-      defaultData={initPieData.find(
-        d => a.data.outerLabel === d.data.outerLabel,
-      )}
-      options={{
-        // stroke: 'red',
-        fillWidth: 10,
-        sketch: 30.8,
-        bowing: 5,
-        stroke: BLACK,
-        fill: a.data.color,
-        fillStyle: 'zigzag',
-      }}
-      style={
-        {
+  const insideArcs = (opts, filter = null) =>
+    pieData.map(a => (
+      <ArcPath
+        svgRef={svgRef}
+        data={a}
+        pathFn={d =>
+          innerArc({
+            ...d,
+
+            startAngle: d.startAngle,
+            endAngle: d.endAngle + 0.05
+          })
+        }
+        key={a.data.outerLabel}
+        defaultData={initPieData.find(
+          d => a.data.outerLabel === d.data.outerLabel,
+        )}
+        options={{
+          // stroke: 'red',
+          fillWidth: 10,
+          sketch: 30.8,
+          bowing: 5,
+          // stroke: BLACK,
+          fill: a.data.fill,
+          ...opts,
+          // fillStyle: 'zigzag',
+        }}
+        style={{
+          mixBlendMode: 'multiply',
+          opacity: 0.7,
+          // filter: `url(#dilate)`
+          filter
           // transform: `translate(${radius}, ${radius})`,
           // stroke: 'black',
           // fill: data.fill
+        }}
+      />
+    ));
+
+  const strokeInsideArcs = () =>
+    pieData.map((a, i) => (
+      <ArcPath
+        svgRef={svgRef}
+        data={a}
+        pathFn={d =>
+          innerArc({
+            ...d,
+
+            startAngle: d.startAngle,
+            endAngle: d.startAngle + 0.05
+          })
         }
-      }
-    />
-  ));
-
-  // const strokeArcs1 = pieData.map(({data, ...a}, i) => (
-  //   <path
-  //     d={innerArc(a)}
-  //     style={{
-  //       // transform: `translate(${radius}, ${radius})`,
-  //       stroke: 'black',
-  //       fill: 'none'
-  //     }}
-  //   />
-  // ));
-
-  // const roughArcs = pieData.map(({data, ...a}, i) => (
-  //   <Path
-  //     d={innerArc(a)}
-  //     translate={[radius, radius]}
-  //     options={{
-  //       stroke: 'black',
-  //       strokeWidth: 1,
-  //       bowing: 2,
-  //       sketch: 15.8,
-  //       // hachureAngle: 60, // angle of hachure,
-  //       // hachureGap: 3,
-  //       // fill: data.fill,
-  //       fillStyle: 'solid',
-  //       hachureAngle: 60, // angle of hachure,
-  //       hachureGap: 299,
-  //     }}
-  //   />
-  // ));
-
-  // console.log('polyLines', polyLines);
+        key={a.data.outerLabel}
+        defaultData={initPieData.find(
+          d => a.data.outerLabel === d.data.outerLabel,
+        )}
+        options={{
+          // stroke: 'red',
+          fillWidth: 10,
+          sketch: 30.8,
+          bowing: 5,
+          // stroke: BLACK,
+          fill: a.data.fill,
+          ...strokeOpts,
+          strokeWidth:
+            i === 7 || i === 6 || i === 4 || i === 2 || i === 0 ? 5 : 0
+          // ...opts,
+          // fillStyle: 'zigzag',
+        }}
+        style={{
+          mixBlendMode: 'multiply',
+          opacity: 0.7,
+          // filter: `url(#dilate)`
+          // filter
+          // transform: `translate(${radius}, ${radius})`,
+          // stroke: 'black',
+          // fill: data.fill
+        }}
+      />
+    ));
 
   return (
     <div
+      style={{fontFamily: "'Cabin Sketch'"}}
       className={`${className} flex flex-col items-center justify-center`}
-      style={style}>
+      style={{width}}>
       <div onClick={() => setId(null)}>all</div>
 
       <div className="m-4 text-3xl text-center">
@@ -475,7 +528,7 @@ function NavRing(props) {
       </div>
       <div className="relative flex-grow">
         <Description
-          preview="YO"
+          preview="!!!"
           text="this is fire the strongest element on our earth,
           this is fire the strongest element on our earth,
 this is fire the strongest element on our earth
@@ -488,55 +541,21 @@ this is fire the strongest element on our earth
             top: radius,
           }}
         />
-
         <svg ref={svgRef} width={radius * 2} height={radius * 2}>
-          <defs>
-            <filter id="f1" x="0" y="0">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-            </filter>
-            {morph}
-            {watercolor}
-            <filter id="turb">
-              <feTurbulence
-                baseFrequency=".01"
-                type="fractalNoise"
-                numOctaves="3"
-              />
-              <feDisplacementMap
-                in2="turbulence"
-                in="SourceGraphic"
-                scale="50"
-                xChannelSelector="R"
-                yChannelSelector="G"
-              />
-            </filter>
-            <filter id="goo">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="20"
-                result="blur"
-              />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 28 -4"
-                result="goo"
-              />
-              <feBlend in="SourceGraphic" in2="goo" result="goo" />
-            </filter>
-          </defs>
           <g
             id="labelArcs"
             style={{transform: `translate(${radius}px, ${radius}px)`}}>
             {labelArcs}
           </g>
-          <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
-            {outsideArcs}
-          </g>
-          <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
-            {insideArcs}
-          </g>
 
+          <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
+            {outsideArcs(sketchOpts, true)}
+            {outsideArcs(strokeOpts, false)}
+          </g>
+          <g style={{transform: `translate(${radius}px, ${radius}px)`}}>
+            {insideArcs(sketchOpts, 'url(#gooey)')}
+            {strokeInsideArcs()}
+          </g>
           <g
             id="labels"
             style={{
@@ -550,11 +569,35 @@ this is fire the strongest element on our earth
               </text>
             ))}
           </g>
+          <defs>
+            {watercolor}
+
+            <filter id="gooey">
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="7"
+                colorInterpolationFilters="sRGB"
+                result="blur"
+              />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 9 -2"
+                result="gooey"
+              />
+            </filter>
+            <filter id="dilate">
+              <feMorphology operator="dilate" radius="3" />
+            </filter>
+            <filter id="blur" x="0" y="0">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+            </filter>
+          </defs>
         </svg>
       </div>
-      <div className="m-4 text-3xl text-center">
+      <div className="m-4 text-3xl flex flex-col items-center text-center">
         {labels.slice(labels.length / 2).map(d => (
-          <div className="flex justify-around items-center">
+          <div className="flex items-center">
             <Btn
               className="m-1 mx-2"
               label={d.outerLabel}

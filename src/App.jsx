@@ -7,31 +7,39 @@ import NavRing from './NavRing';
 import Landing from './Landing';
 
 function App() {
-  const [size, setSize] = useState({width: 100, height: 100});
+  const [size, setSize] = useState(null);
 
-  const contRef = React.createRef();
+  const ref = React.useRef();
   const maxWidth = 700;
   const maxHeight = 700;
   useEffect(() => {
-    const width = contRef.current.scrollWidth;
-    const height = contRef.current.scrollHeight;
-    console.log('width', width, 'height', height);
-    setSize({
-      width: Math.min(width, maxWidth),
-      radius: Math.min(width, maxWidth) / 2,
-      height: Math.min(height, maxHeight)
-    });
+    const resize = () => {
+      const width = Math.min(window.innerWidth, maxWidth);
+      const height = Math.min(window.innerHeight, maxHeight);
+      console.log('resize', width, height);
+
+      const circleWidth = width - width / 3;
+
+      setSize({
+        width,
+        height,
+        circleWidth,
+      });
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    return () => window.removeEventListener('resize', resize);
   }, []);
 
-  // console.log('size', size);
-
   return (
-    <div ref={contRef} className="flex flex-col justify-center items-center">
-      <div className="h-screen border p-1" style={{}}>
-        <Landing {...size} className="flex justify-center" />
+    <div ref={ref} className="flex flex-col justify-center items-center">
+      <div className="h-screen flex flex-col justify-center border p-1">
+        {size !== null && <Landing {...size} className="flex justify-center" />}
       </div>
       <div className="h-screen border p-1">
-        <NavRing {...size} className="flex justify-center" />
+        {size !== null && <NavRing {...size} className="flex justify-center" />}
       </div>
     </div>
   );
