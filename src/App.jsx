@@ -5,6 +5,8 @@ import {hot} from 'react-hot-loader';
 
 import NavRing from './NavRing';
 import Landing from './Landing';
+import MissionStatement from './MissionStatement';
+import Program from './Program';
 
 function App() {
   const [size, setSize] = useState(null);
@@ -35,12 +37,22 @@ function App() {
 
   return (
     <div ref={ref} className="flex flex-col justify-center items-center">
-      <div className="h-screen flex flex-col justify-center border p-1">
-        {size !== null && <Landing {...size} className="flex justify-center" />}
-      </div>
-      <div className="h-screen border p-1">
-        {size !== null && <NavRing {...size} className="flex justify-center" />}
-      </div>
+      {size && (
+        <>
+          <div className="h-screen flex flex-col justify-center border p-1">
+            <Landing {...size} className="flex justify-center background-0" />
+          </div>
+          <div className="h-screen border p-1">
+            <MissionStatement {...size} className="flex justify-center" />
+          </div>
+          <div className="h-screen border p-1">
+            <NavRing {...size} className="flex justify-center" />
+          </div>
+          <div className="h-screen border p-1">
+            <Program {...size} className="flex justify-center" />
+          </div>
+        </>
+      )}
     </div>
   );
 }

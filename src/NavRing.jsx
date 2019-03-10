@@ -21,7 +21,7 @@ const Description = props => {
 
   return (
     <div
-      className="absolute rounded-full bg-white border-2 border-black flex flex-col items-center justify-center p-2"
+      className="absolute border-yo bg-white border-2 border-black flex flex-col items-center justify-center p-2"
       onClick={() => setExt(!ext)}
       style={{
         height: ext ? '100%' : '15%',
@@ -47,212 +47,136 @@ const setColor = hex =>
     .alpha(0.2)
     .css();
 
-const initData = [
+const defaultData = [
   {
     index: 0,
-    outerLabel: 'caos',
+    label: 'Fire',
+    id: 'Fire',
     connector: '↗',
-    innerLabel: "l'io",
     // fill: '#E42149',
     fill: colors.red[3],
     color: colors.red[5],
-    size: 5 / 16
+    size: 5 / 16,
+    values: [
+      {
+        parentId: 'Fire',
+        index: 0,
+        outerLabel: 'caos',
+        connector: '↗',
+        innerLabel: "l'io",
+        // fill: '#E42149',
+        fill: colors.red[3],
+        color: colors.red[5],
+        size: 5 / 16,
+      },
+      {
+        index: 1,
+        parentId: 'Fire',
+        outerLabel: 'scelta',
+        connector: '↜',
+        innerLabel: 'azione',
+        fill: colors.orange[3],
+        color: colors.orange[5],
+        size: 3 / 16,
+      },
+    ]
   },
   {
     index: 1,
-    outerLabel: 'scelta',
-    connector: '↜',
-    innerLabel: 'azione',
+    label: 'Terra',
+    id: 'Terra',
     fill: colors.orange[3],
     color: colors.orange[5],
-    size: 3 / 16
+    size: 3 / 16,
+    values: [
+      {
+        parentId: 'Terra',
+        index: 2,
+        outerLabel: 'Attezioen',
+        innerLabel: 'La Forma',
+        connector: '◗',
+        // fill: '#FFF146',
+        fill: colors.yellow[3],
+        color: colors.yellow[5],
+        size: 3 / 16,
+      },
+      {
+        parentId: 'Terra',
+        index: 3,
+        outerLabel: 'Repulsion',
+        innerLabel: 'La Forma',
+        fill: colors.lime[3],
+        color: colors.lime[5],
+        size: 3 / 16,
+      },
+    ]
   },
   {
     index: 2,
-    outerLabel: 'Attezioen',
-    innerLabel: 'La Forma',
+    id: 'Air',
     connector: '◗',
     // fill: '#FFF146',
     fill: colors.yellow[3],
     color: colors.yellow[5],
-    size: 3 / 16
+    size: 3 / 16,
+    values: [
+      {
+        parentId: 'Air',
+        index: 4,
+        outerLabel: 'dialobo',
+        connector: '↯',
+        innerLabel: "l'altro",
+        fill: colors.cyan[3],
+        color: colors.cyan[5],
+        size: 3 / 16,
+      },
+      {
+        parentId: 'Air',
+        index: 5,
+        outerLabel: 'Reflessione',
+        innerLabel: "Il'se",
+        connector: '↹',
+        fill: colors.fuschia[3],
+        color: colors.fuschia[5],
+        size: 3 / 16,
+      },
+    ]
   },
   {
     index: 3,
-    outerLabel: 'Repulsion',
-    innerLabel: 'La Forma',
+    label: 'Water',
+    id: 'Water',
     fill: colors.lime[3],
     color: colors.lime[5],
-    size: 3 / 16
-  },
-  {
-    index: 4,
-    outerLabel: 'dialobo',
-    connector: '↯',
-    innerLabel: "l'altro",
-    fill: colors.cyan[3],
-    color: colors.cyan[5],
-    size: 3 / 16
-  },
-  {
-    index: 5,
-    outerLabel: 'Reflessione',
-    innerLabel: "Il'se",
-    connector: '↹',
-    fill: colors.fuschia[3],
-    color: colors.fuschia[5],
-    size: 3 / 16
-  },
-  {
-    index: 6,
-    outerLabel: 'transformation',
-    connector: '⇝',
-    innerLabel: "Il'se",
-    fill: colors.indigo[3],
-    color: colors.indigo[5],
-    size: 3 / 16
-  },
-  {
-    index: 7,
-    outerLabel: 'integrazione',
-    connector: '▣',
-    innerLabel: 'Il Tutto',
-    fill: '#0091E5',
-    color: colors.blue[5],
-    size: 5 / 16
+    size: 3 / 16,
+    values: [
+      {
+        parentId: 'Water',
+        index: 6,
+        outerLabel: 'transformation',
+        connector: '⇝',
+        innerLabel: "Il'se",
+        fill: colors.indigo[3],
+        color: colors.indigo[5],
+        size: 3 / 16,
+      },
+      {
+        parentId: 'Water',
+        index: 7,
+        outerLabel: 'integrazione',
+        connector: '▣',
+        innerLabel: 'Il Tutto',
+        fill: '#0091E5',
+        color: colors.blue[5],
+        size: 5 / 16,
+      },
+    ]
   },
 ];
 
-const watercolor = initData.map(d => (
-  <>
-    <filter
-      id={d.fill}
-      colorInterpolationFilters="sRGB"
-      x="0%"
-      y="0%"
-      height="100%"
-      width="100%"
-      transform="40deg">
-      <feTurbulence
-        type="fractalNoise"
-        result="cloudbase"
-        baseFrequency=".0035"
-        numOctaves="5"
-        seed="15"
-      />
-      <feColorMatrix
-        in="cloudbase"
-        type="hueRotate"
-        values="0"
-        result="cloud"
-      />
-      <feColorMatrix
-        in="cloud"
-        result="wispy"
-        type="matrix"
-        values="1 0 0 0 -1
-                                       1 0 0 0 1
-                                       4 0 0 0 1
-                                       1 0 0 0 0
-                                       "
-      />
+const initData = defaultData.reduce((acc, d) => [...d.values, ...acc], []);
 
-      <feFlood floodColor={d.fill} result="green" />
-      <feBlend mode="screen" in2="green" in="wispy" />
-      <feGaussianBlur stdDeviation="4" />
-      <feComposite operator="in" in2="SourceGraphic" />
-    </filter>
-  </>
-));
-
-const morph = (
-  <filter id="filter">
-    <feFlood floodColor="#73DCFF" floodOpacity="0.75" result="COLOR-blu" />
-    <feFlood floodColor="#9673FF" floodOpacity="0.4" result="COLOR-red" />
-    <feTurbulence
-      baseFrequency=".05"
-      type="fractalNoise"
-      numOctaves="3"
-      seed="0"
-      result="Texture_10"
-    />
-    <feColorMatrix
-      type="matrix"
-      values="0 0 0 0 0,
-          0 0 0 0 0,
-          0 0 0 0 0,
-          0 0 0 -2.1 1.1"
-      in="Texture_10"
-      result="Texture_20"
-    />
-    <feColorMatrix
-      result="Texture_30"
-      type="matrix"
-      values="0 0 0 0 0,
-          0 0 0 0 0,
-          0 0 0 0 0,
-          0 0 0 -1.7 1.8"
-      in="Texture_10"
-    />
-    <feOffset dx="-3" dy="4" in="SourceAlpha" result="FILL_10" />
-    <feDisplacementMap
-      scale="17"
-      in="FILL_10"
-      in2="Texture_10"
-      result="FILL_20"
-    />
-    <feComposite operator="in" in="Texture_30" in2="FILL_20" result="FILL_40" />
-    <feComposite operator="in" in="COLOR-blu" in2="FILL_40" result="FILL_50" />
-    <feMorphology
-      operator="dilate"
-      radius="3"
-      in="SourceAlpha"
-      result="OUTLINE_10"
-    />
-    <feComposite
-      operator="out"
-      in="OUTLINE_10"
-      in2="SourceAlpha"
-      result="OUTLINE_20"
-    />
-    <feDisplacementMap
-      scale="7"
-      in="OUTLINE_20"
-      in2="Texture_10"
-      result="OUTLINE_30"
-    />
-    <feComposite
-      operator="arithmetic"
-      k2="-1"
-      k3="1"
-      in="Texture_20"
-      in2="OUTLINE_30"
-      result="OUTLINE_40"
-    />
-    <feConvolveMatrix
-      order="8,8"
-      divisor="1"
-      kernelMatrix="1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 "
-      in="SourceAlpha"
-      result="BEVEL_10"
-    />
-
-    <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur" />
-    <feColorMatrix
-      in="blur"
-      mode="matrix"
-      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-      result="goo"
-    />
-    <feBlend in="SourceGraphic" in2="goo" result="gooX" />
-
-    <feMerge result="merge2">
-      <feMergeNode in="OUTLINE_40" />
-    </feMerge>
-  </filter>
-);
-
-const labels = uniqBy(initData, d => d.innerLabel);
+console.log('initData', initData);
 
 const pie = d3
   .pie()
@@ -260,9 +184,7 @@ const pie = d3
   // .sort(null)
   // .padAngle(100)
   .value(d => d.size);
-
 const initPieData = cloneDeep(pie(initData));
-
 const Btn = ({className, label, active, onClick, color}) => (
   <div
     className={`${className} cursor-pointer rounded-full p-1 px-2`}
@@ -293,7 +215,7 @@ function NavRing(props) {
   const MIN_ANGLE = 0.0385;
   const fData = data.map(d => {
     if (id === null) return d;
-    if (d.innerLabel === id) return {...d, size: 10};
+    if (d.parentId === id) return {...d, size: 10};
     return {...d, size: MIN_ANGLE};
   });
 
@@ -501,32 +423,26 @@ function NavRing(props) {
   return (
     <div
       style={{fontFamily: "'Cabin Sketch'"}}
-      className={`${className} flex flex-col items-center justify-center`}
+      className={`${className} h-full flex relative flex-col justify-center items-center justify-center`}
       style={{width}}>
-      <div onClick={() => setId(null)}>all</div>
-
-      <div className="m-4 text-3xl text-center">
-        {labels.slice(0, labels.length / 2).map(d => (
+      <div className="absolute pin-r pin-t" onClick={() => setId(null)}>
+        all
+      </div>
+      <div className="absolute pin-t m-4 text-3xl text-center flex ">
+        {defaultData.slice(0, defaultData.length / 2).map(d => (
           <div className="flex justify-center items-center">
             <Btn
               className="m-1 mx-2"
               color={d.color}
-              label={d.outerLabel}
+              label={d.label}
               active={d.innerLabel === id}
-              onClick={() => setId(d.innerLabel)}
+              onClick={() => setId(d.id)}
             />
             <div style={{color: d.color}}>{d.connector}</div>
-            <Btn
-              className="m-1 mx-2"
-              color={d.color}
-              label={d.innerLabel}
-              active={d.innerLabel === id}
-              onClick={() => setId(d.innerLabel)}
-            />
           </div>
         ))}
       </div>
-      <div className="relative flex-grow">
+      <div className="relative">
         <Description
           preview="!!!"
           text="this is fire the strongest element on our earth,
@@ -570,8 +486,6 @@ this is fire the strongest element on our earth
             ))}
           </g>
           <defs>
-            {watercolor}
-
             <filter id="gooey">
               <feGaussianBlur
                 in="SourceGraphic"
@@ -595,15 +509,15 @@ this is fire the strongest element on our earth
           </defs>
         </svg>
       </div>
-      <div className="m-4 text-3xl flex flex-col items-center text-center">
-        {labels.slice(labels.length / 2).map(d => (
+      <div className="absolute pin-b m-4 text-3xl flex flex-col items-center text-center">
+        {defaultData.slice(defaultData.length / 2).map(d => (
           <div className="flex items-center">
             <Btn
               className="m-1 mx-2"
-              label={d.outerLabel}
+              label={d.label}
               color={d.color}
               active={d.innerLabel === id}
-              onClick={() => setId(d.innerLabel)}
+              onClick={() => setId(d.id)}
             />
             <div className="" style={{color: d.color}}>
               {d.connector}

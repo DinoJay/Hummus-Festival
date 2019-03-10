@@ -1,3 +1,45 @@
-body {
-  // background: #ebefff;
+.speech-bubble {
+  // position: 'relative'
 }
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 60%;
+	width: 0;
+	height: 0;
+	border: 44px solid transparent;
+	border-top-color: #404040;
+	border-bottom: 0;
+	border-right: 0;
+	margin-left: -22px;
+	margin-bottom: -44px;
+
+    // border-bottom-left-radius: 25px 115px;
+    // border-bottom-right-radius: 155px 25px;
+    // border-top-left-radius: 15px 225px;
+    // border-top-right-radius: 25px 150px;
+}
+
+
+.background-0{
+    background: linear-gradient(10deg, rgba(255,215,0,0.1) 14%, rgba(218,225,231, 0.18) 1%
+    );
+}
+
+.background {
+    background: linear-gradient(-10deg, rgba(218,225,231, 0.18) 30%, rgba(255,215,0,0.10) 10%);
+
+}
+
+
+.border-yo {
+    border-color: black;
+    border-width: 3px;
+    border-bottom-left-radius: 25px 115px;
+    border-bottom-right-radius: 155px 25px;
+    border-top-left-radius: 15px 225px;
+    border-top-right-radius: 25px 150px;
+}
+

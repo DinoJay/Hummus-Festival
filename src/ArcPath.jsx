@@ -17,7 +17,7 @@ import {
   timeline
 } from 'popmotion';
 
-import {interpolate} from 'flubber';
+// import {interpolate} from 'flubber';
 
 import compareMemoize from './components/utils/compareMemoize';
 
@@ -87,36 +87,36 @@ export const ArcPath = ({
   return <g {...props} ref={ref} dangerouslySetInnerHTML={{__html: shape}} />;
 };
 
-const MemPath = ({d, defaultD = 'M0,0 L10,0 L10,10Z', ...props}) => {
-  const oldD = memo(d);
-  const ref = React.createRef();
-  const [pathStr, setPathStr] = useState(null);
-
-  // if (oldD !== d)
-
-  console.log('d', d);
-
-  useEffect(
-    () => {
-      if (ref.current) {
-        const arg = oldD ? [oldD, d || defaultD] : [defaultD, d || defaultD];
-        const shape = styler(ref.current);
-        tween({
-          from: 0,
-          to: 1,
-          duration: 500,
-          ease: easing.linear,
-          // flip: Infinity,
-        })
-          .pipe(interpolate(...arg, {maxSegmentLength: 1}))
-          .start(setPathStr);
-      }
-    },
-    [d],
-  );
-
-  return <path ref={ref} d={pathStr} {...props} />;
-};
+// const MemPath = ({d, defaultD = 'M0,0 L10,0 L10,10Z', ...props}) => {
+//   const oldD = memo(d);
+//   const ref = React.createRef();
+//   const [pathStr, setPathStr] = useState(null);
+//
+//   // if (oldD !== d)
+//
+//   console.log('d', d);
+//
+//   useEffect(
+//     () => {
+//       if (ref.current) {
+//         const arg = oldD ? [oldD, d || defaultD] : [defaultD, d || defaultD];
+//         const shape = styler(ref.current);
+//         tween({
+//           from: 0,
+//           to: 1,
+//           duration: 500,
+//           ease: easing.linear,
+//           // flip: Infinity,
+//         })
+//           .pipe(interpolate(...arg, {maxSegmentLength: 1}))
+//           .start(setPathStr);
+//       }
+//     },
+//     [d],
+//   );
+//
+//   return <path ref={ref} d={pathStr} {...props} />;
+// };
 
 function circleGen() {
   // set defaults
@@ -231,6 +231,7 @@ export const SimplePath = ({
         times,
       );
 
+      //TODO: remove stuff
       return () => clearInterval(intervalId);
     },
     [d],
