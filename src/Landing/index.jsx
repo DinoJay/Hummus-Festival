@@ -37,8 +37,7 @@ function ellipseGen(myr) {
   );
 }
 
-const NUM_ANIM_TIMES = 10
-
+const NUM_ANIM_TIMES = 10;
 
 const AnimPath = props => (
   <SimplePath times={NUM_ANIM_TIMES} interval={500} {...props} />
@@ -88,7 +87,7 @@ export default function Landing(props) {
 
   const svgRef = React.createRef();
 
-  const stickmanScale = width / 300;
+  const stickmanScale = width / 250;
 
   const offset = 30;
   return (
@@ -240,6 +239,11 @@ export default function Landing(props) {
           </g>
         </g>
       </svg>
+      <div
+        className="text-3xl text-green italic mt-24"
+        style={{fontFamily: 'Cabin Sketch'}}>
+        Where the Sun goes up everyday!
+      </div>
     </section>
   );
 }

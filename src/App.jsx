@@ -13,12 +13,11 @@ function App() {
 
   const ref = React.useRef();
   const maxWidth = 700;
-  const maxHeight = 700;
+  const maxHeight = 2000;
   useEffect(() => {
     const resize = () => {
       const width = Math.min(window.innerWidth, maxWidth);
       const height = Math.min(window.innerHeight, maxHeight);
-      console.log('resize', width, height);
 
       const circleWidth = width - width / 3;
 
@@ -39,13 +38,13 @@ function App() {
     <div ref={ref} className="flex flex-col justify-center items-center">
       {size && (
         <>
-          <div className="h-screen flex flex-col justify-center border p-1">
-            <Landing {...size} className="flex justify-center background-0" />
+          <div className="h-screen flex flex-col justify-center border p-1 background-0">
+            <Landing {...size} className="flex flex-col items-center " />
           </div>
           <div className="h-screen border p-1">
             <MissionStatement {...size} className="flex justify-center" />
           </div>
-          <div className="h-screen border p-1">
+          <div className="h-screen border p-1 bacground-0">
             <NavRing {...size} className="flex justify-center" />
           </div>
           <div className="h-screen border p-1">

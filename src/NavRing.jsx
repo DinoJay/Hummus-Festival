@@ -423,12 +423,12 @@ function NavRing(props) {
   return (
     <div
       style={{fontFamily: "'Cabin Sketch'"}}
-      className={`${className} h-full flex relative flex-col justify-center items-center justify-center`}
+      className={`${className} h-full flex relative flex-col justify-center items-center justify-center background-0`}
       style={{width}}>
       <div className="absolute pin-r pin-t" onClick={() => setId(null)}>
         all
       </div>
-      <div className="absolute pin-t m-4 text-3xl text-center flex ">
+      <div className="absolute pin-t m-4 text-5xl ">
         {defaultData.slice(0, defaultData.length / 2).map(d => (
           <div className="flex justify-center items-center">
             <Btn
@@ -511,7 +511,7 @@ this is fire the strongest element on our earth
       </div>
       <div className="absolute pin-b m-4 text-3xl flex flex-col items-center text-center">
         {defaultData.slice(defaultData.length / 2).map(d => (
-          <div className="flex items-center">
+          <div className="flex items-center text-5xl">
             <Btn
               className="m-1 mx-2"
               label={d.label}
@@ -522,12 +522,6 @@ this is fire the strongest element on our earth
             <div className="" style={{color: d.color}}>
               {d.connector}
             </div>
-            <Btn
-              className="m-1 mx-2"
-              color={d.color}
-              label={d.innerLabel}
-              active={d.innerLabel === id}
-            />
           </div>
         ))}
       </div>

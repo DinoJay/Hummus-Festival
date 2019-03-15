@@ -44,6 +44,7 @@ function MissionStatement(props) {
   const {className, width, circleWidth, height, style} = props;
   const svgRef = React.useRef();
 
+  const stickmanScale = width / 550;
   return (
     <div
       className={`${className} background flex flex-col w-full h-full items-center justify-center relative`}
@@ -68,7 +69,9 @@ function MissionStatement(props) {
         ref={svgRef}
         style={{width: '100%', height: '100%'}}
         preserveAspectRatio="xMaxYMin meet">
-        <g transform={`translate(${width / 2},${height / 2 + 20})`}>
+        <g
+          transform={`translate(${width / 2},${height / 2 +
+            20}) scale(${stickmanScale})`}>
           <SimplePath
             sketchOpts={sketchOpts}
             svgRef={svgRef}
@@ -76,7 +79,10 @@ function MissionStatement(props) {
             style={{transform: 'scale(1)'}}
           />
         </g>
-        <g transform={`translate(${-80},${height - 50})`}>
+        <g
+          transform={`translate(${-80},${height / 2 +
+            20 +
+            height / 4}) scale(${stickmanScale})`}>
           <SimplePath
             sketchOpts={{...sketchOpts, fill: 'none'}}
             svgRef={svgRef}
