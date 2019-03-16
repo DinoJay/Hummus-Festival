@@ -18,7 +18,7 @@ const BLACK = '#404040';
 const BLUE = '#0362a4';
 const ORANGE = '#f7823d';
 const PURPLE = '#253583';
-const GREEN = '#56a567';
+const GREEN = '#38c172';
 const LIGHTBLUE = '#01a9d0';
 const YELLOW = '#f8c640';
 
@@ -188,7 +188,8 @@ export default function Landing(props) {
           <g
             style={{
               // display: 'none',
-              transform: `translate(${-radius / 2}px, ${-40}px)`
+              transform: `translate(${-radius / 2 -
+                10 * stickmanScale}px, ${-40}px)`
             }}>
             <AnimPath
               svgRef={svgRef}
@@ -233,16 +234,16 @@ export default function Landing(props) {
               style={{
                 ...pathStyle,
                 transform: `translate(${radius * 2 -
-                  70}px, 70px) scale(${stickmanScale}) `
+                  20 * stickmanScale}px, 70px) scale(${stickmanScale}) `
               }}
             />
           </g>
         </g>
       </svg>
       <div
-        className="text-3xl text-green italic mt-24"
+        className="text-3xl text-green italic mt-24 p-4 uppercase"
         style={{fontFamily: 'Cabin Sketch'}}>
-        Where the Sun goes up everyday!
+        Move your body and your mind fill follow!
       </div>
     </section>
   );

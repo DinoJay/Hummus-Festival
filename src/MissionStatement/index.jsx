@@ -30,13 +30,6 @@ const sketchOpts = {
   fillStyle: 'zigzag',
 };
 
-console.log(
-  'gold',
-  chroma('gold')
-    .alpha(0.14)
-    .css(),
-);
-
 const text =
   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
 
@@ -47,10 +40,13 @@ function MissionStatement(props) {
   const stickmanScale = width / 550;
   return (
     <div
-      className={`${className} background flex flex-col w-full h-full items-center justify-center relative`}
+      className={`${className} background flex flex-col w-full h-full items-center justify-center relative `}
       style={{fontFamily: "'Cabin Sketch'", width}}>
-      <div className="absolute pin-t pin-l h-64 m-8 overflow-hidden">
-        <div className="speech-bubble border-yo border-black p-4 w-full h-full">
+      <div
+        className="absolute pin-t pin-l h-64 m-8 flex flex-col"
+        style={{height: '40vh'}}>
+        <h1 className="mb-4">Mission Statement</h1>
+        <div className="speech-bubble flex-grow border-yo border-black p-4 w-full overflow-y-auto">
           <div
             className="float-left"
             style={{
@@ -80,7 +76,7 @@ function MissionStatement(props) {
           />
         </g>
         <g
-          transform={`translate(${-80},${height / 2 +
+          transform={`translate(${-80 * stickmanScale},${height / 2 +
             20 +
             height / 4}) scale(${stickmanScale})`}>
           <SimplePath

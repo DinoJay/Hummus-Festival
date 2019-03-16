@@ -52,13 +52,15 @@ const defaultData = [
     index: 0,
     label: 'Fire',
     id: 'Fire',
-    connector: '↗',
+    connector: '△',
     // fill: '#E42149',
     fill: colors.red[3],
     color: colors.red[5],
     size: 5 / 16,
+    text:
+      'Fire is considered as the material part of Light. It is the beginning of creativity -Sacred Fire-. That energy that you feel when you get ideas, when you start a project, when your mind give the impulse of a movement til that movement is done.  I connect my conscious to the Fire, It is me and i am It. A burning dance, projection of lights and shadows. The shape appear.',
     values: [
-      {
+
         parentId: 'Fire',
         index: 0,
         outerLabel: 'caos',
@@ -83,11 +85,13 @@ const defaultData = [
   },
   {
     index: 1,
-    label: 'Terra',
-    id: 'Terra',
+    label: 'Earth',
+    id: 'Earth',
     fill: colors.orange[3],
     color: colors.orange[5],
     size: 3 / 16,
+    text:
+      'Path of matter, of unity. Materialisation of the movement.  Under the light of the fire shapes takes place. Molecular system exist. Climbing Golem grow. From chaos a movement is born, give his own vibration to the entire system. Turn and turn and turn. Gyrating movement everywhere. Light caress the soil, soil embrace the sky. The trans can take place.',
     values: [
       {
         parentId: 'Terra',
@@ -114,11 +118,14 @@ const defaultData = [
   {
     index: 2,
     id: 'Air',
-    connector: '◗',
+    title: 'Air',
+    connector: '',
     // fill: '#FFF146',
     fill: colors.yellow[3],
     color: colors.yellow[5],
     size: 3 / 16,
+    text:
+      "Path of transmission, communication, duality- multiplicity.  Air, The permanent movement: inspiration- expiration guide a pneumatic of every instant and that air is going everywhere, in each part of my body. The air is what I share with all beings of Planet Earth. It is the element which leads me to enter in contact with the Other. When.i move i sculpt the air, and the air, invisible sculpt my movement. It is flotting like the ideas, full of wind which blow on the mill's wheel. And more i guide my respiration, less i use energy.",
     values: [
       {
         parentId: 'Air',
@@ -149,6 +156,8 @@ const defaultData = [
     fill: colors.lime[3],
     color: colors.lime[5],
     size: 3 / 16,
+    text:
+      'Path of vibrations, emotional world. Diving into the other side of myself, the up-side-down. The All.  After discovering the One, i do the epxperience of the All. My emotions move inside and create movements outside which create emotions inside which... and create a wave all around me, and affect what is in the area. I can create a storm like i can create a peacefull weather. Whatever it will be, it will be in accordance with the cosmos, link to it.',
     values: [
       {
         parentId: 'Water',
@@ -173,9 +182,7 @@ const defaultData = [
     ]
   },
 ];
-
 const initData = defaultData.reduce((acc, d) => [...d.values, ...acc], []);
-
 console.log('initData', initData);
 
 const pie = d3
@@ -196,15 +203,12 @@ const Btn = ({className, label, active, onClick, color}) => (
     {label}
   </div>
 );
-
 function NavRing(props) {
   const {className, width, circleWidth, height, style} = props;
   // const [data, setData] = useState([...initData]);
-
   const [id, setId] = useState(null);
   const data = initData;
-  const radius = (circleWidth * 2) / 3;
-
+  const radius = (circleWidth * 2) / 3 + 10;
   console.log('radius', radius);
 
   // circleWidth / 2;
@@ -218,12 +222,9 @@ function NavRing(props) {
     if (d.parentId === id) return {...d, size: 10};
     return {...d, size: MIN_ANGLE};
   });
-
   const pData = pie(fData);
   const pieData = sortBy(pData, a => -a.startAngle);
-
   const svgRef = React.createRef();
-
   // const initArc = d3
   //   .arc()
   //   // TODO: padding
@@ -232,7 +233,6 @@ function NavRing(props) {
   //   .startAngle(Math.PI);
   // .startAngle(Math.PI/2)
   // .endAngle(Math.PI );
-
   const outerArc = d3
     .arc()
     // .startAngle(Math.PI)
@@ -240,7 +240,6 @@ function NavRing(props) {
     // TODO: padding
     .outerRadius(radius - 30)
     .innerRadius(radius / 1.7);
-
   const innerArc = d3
     .arc()
     // .padAngle(0.1)
@@ -251,20 +250,16 @@ function NavRing(props) {
     // TODO: padding
     .outerRadius(radius / 1.7)
     .innerRadius(0);
-
   const labelArc = d3
     .arc()
     .innerRadius(radius - 30)
     .outerRadius(radius - 40);
-
   // const defaultD = initArc({
   //   startAngle: Math.PI / 2,
   //   endAngle: Math.PI,
   //   value: 100,
   // });
-
   // const fillStyle zigzag 'dots';
-
   const strokeOpts = {
     bowing: 2,
     roughness: 2,
@@ -289,7 +284,6 @@ function NavRing(props) {
     stroke: 'none',
     fillStyle: 'zigzag',
   };
-
   const outsideArcs = (opts, stroke = false) =>
     pieData.map((a, i) => (
       <ArcPath
@@ -324,7 +318,6 @@ function NavRing(props) {
         }}
       />
     ));
-
   const labelArcs = pieData.map((a, i) => (
     <ArcPath
       svgRef={svgRef}
@@ -338,7 +331,6 @@ function NavRing(props) {
       style={{stroke: 'white', fill: 'none'}}
     />
   ));
-
   const insideArcs = (opts, filter = null) =>
     pieData.map(a => (
       <ArcPath
@@ -347,7 +339,6 @@ function NavRing(props) {
         pathFn={d =>
           innerArc({
             ...d,
-
             startAngle: d.startAngle,
             endAngle: d.endAngle + 0.05
           })
@@ -377,7 +368,6 @@ function NavRing(props) {
         }}
       />
     ));
-
   const strokeInsideArcs = () =>
     pieData.map((a, i) => (
       <ArcPath
@@ -386,7 +376,6 @@ function NavRing(props) {
         pathFn={d =>
           innerArc({
             ...d,
-
             startAngle: d.startAngle,
             endAngle: d.startAngle + 0.05
           })
@@ -419,7 +408,6 @@ function NavRing(props) {
         }}
       />
     ));
-
   return (
     <div
       style={{fontFamily: "'Cabin Sketch'"}}
@@ -528,5 +516,4 @@ this is fire the strongest element on our earth
     </div>
   );
 }
-
 export default NavRing;

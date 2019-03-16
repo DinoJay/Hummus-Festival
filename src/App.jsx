@@ -3,10 +3,11 @@ import * as d3 from 'd3';
 
 import {hot} from 'react-hot-loader';
 
-import NavRing from './NavRing';
+import Circle from './Circle';
 import Landing from './Landing';
 import MissionStatement from './MissionStatement';
 import Program from './Program';
+import About from './About';
 
 function App() {
   const [size, setSize] = useState(null);
@@ -19,12 +20,13 @@ function App() {
       const width = Math.min(window.innerWidth, maxWidth);
       const height = Math.min(window.innerHeight, maxHeight);
 
-      const circleWidth = width - width / 3;
+      const circleWidth = width - width / 3.3;
 
       setSize({
         width,
         height,
         circleWidth,
+        phone: width < 450,
       });
     };
 
@@ -45,10 +47,13 @@ function App() {
             <MissionStatement {...size} className="flex justify-center" />
           </div>
           <div className="h-screen border p-1 bacground-0">
-            <NavRing {...size} className="flex justify-center" />
+            <Circle {...size} className="" />
           </div>
           <div className="h-screen border p-1">
             <Program {...size} className="flex justify-center" />
+          </div>
+          <div className="h-screen border p-1">
+            <About {...size} className="flex justify-center" />
           </div>
         </>
       )}
