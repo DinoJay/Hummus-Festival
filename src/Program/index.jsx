@@ -103,7 +103,7 @@ export default function Program(props) {
       <svg className="absolute" style={{width, height}} ref={svgRef}>
         <SimplePath
           d={stickman}
-          times={300}
+          times={50}
           interval={300}
           sketchOpts={{
             roughness: 0.25,
@@ -111,6 +111,8 @@ export default function Program(props) {
             strokeWidth: 1,
             stroke: BLACK,
             fillStyle: 'zigzag',
+              fillWeight: 5,
+            fill: 'rgba(1,169,208,0.14)'
           }}
           svgRef={svgRef}
           style={{

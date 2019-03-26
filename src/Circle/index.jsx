@@ -9,7 +9,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
-import {ArcPath} from '../ArcPath';
+import {SketchyArcPath, SimpleArcPath} from '../ArcPath';
 
 import defaultData from './circleData';
 
@@ -146,9 +146,44 @@ function AlchemyCircle(props) {
     fillStyle: 'zigzag'
   };
 
+  const outsideFillArcs = (opts, stroke = false) =>
+    pieData.map((a, i) => (
+      <SimpleArcPath
+        className="watercolor-effect"
+        key={a.id}
+        svgRef={svgRef}
+        data={a}
+        pathFn={d =>
+          outerArc({
+            ...d,
+            startAngle: d.startAngle,
+            endAngle: d.endAngle,
+          })
+        }
+        defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
+        style={{
+          mixBlendMode: 'multiply',
+          opacity: 0.5,
+          filter: `url(#gooey)`,
+          fill: a.data.fill,
+          // filter: `url(#dilate)`
+          // transform: `translate(${radius}, ${radius})`,
+          // fill: 'none'
+        }}
+        options={{
+          // stroke: 'red',
+          // strokeWidth: 4,
+          // bowing: 3,
+          // stroke: BLACK,
+          ...opts,
+          // fillStyle: 'zigzag',
+        }}
+      />
+    ));
+
   const outsideArcs = (opts, stroke = false) =>
     pieData.map((a, i) => (
-      <ArcPath
+      <SketchyArcPath
         className="watercolor-effect"
         key={a.id}
         svgRef={svgRef}
@@ -183,7 +218,7 @@ function AlchemyCircle(props) {
     ));
 
   const labelArcs = pieData.map((a, i) => (
-    <ArcPath
+    <SketchyArcPath
       svgRef={svgRef}
       data={a}
       pathFn={labelArc}
@@ -196,13 +231,13 @@ function AlchemyCircle(props) {
     />
   ));
 
-  const insideArcs = (opts, filter = null) =>
+  const insideArcs = (arc, opts) =>
     pieData.map(a => (
-      <ArcPath
+      <SimpleArcPath
         svgRef={svgRef}
         data={a}
         pathFn={d =>
-          innerArc({
+          arc({
             ...d,
             startAngle: d.startAngle,
             endAngle: d.endAngle + 0.05,
@@ -218,24 +253,25 @@ function AlchemyCircle(props) {
           sketch: 30.8,
           bowing: 5,
           // stroke: BLACK,
-          fill: a.data.fill,
-          ...opts
           // fillStyle: 'zigzag',
         }}
         style={{
           mixBlendMode: 'multiply',
           opacity: 0.7,
+          fill: a.data.fill,
           // filter: `url(#dilate)`
-          filter,
+          filter: `url(#gooey)`,
+          ...opts
           // transform: `translate(${radius}, ${radius})`,
           // stroke: 'black',
           // fill: data.fill
         }}
       />
     ));
+
   const strokeInsideArcs = () =>
     pieData.map((a, i) => (
-      <ArcPath
+      <SketchyArcPath
         svgRef={svgRef}
         data={a}
         pathFn={d =>
@@ -365,11 +401,15 @@ function AlchemyCircle(props) {
           </g>
 
           <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {outsideArcs(sketchOpts, true)}
+            {insideArcs(outerArc, {
+              mixBlendMode: 'multiply',
+              opacity: 0.5,
+              filter: `url(#gooey)`,
+            })}
             {outsideArcs(strokeOpts, false)}
           </g>
           <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {insideArcs(sketchOpts, 'url(#gooey)')}
+            {insideArcs(innerArc)}
             {strokeInsideArcs()}
           </g>
           <g
@@ -396,7 +436,7 @@ function AlchemyCircle(props) {
               <feColorMatrix
                 in="blur"
                 mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 9 -2"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -1.5"
                 result="gooey"
               />
             </filter>

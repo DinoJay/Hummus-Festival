@@ -21,6 +21,17 @@ import {
 
 import compareMemoize from './components/utils/compareMemoize';
 
+const getRoughId = (sketchShape, id) => {
+  const {fill} = sketchShape.children[0].style;
+  const regExp = /\(([^)]+)\)/;
+  const matches = regExp.exec(fill);
+  if (matches && Array.isArray(matches) && matches.length > 1) {
+    const newId = matches[1].slice(2, -1);
+    return newId;
+    // setId(newId);
+  }
+};
+
 function setIntervalX(callback, delay, repetitions) {
   let x = 0;
   const intervalId = setInterval(() => {
@@ -49,7 +60,7 @@ function memo(value) {
   return getMemoized(value);
 }
 
-export const ArcPath = ({
+export const SketchyArcPath = ({
   data,
   svgRef,
   pathFn,
@@ -59,7 +70,8 @@ export const ArcPath = ({
   ...props
 }) => {
   const olData = memo(data);
-  const ref = React.createRef();
+  const ref = React.useRef();
+  const refId = React.useRef();
   const [shape, setShape] = useState(null);
 
   useEffect(
@@ -71,20 +83,91 @@ export const ArcPath = ({
           endAngle: olData ? olData.endAngle : defaultData.endAngle,
         },
         to: {startAngle: data.startAngle, endAngle: data.endAngle},
-        duration: 500,
-        // ease: easing.backOut,
+        duration: 300,
         ...animOpts,
         // ease: easing.easeInOut,
         // flip: Infinity,
       })
         .pipe(d => pathFn(d))
         .start(d => {
-          setShape(rc.path(d, options).outerHTML);
+          const sketchShape = rc.path(d, options);
+          if (refId.current) {
+            const p = document.getElementById(refId.current);
+            const parent = p ? p.parentNode : null;
+            p && p.parentNode.removeChild(p);
+            if (parent && parent.children && parent.children.length === 0) {
+              const pp = parent ? parent.parentNode : null;
+
+              if (pp) pp.removeChild(parent);
+            }
+          }
+          setShape(sketchShape.outerHTML);
+          const newId = getRoughId(sketchShape);
+          refId.current = newId;
+
+          setShape(sketchShape.outerHTML);
         });
     },
     [compareMemoize(data)],
   );
+
+  useEffect(() => {});
+
   return <g {...props} ref={ref} dangerouslySetInnerHTML={{__html: shape}} />;
+};
+
+export const SimpleArcPath = ({
+  data,
+  svgRef,
+  pathFn,
+  defaultData,
+  options,
+  animOpts = {},
+  ...props
+}) => {
+  const olData = memo(data);
+  const ref = React.useRef();
+  const refId = React.useRef();
+  const [shape, setShape] = useState(null);
+
+  useEffect(
+    () => {
+      const rc = rough.svg(svgRef.current);
+      tween({
+        from: {
+          startAngle: olData ? olData.startAngle : defaultData.startAngle,
+          endAngle: olData ? olData.endAngle : defaultData.endAngle,
+        },
+        to: {startAngle: data.startAngle, endAngle: data.endAngle},
+        duration: 300,
+        ...animOpts,
+      })
+        .pipe(d => pathFn(d))
+        .start(d => {
+          // const sketchShape = rc.path(d, options);
+          // if (refId.current) {
+          //   const p = document.getElementById(refId.current);
+          //   const parent = p ? p.parentNode : null;
+          //   p && p.parentNode.removeChild(p);
+          //   if (parent && parent.children && parent.children.length === 0) {
+          //     const pp = parent ? parent.parentNode : null;
+          //
+          //     if (pp) pp.removeChild(parent);
+          //   }
+          // }
+          // setShape(sketchShape.outerHTML);
+          // const newId = getRoughId(sketchShape);
+          // refId.current = newId;
+
+          setShape(d);
+        });
+    },
+    [compareMemoize(data)],
+  );
+
+  useEffect(() => {});
+
+  return <path {...props} ref={ref} d={shape} />;
 };
 
 // const MemPath = ({d, defaultD = 'M0,0 L10,0 L10,10Z', ...props}) => {
@@ -168,40 +251,44 @@ function circleGen() {
   return circle;
 }
 
-export const Ellipse = ({
-  d,
-  svgRef,
-  sketchOpts,
-  animOpts = {},
-  interval = 0,
-  times = 1,
-  ...props
-}) => {
-  const ref = React.createRef();
-
-  const [shape, setShape] = useState(null);
-
-  useEffect(
-    () => {
-      const rc = rough.svg(svgRef.current);
-
-      const intervalId = setIntervalX(
-        () => {
-          const sketchShape = rc.ellipse(300, 100, 150, 80, {...sketchOpts});
-          // console.log('sketchShape', sketchShape);
-          setShape(sketchShape.outerHTML);
-        },
-        interval,
-        times,
-      );
-
-      return () => clearInterval(intervalId);
-    },
-    [d],
-  );
-
-  return <g {...props} ref={ref} dangerouslySetInnerHTML={{__html: shape}} />;
-};
+// export const Ellipse = ({
+//   d,
+//   svgRef,
+//   sketchOpts,
+//   animOpts = {},
+//   interval = 0,
+//   times = 1,
+//   ...props
+// }) => {
+//   const ref = React.createRef();
+//
+//   const [shape, setShape] = useState(null);
+//
+//   useEffect(
+//     () => {
+//       const rc = rough.svg(svgRef.current);
+//
+//       const intervalId = setIntervalX(
+//         () => {
+//           const sketchShape = rc.ellipse(300, 100, 150, 80, {...sketchOpts});
+//           console.log('sketchShape', sketchShape);
+//           setShape(sketchShape.outerHTML);
+//         },
+//         interval,
+//         times,
+//       );
+//
+//       return () => {
+//         clearInterval(intervalId);
+//       };
+//     },
+//     [d],
+//   );
+//
+//   return <g {...props} ref={ref} dangerouslySetInnerHTML={{__html: shape}} />;
+// };
+//
+//
 
 export const SimplePath = ({
   d,
@@ -212,10 +299,11 @@ export const SimplePath = ({
   times = 1,
   ...props
 }) => {
-  const ref = React.createRef();
+  const ref = React.useRef();
 
   const [shape, setShape] = useState(null);
 
+  const refId = React.useRef();
   useEffect(
     () => {
       const rc = rough.svg(svgRef.current);
@@ -223,16 +311,38 @@ export const SimplePath = ({
       const intervalId = setIntervalX(
         () => {
           const sketchShape = rc.path(d, {...sketchOpts});
+          const {fill} = sketchShape.children[0].style;
 
-          // console.log('sketchShape', sketchShape);
+          if (refId.current) {
+            const p = document.getElementById(refId.current);
+            p.parentNode.removeChild(p);
+          }
           setShape(sketchShape.outerHTML);
+          const newId = getRoughId(sketchShape);
+          refId.current = newId;
+
+          // const regExp = /\(([^)]+)\)/;
+          // const matches = regExp.exec(fill);
+          // if (matches && Array.isArray(matches) && matches.length > 1) {
+          //   const newId = matches[1].slice(2, -1);
+          //   const p = document.getElementById(refId.current);
+          //   refId.current = newId;
+          //   if (p) {
+          //     p.parentNode.removeChild(p);
+          //   }
+          //   // setId(newId);
+          // }
+          // p.remove();
+          // console.log('sketchShape', p);
         },
         interval,
         times,
       );
 
-      //TODO: remove stuff
-      return () => clearInterval(intervalId);
+      // TODO: remove stuff
+      return () => {
+        clearInterval(intervalId);
+      };
     },
     [d],
   );
