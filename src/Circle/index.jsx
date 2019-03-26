@@ -9,9 +9,34 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
+import posed from 'react-pose';
 import {SketchyArcPath, SimpleArcPath} from '../ArcPath';
 
 import defaultData from './circleData';
+
+const Delayed = props => {
+  const [render, setRender] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setRender(true);
+    }, 500);
+  }, []);
+
+  return render ? <div {...props} /> : null;
+};
+
+const Extendable = posed.div({
+  hidden: {
+    height: 70,
+    width: 70,
+  },
+  extended: {
+    // y: ({height}) => height / 2,
+    height: '95%',
+    width: '100%',
+  }
+});
 
 const BLACK = '#404040';
 
@@ -20,30 +45,32 @@ const EARTH = defaultData[1];
 const AIR = defaultData[2];
 const WATER = defaultData[3];
 
+// TODO fix transform issues
 const Description = props => {
-  const {style, text, preview} = props;
+  const {style, text, height, preview, className} = props;
   const [ext, setExt] = useState(false);
 
   return (
-    <div
-      className={`absolute border-yo bg-white border-2 border-black flex flex-col items-center justify-center ${ext &&
-        'p-2'}`}
+    <Extendable
+      height={height}
+      className={`border-yo bg-white border-2 border-black flex flex-col items-center ${ext &&
+        'p-4'} ${!ext && 'justify-center'} ${className}`}
       onClick={() => setExt(!ext)}
+      pose={ext ? 'extended' : 'hidden'}
       style={{
-        height: ext ? '100%' : '15%',
-        width: ext ? '100%' : '15%',
-        transition: 'width 300ms, height 300ms',
-        transform: 'translate(-50%,-50%)',
         ...style,
+        transform: `translate(-50%,${!ext ? '50%' : '30%'})`,
       }}>
       {ext ? (
-        text
+        <div>{text}</div>
       ) : (
-        <div className="text-4xl " style={{fontFamily: '"Cabin Sketch"'}}>
+        <div
+          className="text-4xl "
+          style={{fontFamily: '"Cabin Sketch"', transitionDelay: '400ms'}}>
           {preview}
         </div>
       )}
-    </div>
+    </Extendable>
   );
 };
 const setColor = hex =>
@@ -315,10 +342,7 @@ function AlchemyCircle(props) {
   return (
     <div
       className={`${className} h-full flex relative flex-col background-0`}
-      style={{width, fontFamily: "'Cabin Sketch'"}}>
-      <div className="absolute pin-r pin-t" onClick={() => setId(null)}>
-        all
-      </div>
+      style={{width, height, fontFamily: "'Cabin Sketch'"}}>
       <div className="m-8">
         <h1>Alchemy</h1>
       </div>
@@ -329,7 +353,28 @@ function AlchemyCircle(props) {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua"
       </div>
-      <div className="relative mt-auto mb-8 ">
+
+      <Description
+        className="absolute z-50"
+        preview={
+          selectedElement ? (
+            <div
+              className="text-white"
+              style={{background: selectedElement.color}}>
+              {selectedElement.icon}
+            </div>
+          ) : (
+            '!!!'
+          )
+        }
+        text={selectedElement ? selectedElement.text : 'YO'}
+        style={{
+          transform: 'translate(-50%,50%)',
+          left: width / 2,
+          bottom: radius,
+        }}
+      />
+      <div className="relative mt-auto ">
         <div
           className="absolute m-4 "
           style={{top: 0, left: 0, ...transformLabel(true)}}>
@@ -375,24 +420,6 @@ function AlchemyCircle(props) {
           />
         </div>
 
-        <Description
-          preview={
-            selectedElement ? (
-              <div
-                className="text-white"
-                style={{background: selectedElement.color}}>
-                {selectedElement.icon}
-              </div>
-            ) : (
-              '!!!'
-            )
-          }
-          text={selectedElement ? selectedElement.text : 'YO'}
-          style={{
-            left: width / 2,
-            top: radius
-          }}
-        />
         <svg ref={svgRef} width={width} height={radius * 2}>
           <g
             id="labelArcs"
@@ -410,6 +437,7 @@ function AlchemyCircle(props) {
           </g>
           <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
             {insideArcs(innerArc)}
+
             {strokeInsideArcs()}
           </g>
           <g
@@ -436,7 +464,7 @@ function AlchemyCircle(props) {
               <feColorMatrix
                 in="blur"
                 mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -1.5"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -1.6"
                 result="gooey"
               />
             </filter>

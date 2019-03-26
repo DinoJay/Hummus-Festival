@@ -16,6 +16,7 @@
   "homepage": "https://dinojay.github.io/",
   "dependencies": {
     "chroma-js": "^2.0.2",
+    "css-scroll-snap-polyfill": "^0.1.2",
     "d3": "^5.7.0",
     "fitty": "^2.2.6",
     "flubber": "^0.4.2",

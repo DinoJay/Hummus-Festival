@@ -83,7 +83,7 @@ export default function Program(props) {
 
   return (
     <div
-      className={`${className} background flex flex-col w-full h-full items-center justify-center relative`}
+      className={`${className} flex flex-col w-full h-full items-center justify-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="m-8">Program</h1>
       <ul className="mx-8 mb-4 overflow-y-auto list-reset w-full">
@@ -111,7 +111,7 @@ export default function Program(props) {
             strokeWidth: 1,
             stroke: BLACK,
             fillStyle: 'zigzag',
-              fillWeight: 5,
+            fillWeight: 5,
             fill: 'rgba(1,169,208,0.14)'
           }}
           svgRef={svgRef}

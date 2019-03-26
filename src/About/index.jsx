@@ -67,10 +67,13 @@ export default function Program(props) {
 
   return (
     <div
-      className={`${className} background flex flex-col w-full h-full items-center justify-center relative`}
+      className={`${className} background flex w-full flex-col h-full items-center justify-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="m-8">About</h1>
-      <div>TODO: here I will put the logos you sent me</div>
+      <div className="flex-grow border-yo m-4 p-4">TEAM</div>
+      <div className="flex-grow border-yo m-4  p-4">MAgic Matthieu</div>
+      <div className="flex-grow  border-yo m-4  p-4">Contacts</div>
+      <div className="flex-grow border-yo m-4   p-4">References</div>
     </div>
   );
 }

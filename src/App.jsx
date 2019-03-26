@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import * as d3 from 'd3';
 
+import scrollSnapPolyfill from 'css-scroll-snap-polyfill';
+
 import {hot} from 'react-hot-loader';
 
 import Circle from './Circle';
@@ -19,6 +21,7 @@ function App() {
     const resize = () => {
       const width = Math.min(window.innerWidth, maxWidth);
       const height = Math.min(window.innerHeight, maxHeight);
+      console.log('height', height);
 
       const circleWidth = width - width / 3.3;
 
@@ -33,28 +36,36 @@ function App() {
     resize();
     window.addEventListener('resize', resize);
 
+    // scrollSnapPolyfill();
+
     return () => window.removeEventListener('resize', resize);
   }, []);
 
   return (
-    <div ref={ref} className="flex flex-col justify-center items-center">
+    <div
+      ref={ref}
+      className="flex flex-col justify-center items-center"
+      style={{
+        scrollSnapPointsY: 'repeat(100vh)',
+        scrollSnapType: 'y mandatory',
+      }}>
       {size && (
         <>
-          <div className="h-screen flex flex-col justify-center border p-1 background-0">
+          <section className="h-screen flex flex-col justify-center background-0">
             <Landing {...size} className="flex flex-col items-center " />
-          </div>
-          <div className="h-screen border p-1">
+          </section>
+          <section className="h-screen ">
             <MissionStatement {...size} className="flex justify-center" />
-          </div>
-          <div className="h-screen border p-1 bacground-0">
+          </section>
+          <section className="h-screen ">
             <Circle {...size} className="" />
-          </div>
-          <div className="h-screen border p-1">
+          </section>
+          <section className="h-screen background-full  ">
             <Program {...size} className="flex justify-center" />
-          </div>
-          <div className="h-screen border p-1">
+          </section>
+          <section className="h-screen ">
             <About {...size} className="flex justify-center" />
-          </div>
+          </section>
         </>
       )}
     </div>

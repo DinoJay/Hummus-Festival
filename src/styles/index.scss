@@ -1,6 +1,17 @@
 .speech-bubble {
   // position: 'relative'
 }
+body {
+  scroll-snap-type: y proximity;
+  /* Reserve space for header plus some extra space for sneak peeking. */
+  // scroll-padding-top: 15vh;
+  overflow-y: scroll;
+}
+
+section {
+  scroll-snap-align: start;
+}
+
 
 .speech-bubble:after {
 	content: '';
@@ -33,6 +44,11 @@
     background: linear-gradient(-10deg, rgba(218,225,231, 0.18) 30%, rgba(255, 215, 0, 0.15) 55%);
 
 }
+
+.background-full {
+  background: rgba(255, 215, 0, .15);
+}
+
 
 
 .border-yo {

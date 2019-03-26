@@ -37,7 +37,7 @@ function ellipseGen(myr) {
   );
 }
 
-const NUM_ANIM_TIMES = 10;
+const NUM_ANIM_TIMES = 1000;
 
 const AnimPath = props => (
   <SimplePath times={NUM_ANIM_TIMES} interval={500} {...props} />
