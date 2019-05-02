@@ -15,13 +15,12 @@ function App() {
   const [size, setSize] = useState(null);
 
   const ref = React.useRef();
-  const maxWidth = 700;
+  const maxWidth = 600;
   const maxHeight = 2000;
   useEffect(() => {
     const resize = () => {
       const width = Math.min(window.innerWidth, maxWidth);
       const height = Math.min(window.innerHeight, maxHeight);
-      console.log('height', height);
 
       const circleWidth = width - width / 3.3;
 
@@ -36,8 +35,6 @@ function App() {
     resize();
     window.addEventListener('resize', resize);
 
-    // scrollSnapPolyfill();
-
     return () => window.removeEventListener('resize', resize);
   }, []);
 
@@ -51,19 +48,19 @@ function App() {
       }}>
       {size && (
         <>
-          <section className="h-screen flex flex-col justify-center background-0">
-            <Landing {...size} className="flex flex-col items-center " />
+          <section className="page background-0 flex justify-center overflow-hidden">
+            <Landing {...size} className="overflow-hidden" />
           </section>
-          <section className="h-screen ">
+          <section className="page background flex justify-center">
             <MissionStatement {...size} className="flex justify-center" />
           </section>
-          <section className="h-screen ">
-            <Circle {...size} className="" />
+          <section className="page ">
+            <Circle {...size} className="p-2" />
           </section>
-          <section className="h-screen background-full  ">
+          <section className="page background-full flex justify-center">
             <Program {...size} className="flex justify-center" />
           </section>
-          <section className="h-screen ">
+          <section className="page flex background justify-center">
             <About {...size} className="flex justify-center" />
           </section>
         </>

@@ -22,12 +22,6 @@ const GREEN = '#38c172';
 const LIGHTBLUE = '#01a9d0';
 const YELLOW = '#f8c640';
 
-console.log(
-  'LIGHTBLUE',
-  chroma(LIGHTBLUE)
-    .alpha(0.14)
-    .css(),
-);
 function ellipseGen(myr) {
   return (
     `M${0},${0} ` +
@@ -89,9 +83,9 @@ export default function Landing(props) {
 
   const stickmanScale = width / 250;
 
-  const offset = 30;
+  const offset = 0;
   return (
-    <section className={className}>
+    <div className={className} style={{width}}>
       <svg ref={svgRef} width={width} height={width + offset}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
           <SimplePath
@@ -106,8 +100,6 @@ export default function Landing(props) {
               sketch: 1.8,
               strokeWidth: 2,
               fillWeight: 5,
-              // fill: 'none', // chroma(LIGHTBLUE).alpha(0.24),
-              // stroke: 'none',
               fillStyle: 'zigzag'
             }}
             style={
@@ -241,10 +233,10 @@ export default function Landing(props) {
         </g>
       </svg>
       <div
-        className="text-3xl text-green italic mt-24 p-4 uppercase"
+        className="text-3xl text-green italic p-4 uppercase"
         style={{fontFamily: 'Cabin Sketch'}}>
         Move your body and your mind fill follow!
       </div>
-    </section>
+    </div>
   );
 }

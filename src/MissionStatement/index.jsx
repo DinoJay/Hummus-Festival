@@ -1,6 +1,5 @@
 import React, {useState, useMemo, useEffect} from 'react';
 
-import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import PropTypes from 'prop-types';
@@ -9,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
+import Description from '../components/utils/Description';
 
 import {SimplePath} from '../ArcPath';
 import {stickman, bike} from './stickmanPath.js';
@@ -40,34 +40,27 @@ function MissionStatement(props) {
   const stickmanScale = width / 550;
   return (
     <div
-      className={`${className} background flex flex-col w-full h-full items-center justify-center relative `}
+      className={`${className} flex flex-col w-full h-full items-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
-      <div
-        className="absolute pin-t pin-l h-64 m-8 flex flex-col"
-        style={{height: '40vh'}}>
-        <h1 className="mb-4">Mission Statement</h1>
-        <div className="speech-bubble flex-grow border-yo border-black p-4 w-full overflow-y-auto">
-          <div
-            className="float-left"
-            style={{
-              fontSize: 100,
-              shapeOutside: 'ellipse(50%)',
-              width: 70,
-              height: 100,
-            }}>
-            ?
-          </div>
-          {text}
+      <h1 className="mb-4">Info</h1>
+      <Description className="pin-t pin-l ml-2 mr-4">
+        <div
+          className="float-left"
+          style={{
+            fontSize: 100,
+            shapeOutside: 'ellipse(50%)',
+            width: 70,
+            height: 100,
+          }}>
+          ?
         </div>
-      </div>
-
+        {text}
+      </Description>
       <svg
+        className="mt-auto flex-grow w-full overflow-visible"
         ref={svgRef}
-        style={{width: '100%', height: '100%'}}
         preserveAspectRatio="xMaxYMin meet">
-        <g
-          transform={`translate(${width / 2},${height / 2 +
-            20}) scale(${stickmanScale})`}>
+        <g transform={`translate(${width / 2},${20}) scale(${stickmanScale})`}>
           <SimplePath
             sketchOpts={sketchOpts}
             svgRef={svgRef}
@@ -76,8 +69,7 @@ function MissionStatement(props) {
           />
         </g>
         <g
-          transform={`translate(${-80 * stickmanScale},${height / 2 +
-            20 +
+          transform={`translate(${-80 * stickmanScale},${20 +
             height / 4}) scale(${stickmanScale})`}>
           <SimplePath
             sketchOpts={{...sketchOpts, fill: 'none'}}

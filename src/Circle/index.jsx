@@ -2,41 +2,19 @@ import React, {useState, useMemo, useEffect} from 'react';
 import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
-import PropTypes from 'prop-types';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
-import posed from 'react-pose';
 import {SketchyArcPath, SimpleArcPath} from '../ArcPath';
+import Description from '../components/utils/Description';
 
 import defaultData from './circleData';
 
-const Delayed = props => {
-  const [render, setRender] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setRender(true);
-    }, 500);
-  }, []);
-
-  return render ? <div {...props} /> : null;
-};
-
-const Extendable = posed.div({
-  hidden: {
-    height: 70,
-    width: 70,
-  },
-  extended: {
-    // y: ({height}) => height / 2,
-    height: '95%',
-    width: '100%',
-  }
-});
+const strokeWidth = i =>
+  i === 7 || i === 6 || i === 4 || i === 2 || i === 0 ? 5 : 0;
 
 const BLACK = '#404040';
 
@@ -45,32 +23,22 @@ const EARTH = defaultData[1];
 const AIR = defaultData[2];
 const WATER = defaultData[3];
 
-// TODO fix transform issues
-const Description = props => {
+const CenterTxt = props => {
   const {style, text, height, preview, className} = props;
-  const [ext, setExt] = useState(false);
 
   return (
-    <Extendable
-      height={height}
-      className={`border-yo bg-white border-2 border-black flex flex-col items-center ${ext &&
-        'p-4'} ${!ext && 'justify-center'} ${className}`}
-      onClick={() => setExt(!ext)}
-      pose={ext ? 'extended' : 'hidden'}
+    <div
+      className={`border-yo bg-white border-2 border-black flex flex-col items-center justify-center px-4 py-1 ${className}`}
       style={{
         ...style,
-        transform: `translate(-50%,${!ext ? '50%' : '30%'})`,
+        transform: `translate(-50%,50%)`,
       }}>
-      {ext ? (
-        <div>{text}</div>
-      ) : (
-        <div
-          className="text-4xl "
-          style={{fontFamily: '"Cabin Sketch"', transitionDelay: '400ms'}}>
-          {preview}
-        </div>
-      )}
-    </Extendable>
+      <div
+        className="text-4xl flex items-center"
+        style={{fontFamily: '"Cabin Sketch"', transitionDelay: '400ms'}}>
+        {preview}
+      </div>
+    </div>
   );
 };
 const setColor = hex =>
@@ -82,7 +50,7 @@ const setColor = hex =>
 
 const initData = defaultData.reduce((acc, d) => [...d.values, ...acc], []);
 
-console.log('defaultData', defaultData);
+// console.log('defaultData', defaultData);
 
 const pie = d3
   .pie()
@@ -118,7 +86,67 @@ const SourceElement = ({
     <div style={{color: !active ? color : 'white'}}>{icon}</div>
   </div>
 );
-function AlchemyCircle(props) {
+
+const Controls = props => {
+  const {setId, id, phone} = props;
+
+  const transformLabel = d => {
+    return {
+      transform: `translateY(${phone ? `${d ? '-' : ''}70%` : '0'})`
+    };
+  };
+
+  return (
+    <>
+      <div
+        className="absolute m-4 "
+        style={{top: 0, left: 0, ...transformLabel(true)}}>
+        <SourceElement
+          {...WATER}
+          className="m-1 "
+          phone={phone}
+          active={id === WATER.id}
+          onClick={() => setId(id !== WATER.id ? WATER.id : null)}
+        />
+      </div>
+      <div
+        className="absolute m-4 "
+        style={{top: 0, right: 0, ...transformLabel(true)}}>
+        <SourceElement
+          {...FIRE}
+          phone={phone}
+          className="m-1 "
+          active={id === FIRE.id}
+          onClick={() => setId(id !== FIRE.id ? FIRE.id : null)}
+        />
+      </div>
+      <div
+        className="absolute m-4 "
+        style={{bottom: 0, right: 0, ...transformLabel(false)}}>
+        <SourceElement
+          {...EARTH}
+          phone={phone}
+          active={id === EARTH.id}
+          className="m-1 "
+          onClick={() => setId(id !== EARTH.id ? EARTH.id : null)}
+        />
+      </div>
+      <div
+        className="absolute m-4 "
+        style={{left: 0, bottom: 0, ...transformLabel(false)}}>
+        <SourceElement
+          phone={phone}
+          active={id === AIR.id}
+          {...AIR}
+          className="m-1 "
+          onClick={() => setId(id !== AIR.id ? AIR.id : null)}
+        />
+      </div>
+    </>
+  );
+};
+
+export default function AlchemyCircle(props) {
   const {className, acitve, phone, width, circleWidth, height, style} = props;
   // const [data, setData] = useState([...initData]);
   const [id, setId] = useState(null);
@@ -127,8 +155,6 @@ function AlchemyCircle(props) {
 
   const radius = Math.min((circleWidth * 2) / 3 + 10, 250);
 
-  console.log('initData', initData);
-  console.log('selectedElement', selectedElement);
   // circleWidth / 2;
   // useEffect(() => {
   //
@@ -142,7 +168,7 @@ function AlchemyCircle(props) {
   });
   const pData = pie(fData);
   const pieData = sortBy(pData, a => -a.startAngle);
-  const svgRef = React.createRef();
+  const svgRef = React.useRef();
   const outerArc = d3
     .arc()
     .outerRadius(radius - 30)
@@ -164,52 +190,8 @@ function AlchemyCircle(props) {
     fill: 'none'
   };
 
-  const sketchOpts = {
-    bowing: 20,
-    roughness: 0.9,
-    strokeWidth: 12,
-    fillWeight: 28,
-    stroke: 'none',
-    fillStyle: 'zigzag'
-  };
-
-  const outsideFillArcs = (opts, stroke = false) =>
-    pieData.map((a, i) => (
-      <SimpleArcPath
-        className="watercolor-effect"
-        key={a.id}
-        svgRef={svgRef}
-        data={a}
-        pathFn={d =>
-          outerArc({
-            ...d,
-            startAngle: d.startAngle,
-            endAngle: d.endAngle,
-          })
-        }
-        defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
-        style={{
-          mixBlendMode: 'multiply',
-          opacity: 0.5,
-          filter: `url(#gooey)`,
-          fill: a.data.fill,
-          // filter: `url(#dilate)`
-          // transform: `translate(${radius}, ${radius})`,
-          // fill: 'none'
-        }}
-        options={{
-          // stroke: 'red',
-          // strokeWidth: 4,
-          // bowing: 3,
-          // stroke: BLACK,
-          ...opts,
-          // fillStyle: 'zigzag',
-        }}
-      />
-    ));
-
-  const outsideArcs = (opts, stroke = false) =>
-    pieData.map((a, i) => (
+  const outsideArcs = opts =>
+    pieData.map(a => (
       <SketchyArcPath
         className="watercolor-effect"
         key={a.id}
@@ -223,23 +205,13 @@ function AlchemyCircle(props) {
           })
         }
         defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
-        key={a.data.outerLabel}
         style={{
           mixBlendMode: 'multiply',
           opacity: 0.5,
-          filter: `url(#gooey)`,
-          // filter: `url(#dilate)`
-          // transform: `translate(${radius}, ${radius})`,
-          // fill: 'none'
         }}
         options={{
-          // stroke: 'red',
-          // strokeWidth: 4,
-          // bowing: 3,
-          // stroke: BLACK,
           fill: a.data.fill,
           ...opts,
-          // fillStyle: 'zigzag',
         }}
       />
     ));
@@ -275,23 +247,15 @@ function AlchemyCircle(props) {
           d => a.data.outerLabel === d.data.outerLabel,
         )}
         options={{
-          // stroke: 'red',
           fillWidth: 10,
           sketch: 30.8,
           bowing: 5,
-          // stroke: BLACK,
-          // fillStyle: 'zigzag',
         }}
         style={{
           mixBlendMode: 'multiply',
           opacity: 0.7,
           fill: a.data.fill,
-          // filter: `url(#dilate)`
-          filter: `url(#gooey)`,
           ...opts
-          // transform: `translate(${radius}, ${radius})`,
-          // stroke: 'black',
-          // fill: data.fill
         }}
       />
     ));
@@ -318,10 +282,7 @@ function AlchemyCircle(props) {
           bowing: 5,
           fill: a.data.fill,
           ...strokeOpts,
-          strokeWidth:
-            i === 7 || i === 6 || i === 4 || i === 2 || i === 0 ? 5 : 0,
-          // ...opts,
-          // fillStyle: 'zigzag',
+          strokeWidth: strokeWidth(i)
         }}
         style={{
           mixBlendMode: 'multiply',
@@ -330,154 +291,60 @@ function AlchemyCircle(props) {
       />
     ));
 
-  const transformLabel = d => {
-    console.log('yeah');
-    const transformX = null;
-    const ph = true;
-    // phone && `translateX(${!d ? -radius / 2 : radius / 2}px)`;
-    return {
-      transform: `translateY(${ph ? `${d ? '-' : ''}70%` : '0'})`
-    };
-  };
   return (
     <div
-      className={`${className} h-full flex relative flex-col background-0`}
-      style={{width, height, fontFamily: "'Cabin Sketch'"}}>
-      <div className="m-8">
-        <h1>Alchemy</h1>
-      </div>
-      <div
-        className="relative flex-grow px-4 mb-10
-        mx-4 border-yo border-grey p-4 overflow-y-auto
-        ">
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua"
-      </div>
-
-      <Description
-        className="absolute z-50"
-        preview={
-          selectedElement ? (
-            <div
-              className="text-white"
-              style={{background: selectedElement.color}}>
-              {selectedElement.icon}
-            </div>
-          ) : (
-            '!!!'
-          )
-        }
-        text={selectedElement ? selectedElement.text : 'YO'}
-        style={{
-          transform: 'translate(-50%,50%)',
-          left: width / 2,
-          bottom: radius,
-        }}
-      />
-      <div className="relative mt-auto ">
-        <div
-          className="absolute m-4 "
-          style={{top: 0, left: 0, ...transformLabel(true)}}>
-          <SourceElement
-            {...WATER}
-            className="m-1 "
-            phone={phone}
-            active={id === WATER.id}
-            onClick={() => setId(id == !WATER.id ? WATER.id : null)}
-          />
+      className={`${className} h-full flex relative flex-col background-0 items-center`}
+      style={{fontFamily: "'Cabin Sketch'"}}>
+      <div style={{width, height}}>
+        <div className="m-8">
+          <h1>Alchemy</h1>
         </div>
-        <div
-          className="absolute m-4 "
-          style={{top: 0, right: 0, ...transformLabel(true)}}>
-          <SourceElement
-            {...FIRE}
-            phone={phone}
-            className="m-1 "
-            active={id === FIRE.id}
-            onClick={() => setId(id !== FIRE.id ? FIRE.id : null)}
-          />
-        </div>
-        <div
-          className="absolute m-4 "
-          style={{bottom: 0, right: 0, ...transformLabel(false)}}>
-          <SourceElement
-            {...EARTH}
-            phone={phone}
-            active={id === EARTH.id}
-            className="m-1 "
-            onClick={() => setId(id !== EARTH.id ? EARTH.id : null)}
-          />
-        </div>
-        <div
-          className="absolute m-4 "
-          style={{left: 0, bottom: 0, ...transformLabel(false)}}>
-          <SourceElement
-            phone={phone}
-            active={id === AIR.id}
-            {...AIR}
-            className="m-1 "
-            onClick={() => setId(id !== AIR.id ? AIR.id : null)}
-          />
-        </div>
-
-        <svg ref={svgRef} width={width} height={radius * 2}>
-          <g
-            id="labelArcs"
-            style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {labelArcs}
-          </g>
-
-          <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {insideArcs(outerArc, {
-              mixBlendMode: 'multiply',
-              opacity: 0.5,
-              filter: `url(#gooey)`,
-            })}
-            {outsideArcs(strokeOpts, false)}
-          </g>
-          <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {insideArcs(innerArc)}
-
-            {strokeInsideArcs()}
-          </g>
-          <g
-            id="labels"
+        <Description {...props}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua
+        </Description>
+        <div className="relative mt-auto ">
+          <CenterTxt
+            className="absolute z-10"
+            preview={
+              selectedElement ? (
+                <div
+                  className="text-white"
+                  style={{background: selectedElement.color}}>
+                  {selectedElement.icon}
+                </div>
+              ) : (
+                '!!!'
+              )
+            }
+            text={selectedElement ? selectedElement.text : 'YO'}
             style={{
-              transform: `translate(${width / 2}px,${radius}px)`
-            }}>
-            {data.map(d => (
-              <text style={{fontSize: 23, color: d.color}}>
-                <textPath fill={d.color} xlinkHref={`#outerArc${d.outerLabel}`}>
-                  {d.outerLabel}
-                </textPath>
-              </text>
-            ))}
-          </g>
-          <defs>
-            <filter id="gooey">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="7"
-                colorInterpolationFilters="sRGB"
-                result="blur"
-              />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -1.6"
-                result="gooey"
-              />
-            </filter>
-            <filter id="dilate">
-              <feMorphology operator="dilate" radius="3" />
-            </filter>
-            <filter id="blur" x="0" y="0">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
-            </filter>
-          </defs>
-        </svg>
+              left: width / 2,
+              bottom: radius,
+            }}
+          />
+          <Controls {...props} id={id} setId={setId} />
+          <svg ref={svgRef} width={width} height={radius * 2}>
+            <g
+              id="labelArcs"
+              style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+              {labelArcs}
+            </g>
+            <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+              {insideArcs(outerArc, {
+                mixBlendMode: 'multiply',
+                opacity: 0.5,
+                // filter: `url(#gooey)`,
+              })}
+              {outsideArcs(strokeOpts, false)}
+            </g>
+            <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+              {insideArcs(innerArc)}
+              {strokeInsideArcs()}
+            </g>
+          </svg>
+        </div>
       </div>
     </div>
   );
 }
-export default AlchemyCircle;

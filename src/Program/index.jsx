@@ -1,6 +1,7 @@
 import React, {useState, useMemo, useEffect} from 'react';
+import {nest} from 'd3-array';
+import {timeParse, timeFormat} from 'd3-time-format';
 
-import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import PropTypes from 'prop-types';
@@ -15,7 +16,9 @@ import {FIRE, WATER, EARTH, AIR, icons} from '../alchemyElements';
 
 import {SimplePath} from '../ArcPath';
 
-import events from './events';
+import calendar from './events';
+
+const events = calendar[0].items;
 
 const eventTypes = [FIRE, WATER, EARTH, AIR];
 
@@ -79,7 +82,17 @@ export default function Program(props) {
   const {className, width, circleWidth, height, style} = props;
   const svgRef = React.useRef();
 
-  const [set, setFilterSet] = useState([]);
+  console.log('events', calendar);
+  // "2019-04-29T13:26:33.853Z"
+  const format = '%Y-%m-%dT%H:%M:%S%Z';
+  const formatWeek = timeFormat(format);
+
+  const parsedEvents = events.map(d => ({
+    ...d,
+    startDate: timeParse(format)(d.start.dateTime)
+  }));
+
+  console.log('parsedEvents', parsedEvents);
 
   return (
     <div
@@ -88,14 +101,14 @@ export default function Program(props) {
       <h1 className="m-8">Program</h1>
       <ul className="mx-8 mb-4 overflow-y-auto list-reset w-full">
         <PoseGroup>
-          {events.map(d => (
+          {events.map((d, i) => (
             <Item
-              key={d.id}
-              className={` flex justify-between m-1 p-2
+              key={i}
+              className={`flex justify-between m-1 p-2
                  ${textColor[d.type]}
 `}>
-              <div>{d.title}</div>
-              <div>{d.date}</div>
+              <div>{d.summary}</div>
+              <div>{}</div>
             </Item>
           ))}
         </PoseGroup>
@@ -121,13 +134,6 @@ export default function Program(props) {
           }}
         />
       </svg>
-      <div className="mx-4 flex-grow flex-no-shrink flex flex-wrap">
-        {eventTypes.map(d => (
-          <div className="text-3xl flex items-center justify-center mb-1">
-            <div onClick={() => setFilterSet()}>{d}</div> <div>{icons[d]}</div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

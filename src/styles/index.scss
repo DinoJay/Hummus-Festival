@@ -1,6 +1,17 @@
 .speech-bubble {
   // position: 'relative'
 }
+
+.triangle-left {
+  width: 0;
+  height: 0;
+
+  border-top: 70px solid transparent;
+  // border-bottom: 60px solid transparent;
+  border-left-width: 70px;
+  border-left-style: solid;
+}
+
 body {
   scroll-snap-type: y proximity;
   /* Reserve space for header plus some extra space for sneak peeking. */
@@ -13,25 +24,6 @@ section {
 }
 
 
-.speech-bubble:after {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 60%;
-	width: 0;
-	height: 0;
-	border: 40px solid transparent;
-	border-top-color: #404040;
-	border-bottom: 0;
-	border-right: 0;
-	margin-left: -20px;
-	margin-bottom: -40px;
-
-    // border-bottom-left-radius: 25px 115px;
-    // border-bottom-right-radius: 155px 25px;
-    // border-top-left-radius: 15px 225px;
-    // border-top-right-radius: 25px 150px;
-}
 
 
 
@@ -49,8 +41,6 @@ section {
   background: rgba(255, 215, 0, .15);
 }
 
-
-
 .border-yo {
     // border-color: black;
     border-width: 3px;
@@ -61,8 +51,39 @@ section {
 }
 
 h1 {
-font-family: 'Cabin Sketch';
-color: config('colors.black')
+  font-family: 'Cabin Sketch';
+  color: config('colors.black')
+}
+
+.box-shadow-black {
+  box-shadow: 5px 10px config('colors.black');
+}
+
+.box-shadow-grey {
+  box-shadow: 5px 7px config('colors.grey');
+}
+
+.speech-bubble {
+  @apply .box-shadow-black .p-4 .border-yo .border-black .relative;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 60%;
+	width: 0;
+	height: 0;
+	border: 40px solid transparent;
+	border-top-color: #404040;
+	border-bottom: 0;
+	border-right: 0;
+	margin-left: -20px;
+	margin-bottom: -40px;
+}
+
+.page {
+  @apply .overflow-hidden .h-screen .w-screen;
 }
 
 
