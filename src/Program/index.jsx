@@ -137,7 +137,7 @@ export default function Program(props) {
 
   // groupedEvents[4].col = 2;
   // groupedEvents[4].row = 2;
-  // console.log('groupedEvents', groupedEvents);
+  console.log('groupedEvents', groupedEvents);
 
   return (
     <div
@@ -164,8 +164,13 @@ export default function Program(props) {
                 gridColumnStart: 1,
                 gridRowStart: 1,
                 gridRowEnd: 4
-              }}
-            />
+              }}>
+              <div className="overflow-y-auto h-full">
+                {eventWeek.values.map((d, i) => (
+                  <div className="border-b-2 mb-2">{d.summary}</div>
+                ))}
+              </div>
+            </Div>
           ) : (
             groupedEvents.slice(0, 4).map((d, i) => (
               <Div
