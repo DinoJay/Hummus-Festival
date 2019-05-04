@@ -49,7 +49,7 @@ function App() {
       {size && (
         <>
           <section className="page background-0 flex justify-center overflow-hidden">
-            <Landing {...size} className="overflow-hidden" />
+            <Landing {...size} className="overflow-hidden flex flex-col justify-center" />
           </section>
           <section className="page background flex justify-center">
             <MissionStatement {...size} className="flex justify-center" />

@@ -83,7 +83,7 @@ export default function Landing(props) {
 
   const stickmanScale = width / 250;
 
-  const offset = 0;
+  const offset = 30;
   return (
     <div className={className} style={{width}}>
       <svg ref={svgRef} width={width} height={width + offset}>

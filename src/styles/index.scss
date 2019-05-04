@@ -50,6 +50,39 @@ section {
     border-top-right-radius: 25px 150px;
 }
 
+.border-yo-0 {
+  border-width: 3px;
+  border-bottom-left-radius: 211px 72px;
+  border-bottom-right-radius: 242px 218px;
+  border-top-left-radius: 30px 53px;
+  border-top-right-radius: 241px 202px;
+}
+
+.border-yo-1 {
+  border-width: 3px;
+  border-bottom-left-radius: 211px 72px;
+  border-bottom-right-radius: 74px 218px;
+  border-top-left-radius: 30px 53px;
+  border-top-right-radius: 241px 70px
+}
+
+.border-yo-2 {
+    border-width: 3px;
+    border-bottom-left-radius: 211px 72px;
+    border-bottom-right-radius: 196px 218px;
+    border-top-left-radius: 145px 29px;
+    border-top-right-radius: 169px 89px;
+}
+
+.border-yo-3 {
+    border-width: 3px;
+    border-bottom-left-radius: 166px 72px;
+    border-bottom-right-radius: 142px 100px;
+    border-top-left-radius: 30px 53px;
+    border-top-right-radius: 241px 202px;
+}
+
+
 h1 {
   font-family: 'Cabin Sketch';
   color: config('colors.black')
@@ -64,7 +97,7 @@ h1 {
 }
 
 .speech-bubble {
-  @apply .box-shadow-black .p-4 .border-yo .border-black .relative;
+  @apply .bg-white .box-shadow-black .p-4 .border-yo .border-black .relative;
 }
 
 .speech-bubble:after {

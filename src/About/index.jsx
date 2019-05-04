@@ -83,11 +83,11 @@ export default function Program(props) {
       className={`${className} flex w-full flex-col h-full items-center justify-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="m-8">About</h1>
-      <Segment>
+      <Segment className="bg-white">
         <svg
           preserveAspectRatio="xMidYMid none"
           height={140}
-          width={220}
+          width={320}
           ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
@@ -97,7 +97,7 @@ export default function Program(props) {
           />
         </svg>
         <svg
-          style={{transform: 'translateX(-50px)'}}
+          style={{transform: 'translateX(-150px)'}}
           className="mt-auto"
           preserveAspectRatio="xMidYMid none"
           height={100}
