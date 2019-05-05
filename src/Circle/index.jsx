@@ -90,15 +90,15 @@ const SourceElement = ({
 const Controls = props => {
   const {setId, id, phone} = props;
 
-  const transformLabel = d => ({
-    transform: `translateY(${phone ? `${d ? '-' : ''}70%` : '0'})`
+  const transformLabel = bool => ({
+    transform: `translateY(${bool ? `-20%` : '-50%'})`
   });
 
   return (
     <>
       <div
         className="absolute m-4 "
-        style={{top: 0, left: 0, ...transformLabel(true)}}>
+        style={{top: 0, left: 0, ...transformLabel(false)}}>
         <SourceElement
           {...WATER}
           className="m-1 "
@@ -109,29 +109,29 @@ const Controls = props => {
       </div>
       <div
         className="absolute m-4 "
-        style={{top: 0, right: 0, ...transformLabel(true)}}>
+        style={{top: 0, right: 0, ...transformLabel(false)}}>
         <SourceElement
           {...FIRE}
           phone={phone}
-          className="m-1 "
+          className="m-1"
           active={id === FIRE.id}
           onClick={() => setId(id !== FIRE.id ? FIRE.id : null)}
         />
       </div>
       <div
-        className="absolute mb-8"
-        style={{bottom: 0, right: 0, ...transformLabel(false)}}>
+        className="absolute"
+        style={{bottom: 0, right: 0, ...transformLabel(true)}}>
         <SourceElement
           {...EARTH}
           phone={phone}
           active={id === EARTH.id}
-          className="m-1 "
+          className="m-1"
           onClick={() => setId(id !== EARTH.id ? EARTH.id : null)}
         />
       </div>
       <div
-        className="absolute mb-8 "
-        style={{left: 0, bottom: 0, ...transformLabel(false)}}>
+        className="absolute "
+        style={{left: 0, bottom: 0, ...transformLabel(true)}}>
         <SourceElement
           phone={phone}
           active={id === AIR.id}
@@ -151,7 +151,7 @@ export default function AlchemyCircle(props) {
   const data = initData;
   const selectedElement = defaultData.find(d => d.id === id);
 
-  const radius = Math.min((circleWidth * 2) / 3, 230);
+  const radius = Math.min((circleWidth * 2) / 3, 200);
 
   // circleWidth / 2;
   // useEffect(() => {
@@ -299,7 +299,6 @@ export default function AlchemyCircle(props) {
         </div>
         <Description {...props}>
           {selectedElement && selectedElement.text}
-
         </Description>
         <div className="relative mt-auto ">
           <CenterTxt

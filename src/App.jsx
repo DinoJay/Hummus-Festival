@@ -35,7 +35,7 @@ function App() {
     };
 
     resize();
-    window.addEventListener('resize', resize);
+    // window.addEventListener('resize', resize);
 
     return () => window.removeEventListener('resize', resize);
   }, []);
@@ -45,10 +45,12 @@ function App() {
     <div
       ref={ref}
       className="flex flex-col justify-center items-center"
-      style={{
-        // scrollSnapPointsY: 'repeat(100vh)',
-        // scrollSnapType: 'y mandatory',
-      }}>
+      style={
+        {
+          // scrollSnapPointsY: 'repeat(100vh)',
+          // scrollSnapType: 'y mandatory',
+        }
+      }>
       {size && (
         <>
           <section
