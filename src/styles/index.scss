@@ -83,9 +83,20 @@ section {
 }
 
 
-h1 {
+.myFont {
   font-family: 'Cabin Sketch';
-  color: config('colors.black')
+  color: config('colors.black');
+}
+
+
+h1 {
+  @apply .myFont;
+
+}
+
+
+h2 {
+  @apply .myFont .mb-2;
 }
 
 .box-shadow-black {

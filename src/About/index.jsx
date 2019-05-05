@@ -75,19 +75,19 @@ const Segment = props => {
 };
 
 export default function Program(props) {
-  const {className, width, circleWidth, height, style} = props;
+  const {className, phone, width, circleWidth, height, style} = props;
   const svgRef = React.useRef();
 
   return (
     <div
-      className={`${className} flex w-full flex-col h-full items-center justify-center relative`}
-      style={{fontFamily: "'Cabin Sketch'", width}}>
+      className={`${className} myFont flex w-full flex-col h-full items-center justify-center relative`}
+      style={{width}}>
       <h1 className="m-8">About</h1>
       <Segment className="bg-white">
         <svg
           preserveAspectRatio="xMidYMid none"
           height={140}
-          width={320}
+          width={!phone ? '15rem' : '20rem'}
           ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
@@ -97,7 +97,7 @@ export default function Program(props) {
           />
         </svg>
         <svg
-          style={{transform: 'translateX(-150px)'}}
+          style={{transform: 'translateX(-3rem)'}}
           className="mt-auto"
           preserveAspectRatio="xMidYMid none"
           height={100}
@@ -107,7 +107,7 @@ export default function Program(props) {
             sketchOpts={sketchOpts}
             svgRef={svgRef}
             d={apeLogo}
-            style={{transform: 'translate(-200) scale(1)'}}
+            style={{transform: 'translate(-220) scale(1)'}}
           />
         </svg>
       </Segment>

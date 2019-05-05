@@ -19,8 +19,10 @@ function App() {
   const maxHeight = 2000;
   useEffect(() => {
     const resize = () => {
-      const width = Math.min(window.innerWidth, maxWidth);
-      const height = Math.min(window.innerHeight, maxHeight);
+      const w = Math.min(window.innerWidth, maxWidth);
+      const h = Math.min(window.innerHeight, maxHeight);
+      const height = Math.max(w, h);
+      const width = Math.min(w, h);
 
       const circleWidth = width - width / 3.3;
 
@@ -38,6 +40,7 @@ function App() {
     return () => window.removeEventListener('resize', resize);
   }, []);
 
+  const {height = null} = size || {};
   return (
     <div
       ref={ref}
@@ -48,19 +51,33 @@ function App() {
       }}>
       {size && (
         <>
-          <section className="page background-0 flex justify-center overflow-hidden">
-            <Landing {...size} className="overflow-hidden flex flex-col justify-center" />
+          <section
+            className="page background-0 flex justify-center overflow-hidden"
+            style={{height}}>
+            <Landing
+              {...size}
+              className="overflow-hidden flex flex-col justify-center"
+            />
           </section>
-          <section className="page background flex justify-center">
+          <section
+            style={{height}}
+            className="page background flex justify-center">
             <MissionStatement {...size} className="flex justify-center" />
           </section>
-          <section className="page ">
+          <section
+            style={{height}}
+            className="page "
+            style={{overflow: 'visible'}}>
             <Circle {...size} className="p-2" />
           </section>
-          <section className="page background-full flex justify-center">
+          <section
+            className="page background-full flex justify-center"
+            style={{overflow: 'visible', height}}>
             <Program {...size} className="flex justify-center" />
           </section>
-          <section className="page flex background justify-center">
+          <section
+            style={{height}}
+            className="page flex background justify-center">
             <About {...size} className="flex justify-center" />
           </section>
         </>

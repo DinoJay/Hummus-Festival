@@ -121,7 +121,7 @@ const Controls = props => {
         />
       </div>
       <div
-        className="absolute m-4 "
+        className="absolute mb-8"
         style={{bottom: 0, right: 0, ...transformLabel(false)}}>
         <SourceElement
           {...EARTH}
@@ -132,7 +132,7 @@ const Controls = props => {
         />
       </div>
       <div
-        className="absolute m-4 "
+        className="absolute mb-8 "
         style={{left: 0, bottom: 0, ...transformLabel(false)}}>
         <SourceElement
           phone={phone}
