@@ -46,8 +46,8 @@ function App() {
       ref={ref}
       className="flex flex-col justify-center items-center"
       style={{
-        scrollSnapPointsY: 'repeat(100vh)',
-        scrollSnapType: 'y mandatory',
+        // scrollSnapPointsY: 'repeat(100vh)',
+        // scrollSnapType: 'y mandatory',
       }}>
       {size && (
         <>
