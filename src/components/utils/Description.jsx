@@ -5,13 +5,13 @@ import React, {useState, useMemo, useEffect} from 'react';
 
 const Extendable = posed.div({
   closed: {
-    height: 'auto',
+    height: ({height = '8rem'}) => height
     // height: 70
     // width: 70
   },
   open: {
     // y: ({height}) => height / 2,
-    height: '75vh'
+    height: 'auto'
     // width: '100%'
   }
 });
@@ -29,18 +29,18 @@ export default function Description(props) {
           }
         }>
         <Extendable
+          onClick={() => setExtended(!extended)}
           className="flex flex-col overflow-hidden h-32"
           pose={extended ? 'open' : 'closed'}>
           <div
             className="flex-shrink overflow-hidden"
-            style={{maxHeight: !extended && '10rem'}}>
+            style={{maxHeight: !extended && '6rem'}}>
             {children}
           </div>
           <button
-            className="flex-no-shrink mt-auto m-1"
-            type="button"
-            onClick={() => setExtended(!extended)}>
-            <Sunset />
+            className="flex-no-shrink mt-auto m-1 border-t-2 "
+            type="button">
+            More...
           </button>
         </Extendable>
       </div>

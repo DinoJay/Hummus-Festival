@@ -298,8 +298,8 @@ export default function AlchemyCircle(props) {
           <h1>Alchemy</h1>
         </div>
         <Description {...props}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua
+          {selectedElement && selectedElement.text}
+
         </Description>
         <div className="relative mt-auto ">
           <CenterTxt

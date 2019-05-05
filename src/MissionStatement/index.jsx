@@ -46,7 +46,7 @@ function MissionStatement(props) {
       className={`${className} flex flex-col w-full h-full items-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="mb-4">Info</h1>
-      <Description className="pin-t pin-l ml-2 mr-4">
+      <Description height="10rem" className="pin-t pin-l ml-2 mr-4">
         <div
           className="float-left"
           style={{
