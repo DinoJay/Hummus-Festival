@@ -90,11 +90,9 @@ const SourceElement = ({
 const Controls = props => {
   const {setId, id, phone} = props;
 
-  const transformLabel = d => {
-    return {
-      transform: `translateY(${phone ? `${d ? '-' : ''}70%` : '0'})`
-    };
-  };
+  const transformLabel = d => ({
+    transform: `translateY(${phone ? `${d ? '-' : ''}70%` : '0'})`
+  });
 
   return (
     <>
@@ -153,7 +151,7 @@ export default function AlchemyCircle(props) {
   const data = initData;
   const selectedElement = defaultData.find(d => d.id === id);
 
-  const radius = Math.min((circleWidth * 2) / 3 + 10, 250);
+  const radius = Math.min((circleWidth * 2) / 3, 230);
 
   // circleWidth / 2;
   // useEffect(() => {

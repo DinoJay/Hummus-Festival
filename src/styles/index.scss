@@ -128,6 +128,7 @@ h2 {
 
 .page {
   @apply .overflow-hidden .h-screen .w-screen;
+  scroll-snap-align: start;
 }
 
 
