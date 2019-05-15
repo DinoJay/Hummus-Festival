@@ -5,12 +5,12 @@ import {timeWeek} from 'd3-time';
 
 import chroma from 'chroma-js';
 
-import PropTypes from 'prop-types';
-import uniqBy from 'lodash/uniqBy';
-import isEqual from 'lodash/isEqual';
-import cloneDeep from 'lodash/cloneDeep';
-import sortBy from 'lodash/sortBy';
-import {styler, tween, easing} from 'popmotion';
+// import PropTypes from 'prop-types';
+// import uniqBy from 'lodash/uniqBy';
+// import isEqual from 'lodash/isEqual';
+// import cloneDeep from 'lodash/cloneDeep';
+// import sortBy from 'lodash/sortBy';
+// import {styler, tween, easing} from 'popmotion';
 
 import posed, {PoseGroup} from 'react-pose';
 import {FIRE, WATER, EARTH, AIR, icons} from '../alchemyElements';
@@ -40,7 +40,6 @@ const Div = posed.div({
   enter: {
     width: '100%',
     height: '100%',
-
     staggerChildren: '100%',
   },
   exit: {
@@ -86,13 +85,6 @@ const sketchOpts = {
   stroke: BLACK,
   fillStyle: 'zigzag'
 };
-
-console.log(
-  'gold',
-  chroma('gold')
-    .alpha(0.14)
-    .css(),
-);
 
 const text =
   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
@@ -150,15 +142,15 @@ export default function Program(props) {
     <div
       className={`${className} flex flex-col w-full h-full items-center justify-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
-      <h1 className="m-8">Program</h1>
+      <h1 className="">Program</h1>
       <div
-        className="flex-grow m-auto mx-4 mb-4 "
+        className="flex-grow m-auto mx-4 mb-4"
         style={{
           display: 'grid',
           maxWidth: '27rem',
           gridTemplateColumns: eventWeek
             ? '1fr 1fr'
-            : 'minmax(10rem, 1fr) minmax(10rem, 1fr)',
+            : 'minmax(8rem, 1fr) minmax(8rem, 1fr)',
           gridTemplateRows: '9rem 9rem 9rem',
           // padding: 10
         }}>
@@ -193,19 +185,17 @@ export default function Program(props) {
                 key={d.key}
                 onClick={() => setEventWeek(d)}
                 style={{
-                  // width: '10rem',
-                  // backgroundColor: '#2196F3',
-                  // opacity: 0.3,
                   gridColumnStart: d.col,
                   gridRowStart: d.row,
-                  // gridColumnEnd: 3
                 }}>
                 <div
-                  className="flex justify-between h-32 border-yo-1 bg-white border-black m-1 p-2 whitespace-no-wrap "
+                  className="flex relative h-32 border-yo-1 bg-white border-black m-1 p-2 whitespace-no-wrap text-2xl"
                   style={{width: '10rem'}}>
-                  <div className="text-lg">{d.startWeekStr}</div>
+                  <div className="absolute m-2 pin-t pin-l">
+                    {d.startWeekStr}
+                  </div>
                   <div className="m-auto myFont text-4xl">↘</div>
-                  <div className="text-lg ml-auto mt-auto mr-4">
+                  <div className="absolute pin-r pin-b mr-6 mb-2">
                     {d.endWeekStr}
                   </div>
                 </div>

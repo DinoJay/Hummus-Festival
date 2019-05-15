@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import * as d3 from 'd3';
 
-import scrollSnapPolyfill from 'css-scroll-snap-polyfill';
+// import scrollSnapPolyfill from 'css-scroll-snap-polyfill';
 
 import {hot} from 'react-hot-loader';
 
@@ -35,7 +34,7 @@ function App() {
     };
 
     resize();
-    // window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize);
 
     return () => window.removeEventListener('resize', resize);
   }, []);
@@ -54,7 +53,7 @@ function App() {
       {size && (
         <>
           <section
-            className="page background-0 flex justify-center overflow-hidden"
+            className="page border-2 background-0 flex justify-center overflow-hidden"
             style={{height}}>
             <Landing
               {...size}
@@ -63,23 +62,22 @@ function App() {
           </section>
           <section
             style={{height}}
-            className="page background flex justify-center">
-            <MissionStatement {...size} className="flex justify-center" />
+            className="page background flex justify-center border-2  ">
+            <MissionStatement {...size} className="flex " />
           </section>
           <section
             style={{height}}
-            className="page "
-            style={{overflow: 'visible'}}>
+            className="page flex justify-center background-0  ">
             <Circle {...size} className="p-2" />
           </section>
           <section
-            className="page background-full flex justify-center"
+            className="page background-full flex justify-center border-2"
             style={{overflow: 'visible', height}}>
             <Program {...size} className="flex justify-center" />
           </section>
           <section
             style={{height}}
-            className="page flex background justify-center">
+            className="page flex background justify-center border-2 ">
             <About {...size} className="flex justify-center" />
           </section>
         </>

@@ -83,11 +83,11 @@ export default function Program(props) {
       className={`${className} myFont flex w-full flex-col h-full items-center justify-center relative`}
       style={{width}}>
       <h1 className="m-8">About</h1>
-      <Segment className="bg-white">
+      <Segment id="ape" className="bg-white">
         <svg
           preserveAspectRatio="xMidYMid none"
+          width="17rem"
           height={140}
-          width={!phone ? '15rem' : '20rem'}
           ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
@@ -95,19 +95,11 @@ export default function Program(props) {
             d={apeOrgaPath}
             style={{transform: 'scale(2)'}}
           />
-        </svg>
-        <svg
-          style={{transform: 'translateX(-3rem)'}}
-          className="mt-auto"
-          preserveAspectRatio="xMidYMid none"
-          height={100}
-          width={100}
-          ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
             svgRef={svgRef}
             d={apeLogo}
-            style={{transform: 'translate(-220) scale(1)'}}
+            style={{transform: 'translate(10rem, 2.5rem) scale(1)'}}
           />
         </svg>
       </Segment>

@@ -20,9 +20,9 @@ export default function Description(props) {
   const {children, className} = props;
   const [extended, setExtended] = useState(false);
   return (
-    <div className={`${className} z-20`}>
+    <div className={`${className} flex flex-col z-20`}>
       <div
-        className="flex-grow flex flex-col px-4 mb-10 speech-bubble bg-white"
+        className="flex-grow flex flex-col px-4 mb-2 speech-bubble bg-white"
         style={
           {
             // boxShadow: '5px 7px'
@@ -30,11 +30,11 @@ export default function Description(props) {
         }>
         <Extendable
           onClick={() => setExtended(!extended)}
-          className="flex flex-col overflow-hidden h-32"
+          className="flex flex-grow flex-col overflow-hidden h-32"
           pose={extended ? 'open' : 'closed'}>
           <div
             className="flex-shrink overflow-hidden"
-            style={{maxHeight: !extended && '6rem'}}>
+          >
             {children}
           </div>
           <button

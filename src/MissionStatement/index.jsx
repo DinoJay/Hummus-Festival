@@ -37,18 +37,19 @@ const text =
   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
 
 function MissionStatement(props) {
-  const {className, width, circleWidth, height, style} = props;
+  const {className, width, circleWidth, phone, height, style} = props;
   const svgRef = React.useRef();
 
   const stickmanScale = width / 550;
+
   return (
     <div
       className={`${className} flex flex-col w-full h-full items-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="mb-4">Info</h1>
-      <Description height="10rem" className="pin-t pin-l ml-2 mr-4">
+      <Description height="10rem" className="flex-grow ml-2 mr-4 mb-6">
         <div
-          className="float-left"
+          className="big-letter"
           style={{
             fontSize: 100,
             shapeOutside: 'ellipse(50%)',
@@ -60,9 +61,9 @@ function MissionStatement(props) {
         {text}
       </Description>
       <svg
-        className="mt-auto flex-grow w-full overflow-visible"
-        ref={svgRef}
-        preserveAspectRatio="xMaxYMin meet">
+        className="mt-auto  w-full overflow-visible"
+        style={{height: height / (phone ? 2.3 : 2)}}
+        ref={svgRef}>
         <g transform={`translate(${width / 2},${20}) scale(${stickmanScale})`}>
           <SimplePath
             times={1000}
@@ -75,7 +76,7 @@ function MissionStatement(props) {
         </g>
         <g
           transform={`translate(${40 + -40 * stickmanScale},${height /
-            12}) scale(${stickmanScale})`}>
+            19}) scale(${stickmanScale})`}>
           <SimplePath
             times={1000}
             interval={500}

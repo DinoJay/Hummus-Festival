@@ -90,26 +90,24 @@ const SourceElement = ({
 const Controls = props => {
   const {setId, id, phone} = props;
 
-  const transformLabel = bool => ({
-    transform: `translateY(${bool ? `-20%` : '-50%'})`
+  const transformLabel = i => ({
+    transform: `translate(0, ${i < 2 ? `-20%` : '0%'}) rotate(${
+      i % 2 ? '30deg' : '-30deg'
+    })`
   });
 
   return (
     <>
-      <div
-        className="absolute m-4 "
-        style={{top: 0, left: 0, ...transformLabel(false)}}>
+      <div className="absolute " style={{top: 0, left: 0}}>
         <SourceElement
           {...WATER}
-          className="m-1 "
+          className="m-1 water-label"
           phone={phone}
           active={id === WATER.id}
           onClick={() => setId(id !== WATER.id ? WATER.id : null)}
         />
       </div>
-      <div
-        className="absolute m-4 "
-        style={{top: 0, right: 0, ...transformLabel(false)}}>
+      <div className="absolute fire-label" style={{top: 0, right: 0}}>
         <SourceElement
           {...FIRE}
           phone={phone}
@@ -118,9 +116,7 @@ const Controls = props => {
           onClick={() => setId(id !== FIRE.id ? FIRE.id : null)}
         />
       </div>
-      <div
-        className="absolute"
-        style={{bottom: 0, right: 0, ...transformLabel(true)}}>
+      <div className="absolute earth-label" style={{bottom: 0, right: 0}}>
         <SourceElement
           {...EARTH}
           phone={phone}
@@ -129,9 +125,7 @@ const Controls = props => {
           onClick={() => setId(id !== EARTH.id ? EARTH.id : null)}
         />
       </div>
-      <div
-        className="absolute "
-        style={{left: 0, bottom: 0, ...transformLabel(true)}}>
+      <div className="absolute air-label" style={{left: 0, bottom: 0}}>
         <SourceElement
           phone={phone}
           active={id === AIR.id}
@@ -153,11 +147,6 @@ export default function AlchemyCircle(props) {
 
   const radius = Math.min((circleWidth * 2) / 3, 200);
 
-  // circleWidth / 2;
-  // useEffect(() => {
-  //
-  //   setPieData();
-  // }, []);
   const MIN_ANGLE = 0.0385;
   const fData = data.map(d => {
     if (id === null) return d;
@@ -171,10 +160,12 @@ export default function AlchemyCircle(props) {
     .arc()
     .outerRadius(radius - 30)
     .innerRadius(radius / 1.7);
+
   const innerArc = d3
     .arc()
     .outerRadius(radius / 1.7)
     .innerRadius(0);
+
   const labelArc = d3
     .arc()
     .innerRadius(radius - 30)
@@ -191,7 +182,6 @@ export default function AlchemyCircle(props) {
   const outsideArcs = opts =>
     pieData.map(a => (
       <SketchyArcPath
-        className="watercolor-effect"
         key={a.id}
         svgRef={svgRef}
         data={a}
@@ -291,56 +281,52 @@ export default function AlchemyCircle(props) {
 
   return (
     <div
-      className={`${className} h-full flex relative flex-col background-0 items-center`}
-      style={{fontFamily: "'Cabin Sketch'"}}>
-      <div style={{width, height}}>
-        <div className="m-8">
-          <h1>Alchemy</h1>
-        </div>
-        <Description {...props}>
-          {selectedElement && selectedElement.text}
-        </Description>
-        <div className="relative mt-auto ">
-          <CenterTxt
-            className="absolute z-10"
-            preview={
-              selectedElement ? (
-                <div
-                  className="text-white"
-                  style={{background: selectedElement.color}}>
-                  {selectedElement.icon}
-                </div>
-              ) : (
-                '!!!'
-              )
-            }
-            text={selectedElement ? selectedElement.text : 'YO'}
-            style={{
-              left: width / 2,
-              bottom: radius,
-            }}
-          />
-          <Controls {...props} id={id} setId={setId} />
-          <svg ref={svgRef} width={width} height={radius * 2}>
-            <g
-              id="labelArcs"
-              style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-              {labelArcs}
-            </g>
-            <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-              {insideArcs(outerArc, {
-                mixBlendMode: 'multiply',
-                opacity: 0.5,
-                // filter: `url(#gooey)`,
-              })}
-              {outsideArcs(strokeOpts, false)}
-            </g>
-            <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-              {insideArcs(innerArc)}
-              {strokeInsideArcs()}
-            </g>
-          </svg>
-        </div>
+      className={`${className} h-full flex relative flex-col items-center justify-center`}
+      style={{fontFamily: "'Cabin Sketch'", height, width}}>
+      <h1>Alchemy</h1>
+      <Description {...props} className="flex-grow w-full mb-3">
+        {selectedElement && selectedElement.text}
+      </Description>
+      <div className="relative mt-auto ">
+        <CenterTxt
+          className="absolute z-10"
+          preview={
+            selectedElement ? (
+              <div
+                className="text-white"
+                style={{background: selectedElement.color}}>
+                {selectedElement.icon}
+              </div>
+            ) : (
+              '!!!'
+            )
+          }
+          text={selectedElement ? selectedElement.text : 'YO'}
+          style={{
+            left: width / 2,
+            bottom: radius,
+          }}
+        />
+        <Controls {...props} id={id} setId={setId} />
+        <svg ref={svgRef} width={width} height={radius * 2}>
+          <g
+            id="labelArcs"
+            style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+            {labelArcs}
+          </g>
+          <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+            {insideArcs(outerArc, {
+              mixBlendMode: 'multiply',
+              opacity: 0.5,
+              // filter: `url(#gooey)`,
+            })}
+            {outsideArcs(strokeOpts, false)}
+          </g>
+          <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+            {insideArcs(innerArc)}
+            {strokeInsideArcs()}
+          </g>
+        </svg>
       </div>
     </div>
   );
