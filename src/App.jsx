@@ -34,7 +34,7 @@ function App() {
     };
 
     resize();
-    window.addEventListener('resize', resize);
+    // window.addEventListener('resize', resize);
 
     return () => window.removeEventListener('resize', resize);
   }, []);
