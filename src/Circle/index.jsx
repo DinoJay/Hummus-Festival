@@ -41,6 +41,7 @@ const CenterTxt = props => {
     </div>
   );
 };
+
 const setColor = hex =>
   chroma(hex)
     .saturate(2)
@@ -145,7 +146,7 @@ export default function AlchemyCircle(props) {
   const data = initData;
   const selectedElement = defaultData.find(d => d.id === id);
 
-  const radius = Math.min((circleWidth * 2) / 3, 200);
+  const radius = Math.min((circleWidth * 2) / 3, 280);
 
   const MIN_ANGLE = 0.0385;
   const fData = data.map(d => {
@@ -284,7 +285,7 @@ export default function AlchemyCircle(props) {
       className={`${className} h-full flex relative flex-col items-center justify-center`}
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
       <h1>Alchemy</h1>
-      <Description {...props} className="flex-grow w-full mb-3">
+      <Description {...props} className="w-full mb-3 flex-1">
         {selectedElement && selectedElement.text}
       </Description>
       <div className="relative mt-auto ">

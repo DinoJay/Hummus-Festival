@@ -171,13 +171,15 @@ h2 {
   }
 }
 
-// .big-letter {
-//     @apply .float-left;
-//     font-size: 100;
-//     shape-outside: ellipse(50%);
-//     width: 70;
-//     height: 100;
-// }
+  // black: '#404040',
+
+.big-letter {
+    @apply .float-left;
+    font-size: 100;
+    shape-outside: ellipse(50%);
+    width: 70;
+    height: 100;
+}
 
 
 // @media only screen and (max-width: 320px) {

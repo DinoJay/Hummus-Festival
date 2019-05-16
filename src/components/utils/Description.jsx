@@ -32,9 +32,7 @@ export default function Description(props) {
           onClick={() => setExtended(!extended)}
           className="flex flex-grow flex-col overflow-hidden h-32"
           pose={extended ? 'open' : 'closed'}>
-          <div
-            className="flex-shrink overflow-hidden"
-          >
+          <div className="flex-shrink overflow-hidden md:text-2xl">
             {children}
           </div>
           <button

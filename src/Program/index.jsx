@@ -144,7 +144,7 @@ export default function Program(props) {
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="">Program</h1>
       <div
-        className="flex-grow m-auto mx-4 mb-4"
+        className=""
         style={{
           display: 'grid',
           maxWidth: '27rem',
