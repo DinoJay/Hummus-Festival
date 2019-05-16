@@ -42,7 +42,19 @@ section {
   background: rgba(255, 215, 0, .15);
 }
 
+.border-circle {
+
+    // border-color: black;
+    border-width: 3px;
+    border-bottom-left-radius: 50% 48%;
+    border-bottom-right-radius: 50% 48%;
+    border-top-left-radius: 50% 44%;
+    border-top-right-radius: 50% 48%;
+}
+
+
 .border-yo {
+
     // border-color: black;
     border-width: 3px;
     border-bottom-left-radius: 25px 115px;

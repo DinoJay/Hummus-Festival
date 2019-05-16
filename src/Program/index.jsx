@@ -189,7 +189,7 @@ export default function Program(props) {
                   gridRowStart: d.row,
                 }}>
                 <div
-                  className="flex relative h-32 border-yo-1 bg-white border-black m-1 p-2 whitespace-no-wrap text-2xl"
+                  className="flex relative h-32 border-circle bg-white border-black m-1 p-2 whitespace-no-wrap text-2xl"
                   style={{width: '10rem'}}>
                   <div className="absolute m-2 pin-t pin-l">
                     {d.startWeekStr}

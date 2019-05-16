@@ -173,7 +173,7 @@ export default function Landing(props) {
                 textAnchor="middle"
                 startOffset="50%"
                 fill={BLACK}>
-                Festival
+                Campus
               </textPath>
             </text>
           </g>
