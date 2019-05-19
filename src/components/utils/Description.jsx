@@ -4,6 +4,7 @@ import posed from 'react-pose';
 import React, {useState, useMemo, useEffect} from 'react';
 
 const Extendable = posed.div({
+  exit: {opacity: '0'},
   closed: {
     height: ({height = '8rem'}) => height
     // height: 70

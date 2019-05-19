@@ -10,7 +10,7 @@ import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
 import Description from '../components/utils/Description';
 
-import {SimplePath} from '../ArcPath';
+import {SimplePath, Svg} from '../ArcPath';
 import {stickman, bike} from './stickmanPath.js';
 
 const crossPath =
@@ -60,10 +60,9 @@ function MissionStatement(props) {
         </div>
         {text}
       </Description>
-      <svg
+      <Svg
         className="mt-auto  w-full overflow-visible"
-        style={{height: height / (phone ? 2.3 : 2)}}
-        ref={svgRef}>
+        style={{height: height / (phone ? 2.3 : 2)}}>
         <g transform={`translate(${width / 2},${20}) scale(${stickmanScale})`}>
           <SimplePath
             times={1000}
@@ -86,7 +85,7 @@ function MissionStatement(props) {
             style={{transform: 'scale(1) rotate(0deg)'}}
           />
         </g>
-      </svg>
+      </Svg>
     </div>
   );
 }

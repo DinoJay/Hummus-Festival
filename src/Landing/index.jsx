@@ -12,7 +12,7 @@ import {
   dot
 } from './stickmen';
 
-import {ArcPath, SimplePath} from '../ArcPath';
+import {ArcPath, Svg, SimplePath} from '../ArcPath';
 
 const BLACK = '#404040';
 const BLUE = '#0362a4';
@@ -79,14 +79,14 @@ export default function Landing(props) {
   // .innerRadius(width - 10);
   const circleD = bottomCircleGen({startAngle: 0, endAngle: 360});
 
-  const svgRef = React.createRef();
+  const svgRef = React.useRef();
 
   const stickmanScale = width / 250;
 
   const offset = 30;
   return (
     <div className={className} style={{width}}>
-      <svg ref={svgRef} width={width} height={width + offset}>
+      <Svg width={width} height={width + offset}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
           <SimplePath
             svgRef={svgRef}
@@ -184,7 +184,7 @@ export default function Landing(props) {
                 10 * stickmanScale}px, ${-40}px)`
             }}>
             <AnimPath
-              svgRef={svgRef}
+              ref={svgRef}
               d={stickman1}
               sketchOpts={{...stickmmenSketchOpts, fill: YELLOW}}
               style={{
@@ -194,7 +194,7 @@ export default function Landing(props) {
               }}
             />
             <AnimPath
-              svgRef={svgRef}
+              ref={svgRef}
               sketchOpts={{
                 ...stickmmenSketchOpts,
                 fill: GREEN,
@@ -210,9 +210,9 @@ export default function Landing(props) {
               }}
             />
             <AnimPath
+              ref={svgRef}
               d={stickman3}
               sketchOpts={{...stickmmenSketchOpts, fill: ORANGE}}
-              svgRef={svgRef}
               style={{
                 ...pathStyle,
                 transform: `translate(${radius / 2 +
@@ -220,9 +220,9 @@ export default function Landing(props) {
               }}
             />
             <AnimPath
+              ref={svgRef}
               sketchOpts={{...stickmmenSketchOpts, fill: 'tomato'}}
               d={stickman4}
-              svgRef={svgRef}
               style={{
                 ...pathStyle,
                 transform: `translate(${radius * 2 -
@@ -231,7 +231,7 @@ export default function Landing(props) {
             />
           </g>
         </g>
-      </svg>
+      </Svg>
       <div
         className="text-3xl text-green italic p-4 uppercase"
         style={{fontFamily: 'Cabin Sketch'}}>

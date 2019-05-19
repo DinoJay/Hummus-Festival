@@ -8,10 +8,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
-import {SketchyArcPath, SimpleArcPath} from '../ArcPath';
+import {SketchyArcPath, SimpleArcPath, Svg} from '../ArcPath';
 import Description from '../components/utils/Description';
 
 import defaultData from './circleData';
+
+const loremIpsum =
+  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
 
 const strokeWidth = i =>
   i === 7 || i === 6 || i === 4 || i === 2 || i === 0 ? 5 : 0;
@@ -28,7 +31,7 @@ const CenterTxt = props => {
 
   return (
     <div
-      className={`border-yo bg-white border-2 border-black flex flex-col items-center justify-center px-4 py-1 ${className}`}
+      className={`bg-white border-2 border-black flex flex-col items-center justify-center px-4 py-1 ${className}`}
       style={{
         ...style,
         transform: `translate(-50%,50%)`,
@@ -73,7 +76,7 @@ const SourceElement = ({
 }) => (
   <div
     className={`${className} cursor-pointer p-1 px-2
-      flex items-center
+      flex items-center border-yo
       `}
     style={{
       color: !active ? color : 'white',
@@ -146,7 +149,7 @@ export default function AlchemyCircle(props) {
   const data = initData;
   const selectedElement = defaultData.find(d => d.id === id);
 
-  const radius = Math.min((circleWidth * 2) / 3, 280);
+  const radius = Math.min((circleWidth * 2) / 3, 240);
 
   const MIN_ANGLE = 0.0385;
   const fData = data.map(d => {
@@ -285,8 +288,8 @@ export default function AlchemyCircle(props) {
       className={`${className} h-full flex relative flex-col items-center justify-center`}
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
       <h1>Alchemy</h1>
-      <Description {...props} className="w-full mb-3 flex-1">
-        {selectedElement && selectedElement.text}
+      <Description {...props} className="w-full mb-3 ">
+        {selectedElement ? selectedElement.text : loremIpsum}
       </Description>
       <div className="relative mt-auto ">
         <CenterTxt
@@ -309,7 +312,7 @@ export default function AlchemyCircle(props) {
           }}
         />
         <Controls {...props} id={id} setId={setId} />
-        <svg ref={svgRef} width={width} height={radius * 2}>
+        <Svg width={width} height={radius * 2}>
           <g
             id="labelArcs"
             style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
@@ -327,7 +330,7 @@ export default function AlchemyCircle(props) {
             {insideArcs(innerArc)}
             {strokeInsideArcs()}
           </g>
-        </svg>
+        </Svg>
       </div>
     </div>
   );

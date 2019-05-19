@@ -13,9 +13,10 @@ import chroma from 'chroma-js';
 // import {styler, tween, easing} from 'popmotion';
 
 import posed, {PoseGroup} from 'react-pose';
+import Description from '../components/utils/Description';
 import {FIRE, WATER, EARTH, AIR, icons} from '../alchemyElements';
 
-import {SimplePath} from '../ArcPath';
+import {SimplePath, Svg} from '../ArcPath';
 
 import calendar from './events';
 
@@ -90,7 +91,7 @@ const text =
   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
 
 export default function Program(props) {
-  const {className, width, circleWidth, height, style} = props;
+  const {className, width, height, style} = props;
   const svgRef = React.useRef();
 
   // "2019-04-29T13:26:33.853Z"
@@ -120,58 +121,50 @@ export default function Program(props) {
   }));
   // .slice(0, 4);
 
-  const [eventWeek, setEventWeek] = useState(null);
+  const [selectedWeek, setSelectedWeek] = useState(null);
 
   groupedEvents[0].col = 1;
   groupedEvents[0].row = 1;
 
   groupedEvents[1].col = 1;
-  groupedEvents[1].row = 2;
+  groupedEvents[1].row = 3;
 
   groupedEvents[2].col = 1;
-  groupedEvents[2].row = 3;
+  groupedEvents[2].row = 5;
 
   groupedEvents[3].col = 2;
   groupedEvents[3].row = 1;
 
-  // groupedEvents[4].col = 2;
-  // groupedEvents[4].row = 2;
-  // console.log('groupedEvents', groupedEvents);
-
   return (
     <div
-      className={`${className} flex flex-col w-full h-full items-center justify-center relative`}
+      className="flex flex-col items-center w-full h-full relative"
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="">Program</h1>
       <div
-        className=""
+        className="flex-grow"
         style={{
           display: 'grid',
-          maxWidth: '27rem',
-          gridTemplateColumns: eventWeek
-            ? '1fr 1fr'
-            : 'minmax(8rem, 1fr) minmax(8rem, 1fr)',
-          gridTemplateRows: '9rem 9rem 9rem',
-          // padding: 10
+          gridTemplateColumns: `${width / 2}px ${width / 2}px`,
+          gridTemplateRows: `16% 16% 16% 16% 16% 16%`,
         }}>
         <PoseGroup>
-          {eventWeek ? (
+          {selectedWeek ? (
             <Div
               className="w-full z-50 bg-white speech-bubble"
-              onClick={() => setEventWeek(null)}
-              key={eventWeek.key}
+              onClick={() => setSelectedWeek(null)}
+              key={selectedWeek.key}
               style={{
                 gridColumnEnd: 3,
                 gridColumnStart: 1,
                 gridRowStart: 1,
-                gridRowEnd: 4
+                gridRowEnd: 'span 3'
               }}>
               <div className="overflow-y-auto h-full">
                 <h2 className="flex justify-between mx-2">
-                  <div>{eventWeek.startWeekStr}</div> <div>↝</div>{' '}
-                  <div>{eventWeek.endWeekStr}</div>
+                  <div>{selectedWeek.startWeekStr}</div> <div>↝</div>{' '}
+                  <div>{selectedWeek.endWeekStr}</div>
                 </h2>
-                {eventWeek.values.map(d => (
+                {selectedWeek.values.map(d => (
                   <div className="capitalize text-xl border-b-2 mb-2">
                     <div className="font-bold">{formatDay(d.startDate)}</div>
                     <div>{d.summary}</div>
@@ -182,37 +175,42 @@ export default function Program(props) {
           ) : (
             groupedEvents.slice(0, 4).map((d, i) => (
               <Div
+                className="flex justify-center items-center"
                 key={d.key}
-                onClick={() => setEventWeek(d)}
+                onClick={() => setSelectedWeek(d)}
                 style={{
                   gridColumnStart: d.col,
                   gridRowStart: d.row,
+                  gridRowEnd: 'span 2'
                 }}>
                 <div
-                  className="flex relative h-32 border-circle bg-white border-black m-1 p-2 whitespace-no-wrap text-2xl"
-                  style={{width: '10rem'}}>
-                  <div className="absolute m-2 pin-t pin-l">
-                    {d.startWeekStr}
-                  </div>
-                  <div className="m-auto myFont text-4xl">↘</div>
-                  <div className="absolute pin-r pin-b mr-6 mb-2">
-                    {d.endWeekStr}
+                  className="event flex relative m-1 text-2xl"
+                  style={{
+                    transform: `rotate(${i % 2 ? -10 : 6}deg)`
+                  }}>
+                  <Svg className="absolute " />
+                  <div className="w-full m-1 bg-white h-full border-yo border-black">
+                    <div className="absolute m-4 pin-t pin-l">
+                      {d.startWeekStr}
+                    </div>
+                    <div className="absolute m-4 pin-r pin-b mr-6 mb-2">
+                      {d.endWeekStr}
+                    </div>
                   </div>
                 </div>
               </Div>
             ))
           )}
           <Div
+            className="flex justify-center items-center relative"
             key="st"
             style={{
-              gridRowStart: null,
+              gridRowStart: selectedWeek ? 5 : 4,
               gridColumnStart: 2,
-              // transform: `rotate(${eventWeek ? '90deg' : '0deg'}`
-              // gridColumnEnd: 4
             }}>
-            <svg className="w-full h-full my-4 overflow-visible" ref={svgRef}>
+            <Svg className="my-4 absolute overflow-visible">
               <SimplePath
-                d={eventWeek ? stickman2 : stickman}
+                d={selectedWeek ? stickman2 : stickman}
                 times={50}
                 interval={300}
                 sketchOpts={{
@@ -224,12 +222,13 @@ export default function Program(props) {
                   fillWeight: 5,
                   fill: 'rgba(1,169,208,0.14)',
                 }}
-                svgRef={svgRef}
-                style={{
-                  transform: `translate(${50}px, ${330}px) scale(${4.5})`,
-                }}
+                className={
+                  selectedWeek
+                    ? 'program-stickman-selected'
+                    : 'program-stickman'
+                }
               />
-            </svg>
+            </Svg>
           </Div>
         </PoseGroup>
       </div>

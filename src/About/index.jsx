@@ -10,7 +10,7 @@ import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
 
 import posed, {PoseGroup} from 'react-pose';
-import {SimplePath} from '../ArcPath';
+import {SimplePath, Svg} from '../ArcPath';
 
 import apeOrgaPath from './Ape_Orga.js';
 import apeLogo from '../apeLogo.js';
@@ -53,13 +53,6 @@ const sketchOpts = {
   fillStyle: 'zigzag'
 };
 
-console.log(
-  'gold',
-  chroma('gold')
-    .alpha(0.14)
-    .css(),
-);
-
 const text =
   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
 
@@ -84,24 +77,21 @@ export default function Program(props) {
       style={{width}}>
       <h1 className="m-8">About</h1>
       <Segment id="ape" className="bg-white">
-        <svg
-          preserveAspectRatio="xMidYMid none"
+        <Svg
           width="17rem"
           height={140}
           ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
-            svgRef={svgRef}
             d={apeOrgaPath}
             style={{transform: 'scale(2)'}}
           />
           <SimplePath
             sketchOpts={sketchOpts}
-            svgRef={svgRef}
             d={apeLogo}
             style={{transform: 'translate(10rem, 2.5rem) scale(1)'}}
           />
-        </svg>
+        </Svg>
       </Segment>
       <Segment>MAgic Matthieu</Segment>
       <Segment>Contacts</Segment>

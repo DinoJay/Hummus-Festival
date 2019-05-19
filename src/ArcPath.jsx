@@ -2,7 +2,6 @@ import React, {useState, useMemo, useEffect} from 'react';
 import isEqual from 'lodash/isEqual';
 import * as d3 from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
-import debounce from 'lodash/debounce';
 
 import * as rough from 'roughjs/dist/rough.umd';
 import {
@@ -20,6 +19,25 @@ import {
 // import {interpolate} from 'flubber';
 
 import compareMemoize from './components/utils/compareMemoize';
+
+export const SvgContext = React.createContext({current: null});
+
+export const Svg = ({children, ...props}) => {
+  const ref = React.useRef();
+  const [loaded, setLoaded] = useState(null);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
+  return (
+    <SvgContext.Provider value={ref}>
+      <svg {...props} ref={ref}>
+        {loaded && children}
+      </svg>
+    </SvgContext.Provider>
+  );
+};
 
 const getRoughId = (sketchShape, id) => {
   const {fill} = sketchShape.children[0].style;
@@ -62,7 +80,6 @@ function memo(value) {
 
 export const SketchyArcPath = ({
   data,
-  svgRef,
   pathFn,
   defaultData,
   options,
@@ -74,17 +91,20 @@ export const SketchyArcPath = ({
   const refId = React.useRef();
   const [shape, setShape] = useState(null);
 
+  console.log('svgRef', svgRef);
+  const svgRef = React.useContext(SvgContext);
+
   useEffect(
     () => {
       const rc = rough.svg(svgRef.current);
       tween({
         from: {
           startAngle: olData ? olData.startAngle : defaultData.startAngle,
-          endAngle: olData ? olData.endAngle : defaultData.endAngle,
+          endAngle: olData ? olData.endAngle : defaultData.endAngle
         },
         to: {startAngle: data.startAngle, endAngle: data.endAngle},
         duration: 200,
-        ...animOpts,
+        ...animOpts
         // ease: easing.easeInOut,
         // flip: Infinity,
       })
@@ -136,11 +156,11 @@ export const SimpleArcPath = ({
       tween({
         from: {
           startAngle: olData ? olData.startAngle : defaultData.startAngle,
-          endAngle: olData ? olData.endAngle : defaultData.endAngle,
+          endAngle: olData ? olData.endAngle : defaultData.endAngle
         },
         to: {startAngle: data.startAngle, endAngle: data.endAngle},
         duration: 200,
-        ...animOpts,
+        ...animOpts
       })
         .pipe(d => pathFn(d))
         .start(d => {
@@ -292,7 +312,6 @@ function circleGen() {
 
 export const SimplePath = ({
   d,
-  svgRef,
   sketchOpts,
   animOpts = {},
   interval = 0,
@@ -301,43 +320,33 @@ export const SimplePath = ({
 }) => {
   const ref = React.useRef();
 
+  const svgRef = React.useContext(SvgContext);
   const [shape, setShape] = useState(null);
 
   const refId = React.useRef();
   useEffect(
     () => {
-      const rc = rough.svg(svgRef.current);
+      let intervalId = null;
+      if (svgRef.current) {
+        const rc = rough.svg(svgRef.current);
 
-      const intervalId = setIntervalX(
-        () => {
-          const sketchShape = rc.path(d, {...sketchOpts});
-          const {fill} = sketchShape.children[0].style;
+        intervalId = setIntervalX(
+          () => {
+            const sketchShape = rc.path(d, {...sketchOpts});
+            const {fill} = sketchShape.children[0].style;
 
-          if (refId.current) {
-            const p = document.getElementById(refId.current);
-            p.parentNode.removeChild(p);
-          }
-          setShape(sketchShape.outerHTML);
-          const newId = getRoughId(sketchShape);
-          refId.current = newId;
-
-          // const regExp = /\(([^)]+)\)/;
-          // const matches = regExp.exec(fill);
-          // if (matches && Array.isArray(matches) && matches.length > 1) {
-          //   const newId = matches[1].slice(2, -1);
-          //   const p = document.getElementById(refId.current);
-          //   refId.current = newId;
-          //   if (p) {
-          //     p.parentNode.removeChild(p);
-          //   }
-          //   // setId(newId);
-          // }
-          // p.remove();
-          // console.log('sketchShape', p);
-        },
-        interval,
-        times,
-      );
+            if (refId.current) {
+              const p = document.getElementById(refId.current);
+              p.parentNode.removeChild(p);
+            }
+            setShape(sketchShape.outerHTML);
+            const newId = getRoughId(sketchShape);
+            refId.current = newId;
+          },
+          interval,
+          times,
+        );
+      }
 
       // TODO: remove stuff
       return () => {
@@ -353,15 +362,16 @@ export const SimplePath = ({
 export const AnimPath = props => {
   const {
     d,
-    svgRef,
     sketchOpts,
     animOpts = {},
     interval = 0,
     times = 1,
     style,
-    className,
+    className
   } = props;
   const [shape, setShape] = useState(null);
+
+  const svgRef = React.useContext(SvgContext);
 
   useEffect(
     () => {
