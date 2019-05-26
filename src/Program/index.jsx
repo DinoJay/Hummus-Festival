@@ -88,9 +88,6 @@ const sketchOpts = {
   fillStyle: 'zigzag'
 };
 
-const text =
-  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
-
 export default function Program(props) {
   const {className, width, height, style} = props;
   const svgRef = React.useRef();
@@ -128,13 +125,13 @@ export default function Program(props) {
   groupedEvents[0].row = 1;
 
   groupedEvents[1].col = 1;
-  groupedEvents[1].row = 3;
+  groupedEvents[1].row = 4;
 
   groupedEvents[2].col = 1;
-  groupedEvents[2].row = 5;
+  groupedEvents[2].row = 7;
 
   groupedEvents[3].col = 2;
-  groupedEvents[3].row = 1;
+  groupedEvents[3].row = 2;
 
   return (
     <div
@@ -146,7 +143,7 @@ export default function Program(props) {
         style={{
           display: 'grid',
           gridTemplateColumns: `${width / 2 - 10}px ${width / 2 - 10}px`,
-          gridTemplateRows: `16% 16% 16% 16% 16% 16%`,
+          gridTemplateRows: `repeat(10, 10%)`,
         }}>
         <PoseGroup>
           {selectedWeek ? (
@@ -160,7 +157,7 @@ export default function Program(props) {
                 gridColumnEnd: 3,
                 gridColumnStart: 1,
                 gridRowStart: 1,
-                gridRowEnd: 'span 3'
+                gridRowEnd: 5
               }}>
               <div className="overflow-y-auto h-full">
                 <h2 className="flex justify-between mx-2">
@@ -187,7 +184,7 @@ export default function Program(props) {
                   gridRowEnd: 'span 2'
                 }}>
                 <div
-                  className="event flex relative m-1 text-2xl"
+                  className="event flex relative m-1 text-2xl lg:text-4xl"
                   style={{
                     transform: `rotate(${i % 2 ? -10 : 6}deg)`
                   }}>
@@ -208,7 +205,7 @@ export default function Program(props) {
             className="flex justify-center items-center relative"
             key="st"
             style={{
-              gridRowStart: selectedWeek ? 5 : 4,
+              gridRowStart: selectedWeek ? 7 : 6,
               gridColumnStart: 2,
             }}>
             <Svg className="my-4 absolute overflow-visible">

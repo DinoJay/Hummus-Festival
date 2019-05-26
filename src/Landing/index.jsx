@@ -86,7 +86,7 @@ export default function Landing(props) {
   const offset = 30;
   return (
     <div className={className} style={{width}}>
-      <Svg width={width} height={width + offset}>
+      <Svg className="overflow-visible" width={width} height={width + offset}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
           <SimplePath
             svgRef={svgRef}

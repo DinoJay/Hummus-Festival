@@ -20,7 +20,7 @@ export const icons = {
   [WATER]: {
     path:
       'M 1.6354397,4.2587056 19.350877,37.691604 37.066314,1.0362583 c 0,0 -41.6552162,2.0140299 -35.4308743,3.2224473 z',
-    transform: 'translate(10px, 20px)'
+    transform: 'translate(10px, 10px)'
   },
   [EARTH]: {
     path:

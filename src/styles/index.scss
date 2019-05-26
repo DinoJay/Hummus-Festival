@@ -388,21 +388,39 @@ h2 {
 
 
 /* Extra small devices (phones, 600px and down) */
+.water-label {
+  transform: translate(10px,20%) rotate(-45deg)
+}
+
+.fire-label {
+  transform: translate(0,30%) rotate(34deg)
+}
+
+.earth-label {
+  transform: translate(10%,-39%) rotate(-49deg)
+}
+
+.air-label {
+  transform: translate(0,-20%) rotate(40deg)
+}
+
+@screen md {
   .water-label {
-    transform: translate(0,20%) rotate(-30deg)
+    transform: translate(-10px,50px) rotate(-0deg)
   }
 
   .fire-label {
-    transform: translate(0,30%) rotate(34deg)
+    transform: translate(-30px,40px) rotate(0deg)
   }
 
   .earth-label {
-    transform: translate(10%,-39%) rotate(-49deg)
+    transform: translate(-0px,10px) rotate(-0deg)
   }
 
   .air-label {
-    transform: translate(0,-20%) rotate(40deg)
+    transform: translate(10px,10px) rotate(0deg)
   }
+}
 
 @media only screen and (min-width: 500px) and (max-width: 550px) {
   .water-label {
@@ -444,10 +462,10 @@ $smMax: 576px;
     height: 10rem;
   }
   .program-stickman {
-    transform: translate(90px, 250px) scale(5);
+    transform: translate(120px, 230px) scale(4.2);
   }
   .program-stickman-selected {
-    transform: translate(90px, 220px) scale(5);
+    transform: translate(-50px, -60px) scale(4.6) rotate(90deg);
   }
 }
 

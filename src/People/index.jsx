@@ -48,7 +48,9 @@ export default function People(props) {
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="mb-4">People</h1>
       <div
-        className="flex-grow flex flex-wrap w-full justify-center overflow-y-auto"
+        className={`flex-grow flex flex-wrap w-full justify-center ${
+          artist ? 'overflow-hidden' : 'overflow-y-auto'
+        }`}
         style={
           {
             // flexFlow: 'column wrap'
@@ -68,7 +70,9 @@ export default function People(props) {
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center'
                 }}>
-                <div className="m-1 text-white font-bold lg:text-2xl">{d.name}</div>
+                <div className="m-1 text-white font-bold lg:text-2xl">
+                  {d.name}
+                </div>
               </PosedDiv>
             ))}
           {artist && (

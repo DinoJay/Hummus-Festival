@@ -45,21 +45,23 @@ function MissionStatement(props) {
       className={`${className} flex flex-col w-full h-full items-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="mb-4">Info</h1>
-      <Description height="auto" className="ml-2 mr-4 mb-6">
-        <div
-          className="big-letter"
-          style={{
-            fontSize: 100,
-            shapeOutside: 'ellipse(50%)',
-            width: 70,
-            height: 100,
-          }}>
-          ?
-        </div>
-        {text}
-      </Description>
+      <div className="p-4">
+        <Description className="">
+          <div
+            className="big-letter"
+            style={{
+              fontSize: 100,
+              shapeOutside: 'ellipse(50%)',
+              width: 70,
+              height: 100,
+            }}>
+            ?
+          </div>
+          {text}
+        </Description>
+      </div>
       <Svg
-        className="mt-auto  w-full overflow-visible"
+        className="mt-auto w-full overflow-visible"
         style={{height: height / (phone ? 2.3 : 2)}}>
         <g transform={`translate(${width / 2},${20}) scale(${stickmanScale})`}>
           <SimplePath
@@ -71,7 +73,7 @@ function MissionStatement(props) {
             style={{transform: 'scale(1)'}}
           />
         </g>
-        <g transform={`translate(${-40},${-50}) scale(${stickmanScale})`}>
+        <g transform={`translate(${-40},${-40}) scale(${stickmanScale})`}>
           <SimplePath
             times={1000}
             interval={500}

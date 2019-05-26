@@ -32,10 +32,7 @@ const CenterTxt = props => {
   return (
     <div
       className={`bg-white border-2 border-black flex flex-col items-center justify-center px-4 py-1 ${className}`}
-      style={{
-        ...style,
-        transform: `translate(-50%,50%)`
-      }}>
+      style={{...style, transform: `translate(-50%,25%)`}}>
       <div
         className="text-4xl flex items-center"
         style={{fontFamily: '"Cabin Sketch"', transitionDelay: '400ms'}}>
@@ -77,17 +74,18 @@ const SourceElement = ({
   <div
     className={`${className} cursor-pointer p-1 px-2
         flex items-center border-yo border-black
+        md:text-4xl text-2xl
     `}
     style={{
       color: !active ? color : 'white',
-      fontSize: phone ? '10vw' : '3rem',
+      // fontSize: phone ? '10vw' : '3rem',
       background: active && color,
       ...style
     }}
     onClick={onClick}>
     <div>{title}</div>
     <div style={{color: !active ? color : 'white'}}>
-      <Svg width={60} height={60}>
+      <Svg width={50} height={45} preserveAspectRatio="xMaxYMin meet">
         <g style={{transform: icon.transform}}>
           <SimplePath
             d={icon.path}
@@ -120,7 +118,7 @@ const Controls = props => {
       <div className="absolute " style={{top: 0, left: 0}}>
         <SourceElement
           {...WATER}
-          className="m-1 water-label"
+          className="water-label"
           phone={phone}
           active={id === WATER.id}
           onClick={() => setId(id !== WATER.id ? WATER.id : null)}
@@ -303,42 +301,44 @@ export default function AlchemyCircle(props) {
       className={`${className} h-full relative items-center justify-center`}
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
       <h1 className="flex-no-shrink flex-none text-center">Concept</h1>
-      <Description height="13rem" className="w-full mb-3">
-        {selectedElement ? (
-          <>
-            <div
-              className="big-letter text-black flex justify-center items-center"
-              style={{
-                fontSize: 100,
-                shapeOutside: 'ellipse(50%)',
-                width: 75,
-                height: 80
-              }}>
-              <Svg width="65" height="65">
-                <SimplePath
-                  d={selectedElement.icon.path}
-                  style={{transform: 'translate(4px, 5px) scale(1.5)'}}
-                />
-              </Svg>
-            </div>
-            {selectedElement.text}
-          </>
-        ) : (
-          <>
-            <div
-              className="big-letter text-black"
-              style={{
-                fontSize: 100,
-                shapeOutside: 'ellipse(50%)',
-                width: 80,
-                height: 100
-              }}>
-              !!!
-            </div>
-            {defaultText}
-          </>
-        )}
-      </Description>
+      <div className="p-4">
+        <Description height="13rem" className="w-full ">
+          {selectedElement ? (
+            <>
+              <div
+                className="big-letter text-black flex justify-center items-center"
+                style={{
+                  fontSize: 100,
+                  shapeOutside: 'ellipse(50%)',
+                  width: 75,
+                  height: 80
+                }}>
+                <Svg width="65" height="75">
+                  <SimplePath
+                    d={selectedElement.icon.path}
+                    style={{transform: 'translate(4px, 5px) scale(1.5)'}}
+                  />
+                </Svg>
+              </div>
+              {selectedElement.text}
+            </>
+          ) : (
+            <>
+              <div
+                className="big-letter text-black"
+                style={{
+                  fontSize: 100,
+                  shapeOutside: 'ellipse(50%)',
+                  width: 80,
+                  height: 100
+                }}>
+                !!!
+              </div>
+              {defaultText}
+            </>
+          )}
+        </Description>
+      </div>
       <div className="relative mt-auto ">
         <CenterTxt
           className="absolute z-10 border-black border-2 border-solid"
