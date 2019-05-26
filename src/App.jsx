@@ -8,6 +8,7 @@ import Circle from './Circle';
 import Landing from './Landing';
 import MissionStatement from './MissionStatement';
 import Program from './Program';
+import People from './People';
 import About from './About';
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
     return () => window.removeEventListener('resize', resize);
   }, []);
 
-  const {height = null} = size || {};
+  const {height = null, width = null} = size || {};
   return (
     <div
       ref={ref}
@@ -60,14 +61,10 @@ function App() {
               className="overflow-hidden flex flex-col justify-center"
             />
           </section>
-          <section
-            style={{height}}
-            className="page background flex justify-center border-2  ">
+          <section className="page background flex justify-center border-2  ">
             <MissionStatement {...size} className="flex " />
           </section>
-          <section
-            style={{height}}
-            className="page flex justify-center background-0  ">
+          <section className="page flex justify-center background-0  ">
             <Circle {...size} className="p-2" />
           </section>
           <section
@@ -76,7 +73,11 @@ function App() {
             <Program {...size} className="flex justify-center" />
           </section>
           <section
-            style={{height}}
+            className="page background-full flex justify-center border-2"
+            style={{overflow: 'visible'}}>
+            <People {...size} className="flex justify-center" />
+          </section>
+          <section
             className="page flex background justify-center border-2 ">
             <About {...size} className="flex justify-center" />
           </section>

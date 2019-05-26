@@ -91,7 +91,6 @@ export const SketchyArcPath = ({
   const refId = React.useRef();
   const [shape, setShape] = useState(null);
 
-  console.log('svgRef', svgRef);
   const svgRef = React.useContext(SvgContext);
 
   useEffect(

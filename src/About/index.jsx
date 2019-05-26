@@ -60,7 +60,7 @@ const Segment = props => {
   const {children, className} = props;
   return (
     <div className="p-2 w-full">
-      <div className="flex-grow border-yo m-4  border-black box-shadow-black  p-4 flex">
+      <div className="flex-grow border-yo m-4  border-black box-shadow-black  border-black border-2 border-solid p-4 flex">
         {children}
       </div>
     </div>
@@ -77,10 +77,7 @@ export default function Program(props) {
       style={{width}}>
       <h1 className="m-8">About</h1>
       <Segment id="ape" className="bg-white">
-        <Svg
-          width="17rem"
-          height={140}
-          ref={svgRef}>
+        <Svg width="17rem" height={140} ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
             d={apeOrgaPath}
@@ -93,7 +90,6 @@ export default function Program(props) {
           />
         </Svg>
       </Segment>
-      <Segment>MAgic Matthieu</Segment>
       <Segment>Contacts</Segment>
       <Segment>References</Segment>
     </div>

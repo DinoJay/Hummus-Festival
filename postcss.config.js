@@ -12,6 +12,6 @@ const AUTOPREFIXER_BROWSERS = [
 module.exports = {
   plugins: [
     require('autoprefixer')({browsers: AUTOPREFIXER_BROWSERS}),
-    require('tailwindcss')('./tailwind.js')
+    require('tailwindcss')('./tailwind.config.js')
   ]
 };

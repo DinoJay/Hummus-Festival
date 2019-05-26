@@ -37,11 +37,12 @@ const textColor = {
 const stickman =
   'm 0,0 -1.54965,-2.12887 0.7098,-2.93861 5.17338,2.06968 -1.88768,-13.88638 -1.05749,-4.34342 1.22144,-2.6793 v 0 l -2.34926,-3.25586 -0.44745,-3.03334 -0.96391,-9.89753 1.41136,12.93087 2.34926,3.25586 -2.43183,1.80091 -3.36705,-0.0184 -0.58691,-1.73631 0.87291,-3.1466 -1.96405,-4.10514 -1.34243,-4.18764 -0.67118,-5.10689 v -4.18764 0 l 1.56614,-4.80044 2.90858,-1.83847 3.46794,-1.02138 -0.11184,-2.85985 -2.39882,-2.38854 v 0 l -0.77205,-3.58833 v 0 l 1.68352,-3.1859 2.34924,-1.32779 2.49415,-0.64236 3.13234,1.63418 1.53542,2.04274 0.14258,3.57483 -0.78305,2.96199 -0.22375,1.83844 2.57298,0.71494 2.57296,0.81711 1.67804,0.51067 1.78989,1.83853 1.1187,2.55338 v 4.08549 l 0.44745,4.90265 0.82145,4.80044 -0.51505,3.34231 2.41679,2.22067 -1.01673,1.95513 c -1.00914,0.75444 -1.80004,2.0399 -2.80917,0.51476 l -1.77071,-1.94942 -0.87345,-2.53104 -0.18084,-3.4727 0.13791,-7.12721 0.043,10.41801 0.87346,2.71294 1.97847,5.15167 v 0 l 1.1187,6.12821 1.90177,8.47739 -1.47201,5.24856 4.95643,-2.10567 2.77468,1.72034 -0.74246,2.92896 -4.42975,0.86668 h -3.16412 l -2.53126,-0.14444 -0.63286,-4.91108 -0.94923,-4.18891 -0.3164,-3.75555 -1.72398,-7.97333 -3.94957,0.51321 v 0 l 0.37125,7.12192 0.3979,8.57152 -0.31639,6.06665 z';
 
-const Div = posed.div({
+const PosedDiv = posed.div({
   enter: {
-    width: '100%',
+    width: ({shrink}) => '90%' || '100%',
     height: '100%',
-    staggerChildren: '100%',
+    // staggerChildren: '100%',
+    delayChildren: 200,
   },
   exit: {
     width: '0%',
@@ -138,19 +139,21 @@ export default function Program(props) {
   return (
     <div
       className="flex flex-col items-center w-full h-full relative"
-      style={{fontFamily: "'Cabin Sketch'", width}}>
+      style={{fontFamily: "'Cabin Sketch'"}}>
       <h1 className="">Program</h1>
       <div
         className="flex-grow"
         style={{
           display: 'grid',
-          gridTemplateColumns: `${width / 2}px ${width / 2}px`,
+          gridTemplateColumns: `${width / 2 - 10}px ${width / 2 - 10}px`,
           gridTemplateRows: `16% 16% 16% 16% 16% 16%`,
         }}>
         <PoseGroup>
           {selectedWeek ? (
-            <Div
-              className="w-full z-50 bg-white speech-bubble"
+            <PosedDiv
+              shrink
+              width={width}
+              className="z-50 bg-white speech-bubble"
               onClick={() => setSelectedWeek(null)}
               key={selectedWeek.key}
               style={{
@@ -165,16 +168,16 @@ export default function Program(props) {
                   <div>{selectedWeek.endWeekStr}</div>
                 </h2>
                 {selectedWeek.values.map(d => (
-                  <div className="capitalize text-xl border-b-2 mb-2">
+                  <div className="capitalize text-xl mb-2">
                     <div className="font-bold">{formatDay(d.startDate)}</div>
                     <div>{d.summary}</div>
                   </div>
                 ))}
               </div>
-            </Div>
+            </PosedDiv>
           ) : (
             groupedEvents.slice(0, 4).map((d, i) => (
-              <Div
+              <PosedDiv
                 className="flex justify-center items-center"
                 key={d.key}
                 onClick={() => setSelectedWeek(d)}
@@ -188,20 +191,20 @@ export default function Program(props) {
                   style={{
                     transform: `rotate(${i % 2 ? -10 : 6}deg)`
                   }}>
-                  <Svg className="absolute " />
-                  <div className="w-full m-1 bg-white h-full border-yo border-black">
-                    <div className="absolute m-4 pin-t pin-l">
+                  <div className="w-full flex m-1 bg-white border-yo border-black border-solid">
+                    <div className="absolute m-4 top-0 left-0">
                       {d.startWeekStr}
                     </div>
-                    <div className="absolute m-4 pin-r pin-b mr-6 mb-2">
+                    <div className="m-auto">{icons.FIRE.svg}</div>
+                    <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
                       {d.endWeekStr}
                     </div>
                   </div>
                 </div>
-              </Div>
+              </PosedDiv>
             ))
           )}
-          <Div
+          <PosedDiv
             className="flex justify-center items-center relative"
             key="st"
             style={{
@@ -229,7 +232,7 @@ export default function Program(props) {
                 }
               />
             </Svg>
-          </Div>
+          </PosedDiv>
         </PoseGroup>
       </div>
     </div>

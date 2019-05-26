@@ -12,7 +12,7 @@ const defaultData = [
     color: colors.red[5],
     size: 5 / 16,
     text:
-      'Fire is considered as the material part of Light. It is the beginning of creativity -Sacred Fire-. That energy that you feel when you get ideas, when you start a project, when your mind give the impulse of a movement til that movement is done.  I connect my conscious to the Fire, It is me and i am It. A burning dance, projection of lights and shadows. The shape appear.',
+      'La genesi, secondo la prospettiva alchimista, narra che la terra sia stata creata a partire dal sole, quindi dal fuoco che rappresenta la volontà viva e autentica, il potere personale, la manifestazione del proprio essere, trasformando i propri limiti e paure in potere creatore e rigeneratore.',
     values: [
       {
         parentId: FIRE,
@@ -46,7 +46,7 @@ const defaultData = [
     icon: icons[EARTH],
     size: 3 / 16,
     text:
-      'Path of matter, of unity. Materialisation of the movement.  Under the light of the fire shapes takes place. Molecular system exist. Climbing Golem grow. From chaos a movement is born, give his own vibration to the entire system. Turn and turn and turn. Gyrating movement everywhere. Light caress the soil, soil embrace the sky. The trans can take place.',
+      'La seconda fase della creazione coinvolge la terra, la materia staccatasi dal sole che ha preso una sua vita indipendente. Qui la terra rappresenta la concretizzazione , il lavoro, la realizzazione della volontà.',
     values: [
       {
         parentId: EARTH,
@@ -80,7 +80,7 @@ const defaultData = [
     color: colors.yellow[5],
     size: 3 / 16,
     text:
-      "Path of transmission, communication, duality- multiplicity.  Air, The permanent movement: inspiration- expiration guide a pneumatic of every instant and that air is going everywhere, in each part of my body. The air is what I share with all beings of Planet Earth. It is the element which leads me to enter in contact with the Other. When.i move i sculpt the air, and the air, invisible sculpt my movement. It is flotting like the ideas, full of wind which blow on the mill's wheel. And more i guide my respiration, less i use energy.",
+      "Dopo la concretizzazione subentra la riflessione sull'azione compiuta, infatti la terza fase è rappresentata dall'elemento aria che è simbolicamente legato al discernimento, al pensiero, al giudizio, alla presa di coscienza, e nel fisico si traduce in direzione e leggerezza. ",
     values: [
       {
         parentId: AIR,
@@ -113,7 +113,7 @@ const defaultData = [
     color: colors.blue[3],
     size: 3 / 16,
     text:
-      'Path of vibrations, emotional world. Diving into the other side of myself, the up-side-down. The All.  After discovering the One, i do the epxperience of the All. My emotions move inside and create movements outside which create emotions inside which... and create a wave all around me, and affect what is in the area. I can create a storm like i can create a peacefull weather. Whatever it will be, it will be in accordance with the cosmos, link to it.',
+      "La quarta fase è rappresentata dall'elemento acqua che simboleggia l’ adattamento , l’integrazione, la fluidità. L'acqua rappresenta la possibilità di integrare e far scorrere le esperienze all'interno della nostra vita.",
     values: [
       {
         parentId: WATER,

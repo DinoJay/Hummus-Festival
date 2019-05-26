@@ -8,13 +8,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
-import {SketchyArcPath, SimpleArcPath, Svg} from '../ArcPath';
+import {SketchyArcPath, SimplePath, SimpleArcPath, Svg} from '../ArcPath';
 import Description from '../components/utils/Description';
 
 import defaultData from './circleData';
 
-const loremIpsum =
-  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
+const defaultText =
+  "Il tema che proponiamo quest'anno è la Metamorfosi, vissuta come trasformazione del proprio essere attraverso l’atto creativo.  Per una suddivisione temporale del processo ci siamo fatti ispirare dalla prospettiva alchimistica della creazione, che vede seguire quattro fasi dominate rispettivamente dagli elementi: fuoco, terra, aria, acqua. Il Campus si svolgerà nel mese di giugno durante tutte e quattro le settimane: ogni settimana verrà associata a uno dei quattro elementi .";
 
 const strokeWidth = i =>
   i === 7 || i === 6 || i === 4 || i === 2 || i === 0 ? 5 : 0;
@@ -34,7 +34,7 @@ const CenterTxt = props => {
       className={`bg-white border-2 border-black flex flex-col items-center justify-center px-4 py-1 ${className}`}
       style={{
         ...style,
-        transform: `translate(-50%,50%)`,
+        transform: `translate(-50%,50%)`
       }}>
       <div
         className="text-4xl flex items-center"
@@ -72,22 +72,37 @@ const SourceElement = ({
   onClick,
   icon,
   color,
-  phone
+  phone,
 }) => (
   <div
     className={`${className} cursor-pointer p-1 px-2
-      flex items-center border-yo
-      `}
+        flex items-center border-yo border-black
+    `}
     style={{
       color: !active ? color : 'white',
       fontSize: phone ? '10vw' : '3rem',
-
       background: active && color,
-      ...style,
+      ...style
     }}
     onClick={onClick}>
-    {title}
-    <div style={{color: !active ? color : 'white'}}>{icon}</div>
+    <div>{title}</div>
+    <div style={{color: !active ? color : 'white'}}>
+      <Svg width={60} height={60}>
+        <g style={{transform: icon.transform}}>
+          <SimplePath
+            d={icon.path}
+            sketchOpts={{
+              // bowing: 20,
+              roughness: 1.3,
+              strokeWidth: 2,
+              fill: chroma(color).alpha(0.2),
+              stroke: color,
+              fillStyle: 'zigzag',
+            }}
+          />
+        </g>
+      </Svg>
+    </div>
   </div>
 );
 
@@ -97,7 +112,7 @@ const Controls = props => {
   const transformLabel = i => ({
     transform: `translate(0, ${i < 2 ? `-20%` : '0%'}) rotate(${
       i % 2 ? '30deg' : '-30deg'
-    })`
+    })`,
   });
 
   return (
@@ -134,7 +149,7 @@ const Controls = props => {
           phone={phone}
           active={id === AIR.id}
           {...AIR}
-          className="m-1 "
+          className="m-1"
           onClick={() => setId(id !== AIR.id ? AIR.id : null)}
         />
       </div>
@@ -180,7 +195,7 @@ export default function AlchemyCircle(props) {
     roughness: 2,
     strokeWidth: 1,
     fillWeight: 10,
-    fill: 'none'
+    fill: 'none',
   };
 
   const outsideArcs = opts =>
@@ -193,17 +208,17 @@ export default function AlchemyCircle(props) {
           outerArc({
             ...d,
             startAngle: d.startAngle,
-            endAngle: d.endAngle,
+            endAngle: d.endAngle
           })
         }
         defaultData={pieData.find(d => a.data.outerLabel === d.data.outerLabel)}
         style={{
           mixBlendMode: 'multiply',
-          opacity: 0.5,
+          opacity: 0.5
         }}
         options={{
           fill: a.data.fill,
-          ...opts,
+          ...opts
         }}
       />
     ));
@@ -231,7 +246,7 @@ export default function AlchemyCircle(props) {
           arc({
             ...d,
             startAngle: d.startAngle,
-            endAngle: d.endAngle + 0.05,
+            endAngle: d.endAngle + 0.05
           })
         }
         key={a.data.outerLabel}
@@ -241,13 +256,13 @@ export default function AlchemyCircle(props) {
         options={{
           fillWidth: 10,
           sketch: 30.8,
-          bowing: 5,
+          bowing: 5
         }}
         style={{
           mixBlendMode: 'multiply',
           opacity: 0.7,
           fill: a.data.fill,
-          ...opts
+          ...opts,
         }}
       />
     ));
@@ -261,7 +276,7 @@ export default function AlchemyCircle(props) {
           innerArc({
             ...d,
             startAngle: d.startAngle,
-            endAngle: d.startAngle + 0.05,
+            endAngle: d.startAngle + 0.05
           })
         }
         key={a.data.outerLabel}
@@ -274,41 +289,84 @@ export default function AlchemyCircle(props) {
           bowing: 5,
           fill: a.data.fill,
           ...strokeOpts,
-          strokeWidth: strokeWidth(i)
+          strokeWidth: strokeWidth(i),
         }}
         style={{
           mixBlendMode: 'multiply',
-          opacity: 0.7
+          opacity: 0.7,
         }}
       />
     ));
 
   return (
     <div
-      className={`${className} h-full flex relative flex-col items-center justify-center`}
+      className={`${className} h-full relative items-center justify-center`}
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
-      <h1>Alchemy</h1>
-      <Description {...props} className="w-full mb-3 ">
-        {selectedElement ? selectedElement.text : loremIpsum}
+      <h1 className="flex-no-shrink flex-none text-center">Concept</h1>
+      <Description height="13rem" className="w-full mb-3">
+        {selectedElement ? (
+          <>
+            <div
+              className="big-letter text-black flex justify-center items-center"
+              style={{
+                fontSize: 100,
+                shapeOutside: 'ellipse(50%)',
+                width: 75,
+                height: 80
+              }}>
+              <Svg width="65" height="65">
+                <SimplePath
+                  d={selectedElement.icon.path}
+                  style={{transform: 'translate(4px, 5px) scale(1.5)'}}
+                />
+              </Svg>
+            </div>
+            {selectedElement.text}
+          </>
+        ) : (
+          <>
+            <div
+              className="big-letter text-black"
+              style={{
+                fontSize: 100,
+                shapeOutside: 'ellipse(50%)',
+                width: 80,
+                height: 100
+              }}>
+              !!!
+            </div>
+            {defaultText}
+          </>
+        )}
       </Description>
       <div className="relative mt-auto ">
         <CenterTxt
-          className="absolute z-10"
+          className="absolute z-10 border-black border-2 border-solid"
           preview={
             selectedElement ? (
-              <div
-                className="text-white"
-                style={{background: selectedElement.color}}>
-                {selectedElement.icon}
+              <div>
+                <Svg width="40" height="40">
+                  <SimplePath
+                    d={selectedElement.icon.path}
+                    sketchOpts={{
+                      // bowing: 20,
+                      roughness: 1.3,
+                      strokeWidth: 2,
+                      fill: chroma(selectedElement.color).alpha(0.2),
+                      stroke: selectedElement.color,
+                      fillStyle: 'zigzag',
+                    }}
+                  />
+                </Svg>
               </div>
             ) : (
-              '!!!'
+              <span className="text-4xl text-black">!!!</span>
             )
           }
           text={selectedElement ? selectedElement.text : 'YO'}
           style={{
             left: width / 2,
-            bottom: radius,
+            bottom: radius
           }}
         />
         <Controls {...props} id={id} setId={setId} />
@@ -321,7 +379,7 @@ export default function AlchemyCircle(props) {
           <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
             {insideArcs(outerArc, {
               mixBlendMode: 'multiply',
-              opacity: 0.5,
+              opacity: 0.5
               // filter: `url(#gooey)`,
             })}
             {outsideArcs(strokeOpts, false)}
