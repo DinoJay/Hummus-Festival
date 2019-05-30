@@ -153,7 +153,7 @@ export default function Program(props) {
             <PosedDiv
               shrink
               width={width}
-              className="z-50 bg-white speech-bubble"
+              className="z-50 bg-white speech-bubble overflow-hidden"
               onClick={() => setSelectedWeek(null)}
               key={selectedWeek.key}
               style={{
@@ -163,7 +163,7 @@ export default function Program(props) {
                 gridRowEnd: 5
               }}>
               <div className="overflow-y-auto h-full">
-                <h2 className="flex justify-between items-center mx-2">
+                <h2 className="flex justify-between items-center my-0 mx-2">
                   <div>{selectedWeek.startWeekStr}</div>{' '}
                   <div>{icons[selectedWeek.theme].svg}</div>{' '}
                   <div>{selectedWeek.endWeekStr}</div>
