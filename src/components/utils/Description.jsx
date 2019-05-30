@@ -6,7 +6,7 @@ import React, {useState, useMemo, useEffect} from 'react';
 const Extendable = posed.div({
   exit: {opacity: '0'},
   closed: {
-    height: ({height}) => height || 'auto',
+    // height: ({height}) => height || '100%',
     // height: 70
     // width: 70
   },
@@ -29,11 +29,12 @@ export default function Description(props) {
             // boxShadow: '5px 7px'
           }
         }>
-        <Extendable
-          height={height}
+        <div
           onClick={() => setExtended(!extended)}
-          className={`flex flex-grow flex-col overflow-y-auto ${className}`}
-          pose={extended ? 'open' : 'closed'}>
+          className={`flex ${
+            extended ? 'max-h-half' : className
+          } flex-grow flex-col overflow-y-auto `}
+          style={{transition: 'all 500ms'}}>
           <div className="flex-shrink overflow-hidden text-xl md:text-2xl">
             {children}
           </div>
@@ -47,7 +48,7 @@ export default function Description(props) {
               </button>
             </div>
           )}
-        </Extendable>
+        </div>
       </div>
     </div>
   );

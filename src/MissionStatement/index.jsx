@@ -46,7 +46,7 @@ function MissionStatement(props) {
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="mb-4">Info</h1>
       <div className="p-4">
-        <Description className="">
+        <Description className="max-h-64">
           <div
             className="big-letter"
             style={{

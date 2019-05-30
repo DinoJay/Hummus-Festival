@@ -3,8 +3,93 @@ html {
   height: 100
 }
 
+.clip-left {
+  clip-path: polygon(0 0, 54% 0%, 34% 99%, 0% 103%)
+  // polygon(0 0, 100% 0%, 68% 100%, 0% 100%);
+}
+
+.clip-right{
+  clip-path: polygon(67% 0, 100% 0%, 100% 100%, 41% 100%);
+}
+
+.vertical-text {
+	// transform: rotate(-90deg);
+	// transform-origin: left top 0;
+}
+
+.aurora-label {
+  @apply .text-2xl;
+  transform: translate(-34%, 400%) rotate(-73deg);
+}
+
+
+@screen sm {
+  .aurora-label {
+    @apply .text-3xl;
+    transform: translate(-35%, 450%) rotate(-77deg);
+  }
+
+}
+
+@screen md {
+  .aurora-label {
+    @apply .text-4xl;
+    transform: translate(-75px, 450%) rotate(-76deg);
+  }
+
+}
+
+
+
+@responsive {
+  .max-h-10	{
+    max-height: 2.5rem;
+  }
+
+  .max-h-half {
+    max-height: 60vh;
+  }
+
+  .max-h-12 {
+    max-height: 3rem;
+  }
+  .max-h-16 {
+      max-height: 4rem;
+  }
+  .max-h-20 {
+    max-height: 5rem;
+  }
+  .max-h-24{
+    max-height: 6rem;
+  }
+
+  .max-h-32 {
+    max-height: 8rem;
+  }
+  .max-h-40 {
+    max-height: 10rem;
+  }
+  .max-h-48 {
+    max-height: 12rem;
+  }
+  .max-h-72 {
+    max-height: 18rem;
+  }
+
+  .max-w-4 {
+    max-width: 1rem;
+  }
+}
+
+
+
+
 body {
   margin: 0;
+}
+
+#app {
+  overflow-x:hidden;
 
 }
 
@@ -386,22 +471,39 @@ h2 {
 }
 
 
+  .water-label {
+    transform: translate(-10px,20%) rotate(-45deg)
+  }
+
+  .fire-label {
+    transform: translate(20px,30%) rotate(34deg)
+  }
+
+  .earth-label {
+    transform: translate(20px,-29px) rotate(-49deg)
+  }
+
+  .air-label {
+    transform: translate(0,-15px) rotate(40deg)
+  }
 
 /* Extra small devices (phones, 600px and down) */
-.water-label {
-  transform: translate(10px,20%) rotate(-45deg)
-}
+@screen sm {
+  .water-label {
+    transform: translate(10px,20%) rotate(-45deg)
+  }
 
-.fire-label {
-  transform: translate(0,30%) rotate(34deg)
-}
+  .fire-label {
+    transform: translate(0,30%) rotate(34deg)
+  }
 
-.earth-label {
-  transform: translate(10%,-49%) rotate(-49deg)
-}
+  .earth-label {
+    transform: translate(10%,-49%) rotate(-49deg)
+  }
 
-.air-label {
-  transform: translate(0,-35%) rotate(40deg)
+  .air-label {
+    transform: translate(0,-35%) rotate(40deg)
+  }
 }
 
 @screen md {

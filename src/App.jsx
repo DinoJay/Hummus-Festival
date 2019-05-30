@@ -8,6 +8,7 @@ import Circle from './Circle';
 import Landing from './Landing';
 import MissionStatement from './MissionStatement';
 import Program from './Program';
+import AuroraExpress from './AuroraExpress';
 import People from './People';
 import About from './About';
 
@@ -74,12 +75,16 @@ function App() {
           </section>
           <section
             className="page background-full flex justify-center border-2"
+            style={{overflow: 'visible', height}}>
+            <AuroraExpress {...size} className="flex justify-center" />
+          </section>
+          <section
+            className="page background-full flex justify-center border-2"
             style={{overflow: 'visible'}}>
             <People {...size} className="flex justify-center" />
           </section>
-          <section
-            className="page flex background justify-center border-2 ">
-            <About {...size} className="flex justify-center" />
+          <section className="page flex background justify-center border-2 ">
+            <About {...size} className="flex flex-col" />
           </section>
         </>
       )}

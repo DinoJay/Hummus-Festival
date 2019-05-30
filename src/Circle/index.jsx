@@ -76,8 +76,7 @@ const SourceElement = props => {
 
   return (
     <div
-      className={`${className} ${active &&
-        'underline'} cursor-pointer p-1 px-2
+      className={`${className} ${active && 'underline'} cursor-pointer p-1 px-2
         flex items-center
         md:text-4xl text-2xl
     `}
@@ -290,7 +289,7 @@ export default function AlchemyCircle(props) {
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
       <h1 className="flex-no-shrink flex-none text-center">Concept</h1>
       <div className="p-4">
-        <Description height="13rem" className="w-full">
+        <Description className="w-full max-h-32 md:max-h-64">
           {selectedElement ? (
             <>
               <div
