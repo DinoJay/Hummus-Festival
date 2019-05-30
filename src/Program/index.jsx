@@ -20,6 +20,8 @@ import {SimplePath, Svg} from '../ArcPath';
 
 import calendar from './events';
 
+const themeWeeks = [FIRE, EARTH, AIR, WATER];
+
 const stickman2 =
   'm 0,0 -8.14711,0.0825 -1.42785,-1.89768 -0.16798,-1.48507 1.42784,-1.15508 6.00534,-0.41258 0.41997,-12.2523 0.41995,-5.9818 0.20998,-3.50648 0.33596,-8.58077 -0.46195,-5.07422 -8.56707,0.74258 -1.93179,-5.11547 -1.63782,-6.60058 -0.67193,-2.59896 0.20998,-2.55771 0.50394,-1.6914 0.9239,-0.90758 1.38586,0.0825 0.75591,0.61881 0.62993,2.14519 0.9239,3.6303 2.01579,7.30194 2.51972,-0.37125 3.02368,-0.28883 h 3.35962 l 0.46195,-0.70133 -0.20997,-1.89766 -0.37796,-0.94882 -0.75591,-1.36141 -0.54595,-2.72269 -0.12598,-2.599 1.00789,-2.14518 1.00788,-1.65015 0.96591,-1.0726 0.67193,-0.90758 2.6037,0.37128 1.38585,-0.33003 2.18377,0.12377 0.9239,1.11384 1.30186,2.2277 0.35633,1.84348 -0.33472,1.93888 -0.48357,1.4981 -0.79791,2.47526 -1.30186,1.44383 -0.8399,0.86632 0.16797,2.31024 0.50395,0.20625 9.65896,-0.28883 1.00788,-4.33156 0.67193,-3.46533 1.63782,-4.90917 1.34386,-1.32012 1.30186,-0.41253 1.21786,0.33002 0.9659,0.82508 0.46194,1.11384 -1.7638,6.55933 -2.64571,8.58075 -0.9659,2.0214 -10.28888,0.20633 -0.67193,0.37125 0.084,6.35304 -0.084,9.40578 -0.20997,3.01156 0.46195,7.54945 0.37795,8.99324 0.12599,1.69141 2.01578,0.041 2.22576,0.041 2.01578,0.49499 0.79791,0.66008 -0.084,1.60891 -0.37797,0.66008 -2.77169,0.16494 -2.98167,0.2063 -3.31765,-0.2475 h -1.97379 -0.12598 l -0.37797,-0.9489 -0.33595,-3.67156 -0.58794,-5.81671 -0.46195,-8.58075 -1.0079,-0.37125 -0.96588,0.28875 -0.54594,4.04289 -0.16798,4.9091 -0.33598,3.96031 -0.29396,4.37289 -0.9239,0.90766 -1.09188,0.66 z';
 
@@ -111,7 +113,8 @@ export default function Program(props) {
 
   const groupedEvents = [
     ...group(parsedEvents, d => formatWeek(d.startWeek)).entries()
-  ].map(([key, values]) => ({
+  ].map(([key, values], i) => ({
+    theme: themeWeeks[i],
     key,
     startWeekStr: formatWeek(values[0].startWeek),
     endWeekStr: formatWeek(values[0].endWeek),
@@ -160,8 +163,9 @@ export default function Program(props) {
                 gridRowEnd: 5
               }}>
               <div className="overflow-y-auto h-full">
-                <h2 className="flex justify-between mx-2">
-                  <div>{selectedWeek.startWeekStr}</div> <div>↝</div>{' '}
+                <h2 className="flex justify-between items-center mx-2">
+                  <div>{selectedWeek.startWeekStr}</div>{' '}
+                  <div>{icons[selectedWeek.theme].svg}</div>{' '}
                   <div>{selectedWeek.endWeekStr}</div>
                 </h2>
                 {selectedWeek.values.map(d => (
@@ -192,7 +196,7 @@ export default function Program(props) {
                     <div className="absolute m-4 top-0 left-0">
                       {d.startWeekStr}
                     </div>
-                    <div className="m-auto">{icons.FIRE.svg}</div>
+                    <div className="m-auto">{icons[d.theme].svg}</div>
                     <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
                       {d.endWeekStr}
                     </div>

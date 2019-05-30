@@ -1,4 +1,4 @@
-import colors from './colors';
+import colors from '../colors';
 import {FIRE, WATER, EARTH, AIR, icons} from '../alchemyElements';
 
 const defaultData = [

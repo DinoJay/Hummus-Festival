@@ -61,48 +61,36 @@ const pie = d3
   .value(d => d.size);
 const initPieData = cloneDeep(pie(initData));
 
-const SourceElement = ({
-  className,
-  title,
-  active,
-  style,
-  onClick,
-  icon,
-  color,
-  phone,
-}) => (
-  <div
-    className={`${className} cursor-pointer p-1 px-2
-        flex items-center border-yo border-black
+const SourceElement = props => {
+  const {
+    className,
+    title,
+    active,
+    style,
+    onClick,
+    icon,
+    color,
+    phone,
+    svg,
+  } = props;
+
+  return (
+    <div
+      className={`${className} ${active &&
+        'underline'} cursor-pointer p-1 px-2
+        flex items-center
         md:text-4xl text-2xl
     `}
-    style={{
-      color: !active ? color : 'white',
-      // fontSize: phone ? '10vw' : '3rem',
-      background: active && color,
-      ...style
-    }}
-    onClick={onClick}>
-    <div>{title}</div>
-    <div style={{color: !active ? color : 'white'}}>
-      <Svg width={50} height={45} preserveAspectRatio="xMaxYMin meet">
-        <g style={{transform: icon.transform}}>
-          <SimplePath
-            d={icon.path}
-            sketchOpts={{
-              // bowing: 20,
-              roughness: 1.3,
-              strokeWidth: 2,
-              fill: chroma(color).alpha(0.2),
-              stroke: color,
-              fillStyle: 'zigzag',
-            }}
-          />
-        </g>
-      </Svg>
+      style={{
+        // background: active && color,
+        ...style
+      }}
+      onClick={onClick}>
+      <div>{title}</div>
+      <div>{icon.svg}</div>
     </div>
-  </div>
-);
+  );
+};
 
 const Controls = props => {
   const {setId, id, phone} = props;
@@ -302,7 +290,7 @@ export default function AlchemyCircle(props) {
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
       <h1 className="flex-no-shrink flex-none text-center">Concept</h1>
       <div className="p-4">
-        <Description height="13rem" className="w-full ">
+        <Description height="13rem" className="w-full">
           {selectedElement ? (
             <>
               <div
@@ -313,12 +301,7 @@ export default function AlchemyCircle(props) {
                   width: 75,
                   height: 80
                 }}>
-                <Svg width="65" height="75">
-                  <SimplePath
-                    d={selectedElement.icon.path}
-                    style={{transform: 'translate(4px, 5px) scale(1.5)'}}
-                  />
-                </Svg>
+                {selectedElement.icon.svg}
               </div>
               {selectedElement.text}
             </>

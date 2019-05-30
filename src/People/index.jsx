@@ -42,11 +42,13 @@ export default function People(props) {
   const logoScale = width / 400;
   const [artist, setArtist] = useState(null);
 
+  console.log('artist', data);
+
   return (
     <div
       className={`${className} flex flex-col w-full h-full items-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
-      <h1 className="mb-4">People</h1>
+      <h1 className="mb-4 text-center">People</h1>
       <div
         className={`flex-grow flex flex-wrap w-full justify-center ${
           artist ? 'overflow-hidden' : 'overflow-y-auto'
@@ -60,7 +62,9 @@ export default function People(props) {
           {!artist &&
             data.map(d => (
               <PosedDiv
-                onClick={() => (artist ? setArtist(null) : setArtist(d))}
+                onClick={() => {
+                  artist ? setArtist(null) : setArtist(d);
+                }}
                 key={d.name}
                 className="cursor-pointer h-24 sm:w-24 lg:h-40 lg:w-1/4 lg:m-2 flex items-end m-1 border-2 border-black border-solid border-yo"
                 style={{
@@ -79,11 +83,11 @@ export default function People(props) {
             <PosedDiv
               key={artist.name}
               onClick={() => setArtist(null)}
-              className="w-full h-full "
+              className="w-full h-full flex flex-col"
               style={{
                 transform: 'rotate(6deg)',
               }}>
-              <div className="p-4 border-2 border-black border-solid border-yo">
+              <div className="flex-grow flex flex-col p-4 border-2 border-black border-solid border-yo">
                 <div
                   className="w-auto border-yo"
                   style={{
@@ -94,18 +98,9 @@ export default function People(props) {
                     backgroundPosition: 'center',
                   }}
                 />
-                <div className="px-6 py-4">
-                  <div className="font-bold text-xl mb-2">
-                    The Coldest Sunset
-                  </div>
-                  <p className="text-gray-700 text-base">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Voluptatibus quia, nulla! Maiores et perferendis eaque,
-                    exercitationem praesentium nihil.
-                  </p>
-                </div>
-                <div className="text-white font-bold text-lg">
-                  {artist.name}
+                <div className="px-6 py-4 flex-grow">
+                  <div className="font-bold text-xl mb-2">{artist.name}</div>
+                  <p className="md:text-lg overflow-y-auto">{artist.text}</p>
                 </div>
               </div>
             </PosedDiv>
