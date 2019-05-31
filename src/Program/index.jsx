@@ -131,7 +131,7 @@ export default function Program(props) {
   groupedEvents[1].row = 6;
 
   groupedEvents[2].col = 1;
-  groupedEvents[2].row = 12;
+  groupedEvents[2].row = 11;
 
   groupedEvents[3].col = 2;
   groupedEvents[3].row = 3;
