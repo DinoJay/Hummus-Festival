@@ -1,6 +1,5 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import * as d3 from 'd3';
-import chroma from 'chroma-js';
 
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
@@ -269,30 +268,14 @@ export default function AlchemyCircle(props) {
         <Description key="yo" className="w-full max-h-32 md:max-h-48">
           {selectedElement ? (
             <>
-              <div
-                className="big-letter text-black flex justify-center items-center"
-                style={{
-                  fontSize: 100,
-                  shapeOutside: 'ellipse(50%)',
-                  width: 100,
-                  height: 100
-                }}>
+              <div className="small-letter md:big-letter text-black flex justify-center items-center">
                 {selectedElement.icon.svgLg}
               </div>
               {selectedElement.text}
             </>
           ) : (
             <>
-              <div
-                className="big-letter text-black"
-                style={{
-                  fontSize: 100,
-                  shapeOutside: 'ellipse(50%)',
-                  width: 80,
-                  height: 100
-                }}>
-                !!!
-              </div>
+              <div className="small-letter md:big-letter text-black" style={{fontSize: 50}}>!!!</div>
               {defaultText}
             </>
           )}

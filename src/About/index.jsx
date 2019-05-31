@@ -95,13 +95,20 @@ export default function Program(props) {
         <h3 className="mt-0">Contacts</h3>
         <div className="flex">
           <div className="md:text-lg">
-            <div>Cristina 340 5903937</div>
-            <div>Michele 393 8905355</div>
+            <div className="flex flex-wrap">
+              <div className="w-full md:w-1/2">Cristina:</div>
+              <div>340 5903937</div>
+            </div>
+            <div className="flex flex-wrap">
+              <div className="w-full md:w-1/2">Michele:</div>
+              <div>393 8905355</div>
+            </div>
             <div>humuscampus@gmail.com</div>
             <div>facebook.com/estatefertile</div>
           </div>
-          <Svg width="17rem" height={100} ref={svgRef}>
+          <Svg className="flex-grow overflow-visible" height={100} ref={svgRef}>
             <SimplePath
+              className="bycicle"
               sketchOpts={{
                 ...sketchOpts,
 
@@ -112,7 +119,6 @@ export default function Program(props) {
                 fill: null
               }}
               d={bikeLogo}
-              style={{transform: 'translate(2rem, 3.5rem) scale(0.5)'}}
             />
           </Svg>
         </div>

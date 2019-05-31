@@ -100,9 +100,9 @@ export default function People(props) {
                 />
                 <div className="px-6 py-4 overflow-y-auto">
                   <div className="font-bold text-xl mb-2">{artist.name}</div>
-                  <div className="flex-grow md:text-2xl overflow-y-auto">
+                  <p className="flex-grow md:text-2xl max-h-48 md:max-h-64 overflow-y-auto">
                     {artist.text}
-                  </div>
+                  </p>
                 </div>
               </div>
             </PosedDiv>

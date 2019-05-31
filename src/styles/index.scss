@@ -34,7 +34,7 @@ html {
 @screen md {
   .aurora-label {
     @apply .text-4xl;
-    transform: translate(-75px, 450%) rotate(-76deg);
+    transform: translate(-104px, 450%) rotate(-75deg);
   }
 
 }
@@ -42,6 +42,23 @@ html {
 
 
 @responsive {
+  .big-letter {
+      @apply .float-left;
+      font-size: 100;
+      shape-outside: ellipse(50%);
+      width: 70;
+      height: 100;
+  }
+
+  .small-letter {
+      @apply .float-left;
+      font-size: 70px;
+
+      shape-outside: ellipse(40%);
+      width: 50px;
+      // height: 70px;
+  }
+
   .max-h-10	{
     max-height: 2.5rem;
   }
@@ -547,13 +564,6 @@ h2 {
 
   // black: '#404040',
 
-.big-letter {
-    @apply .float-left;
-    font-size: 100;
-    shape-outside: ellipse(50%);
-    width: 70;
-    height: 100;
-}
 
   // .event {
   //   @apply .w-32 .h-32;
@@ -602,6 +612,15 @@ $smMax: 576px;
   }
 }
 
+.bycicle {
+    transform: translate(-2.5rem, 2.5rem) scale(0.6);
+}
+
+@screen md  {
+  .bycicle {
+  transform: translate(3rem, 2.5rem) scale(0.6);
+  }
+}
 // @media screen sm {
 //   body {
 //     background-color: lightblue;

@@ -51,19 +51,10 @@ export default function AuroraExpress(props) {
       <h1 className="mb-4">Aurora Express</h1>
       <div className="p-4 flex-grow flex flex-col">
         <Description className="max-h-48" more>
-          <div
-            className="big-letter"
-            style={{
-              fontSize: 100,
-              shapeOutside: 'ellipse(50%)',
-              width: 70,
-              height: 100,
-            }}>
-            ?
-          </div>
+          <div className="small-letter md:big-letter">?</div>
           {text}
         </Description>
-        <div className="mt-6 flex-grow flex relative">
+        <div className="mt-6 bg-white flex-grow flex relative">
           <div
             style={{
               backgroundImage: `url(${img0}) `,
@@ -93,7 +84,6 @@ export default function AuroraExpress(props) {
             src={img1}
             className="
             absolute right-0
-            border-2 border-black border-solid
             h-full clip-right"
           />
         </div>

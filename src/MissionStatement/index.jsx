@@ -48,12 +48,12 @@ function MissionStatement(props) {
       <div className="p-4">
         <Description className="max-h-64">
           <div
-            className="big-letter"
+            className="small-letter md:big-letter"
             style={{
-              fontSize: 100,
-              shapeOutside: 'ellipse(50%)',
-              width: 70,
-              height: 100,
+              // fontSize: 100,
+              // shapeOutside: 'ellipse(50%)',
+              // width: 70,
+              // height: 100,
             }}>
             ?
           </div>
