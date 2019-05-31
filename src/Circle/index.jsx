@@ -87,16 +87,11 @@ const SourceElement = props => {
 const Controls = props => {
   const {setId, id, phone} = props;
 
-  const transformLabel = i => ({
-    transform: `translate(0, ${i < 2 ? `-20%` : '0%'}) rotate(${
-      i % 2 ? '30deg' : '-30deg'
-    })`,
-  });
-
   return (
     <>
       <div className="absolute " style={{top: 0, left: 0}}>
         <SourceElement
+          {...props}
           {...WATER}
           className="water-label"
           active={id === WATER.id}
@@ -105,6 +100,7 @@ const Controls = props => {
       </div>
       <div className="absolute fire-label" style={{top: 0, right: 0}}>
         <SourceElement
+          {...props}
           {...FIRE}
           className="m-1"
           active={id === FIRE.id}
@@ -113,6 +109,7 @@ const Controls = props => {
       </div>
       <div className="absolute earth-label" style={{bottom: 0, right: 0}}>
         <SourceElement
+          {...props}
           {...EARTH}
           active={id === EARTH.id}
           className="m-1"
@@ -121,6 +118,7 @@ const Controls = props => {
       </div>
       <div className="absolute air-label" style={{left: 0, bottom: 0}}>
         <SourceElement
+          {...props}
           active={id === AIR.id}
           {...AIR}
           className="m-1"

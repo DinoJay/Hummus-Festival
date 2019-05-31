@@ -1,6 +1,6 @@
 import React from 'react';
 import {theme} from 'Tailwind';
-import {Svg, SimplePath} from './ArcPath';
+import {Svg, SimplePath} from '../ArcPath';
 
 export const FIRE = 'FIRE';
 export const WATER = 'WATER';

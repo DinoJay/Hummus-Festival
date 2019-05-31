@@ -1,4 +1,4 @@
-import Sunset from 'react-feather/dist/icons/sunset';
+import Search from 'react-feather/dist/icons/search';
 import posed from 'react-pose';
 
 import React, {useState, useMemo, useEffect} from 'react';
@@ -39,11 +39,10 @@ export default function Description(props) {
             {children}
             {more && !extended && (
               <div
-                className="border-2 border-black
-              absolute right-0 bottom-0 flex-shrink-0
-              border-solid m-1 p-1 flex ">
+                className=" absolute right-0 bottom-0 flex-shrink-0
+              ml-2 flex ">
                 <button className="btn-invisible m-auto text-xl" type="button">
-                  More...
+                  <Search />
                 </button>
               </div>
             )}
