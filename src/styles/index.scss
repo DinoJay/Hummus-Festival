@@ -469,7 +469,7 @@ h2 {
 }
 
 .page {
-  @apply .overflow-hidden .h-screen .w-screen .overflow-hidden;
+  @apply .overflow-hidden .w-screen .overflow-hidden;
   // scroll-snap-align: start;
 }
 
@@ -511,11 +511,11 @@ h2 {
 
 @screen md {
   .water-label {
-    transform: translate(-10px,50px) rotate(-0deg)
+    transform: translate(-50px,50px) rotate(-0deg)
   }
 
   .fire-label {
-    transform: translate(-10px,40px) rotate(0deg)
+    transform: translate(10px,40px) rotate(0deg)
   }
 
   .earth-label {
@@ -584,35 +584,21 @@ $smMax: 576px;
 }
 
 
+
 @media only screen and (min-width: $smMax+1) {
+  .detail-events {
+    grid-row-end: 9;
+  }
+
   .event {
-    width: 14rem;
-    height: 14rem;
+    width: 11rem;
+    height: 11rem;
   }
-  .program-stickman {
-    transform: translate(120px, 380px) scale(6.6);
-  }
-  .program-stickman-selected {
-    transform: translate(120px, 320px) scale(6);
-  }
-
-  .detail-events {
-    grid-row-end: 7;
-  }
-
-}
-
-
-@media only screen and (min-width: $smMax+1) {
-  .detail-events {
-    grid-row-end: 11;
-  }
-
   .program-stickman {
     transform: translate(120px, 280px) scale(5.5);
   }
   .program-stickman-selected {
-    transform: translate(-170px, 220px) scale(6.6) rotate(90deg);
+    transform: translate(-100px, 80px) scale(5.6) rotate(90deg);
   }
 }
 

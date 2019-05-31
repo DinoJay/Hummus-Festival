@@ -35,7 +35,7 @@ export default function Description(props) {
             extended ? 'max-h-half' : className
           } flex-grow flex-col overflow-y-auto `}
           style={{transition: 'all 500ms'}}>
-          <div className="relative flex-shrink overflow-hidden text-xl md:text-2xl">
+          <div className="relative flex-shrink overflow-hidden text-xl md:text-xl">
             {children}
             {more && !extended && (
               <div

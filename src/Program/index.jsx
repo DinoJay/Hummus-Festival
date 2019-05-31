@@ -138,7 +138,7 @@ export default function Program(props) {
 
   return (
     <div
-      className="flex flex-col items-center w-full h-full relative"
+      className="flex flex-col items-center w-full relative"
       style={{fontFamily: "'Cabin Sketch'"}}>
       <h1 className="">Program</h1>
       <div
@@ -181,10 +181,10 @@ export default function Program(props) {
                 style={{
                   gridColumnStart: d.col,
                   gridRowStart: d.row,
-                  gridRowEnd: 'span 4'
+                  gridRowEnd: 'span 3'
                 }}>
                 <div
-                  className="event flex relative m-1 text-2xl lg:text-4xl"
+                  className="event flex relative m-1 text-2xl md: text:2xl"
                   style={{
                     transform: `rotate(${i % 2 ? -10 : 6}deg)`
                   }}>

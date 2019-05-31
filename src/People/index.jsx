@@ -46,7 +46,7 @@ export default function People(props) {
 
   return (
     <div
-      className={`${className} flex flex-col w-full h-full items-center relative`}
+      className={`${className} relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="mb-4 text-center">People</h1>
       <div

@@ -16,7 +16,7 @@ function App() {
   const [size, setSize] = useState(null);
 
   const ref = React.useRef();
-  const maxWidth = 600;
+  const maxWidth = 500;
   const maxHeight = 2000;
   useEffect(() => {
     const resize = () => {
@@ -74,17 +74,19 @@ function App() {
             <Program {...size} className="flex justify-center" />
           </section>
           <section
-            className="page background-full flex justify-center border-2"
-            style={{overflow: 'visible', height}}>
+            className="page h-screen background-full flex justify-center border-2"
+            style={{overflow: 'visible'}}>
             <AuroraExpress {...size} className="flex justify-center" />
           </section>
           <section
-            className="page background-full flex justify-center border-2"
+            className="page background-full border-2 flex justify-center"
             style={{overflow: 'visible'}}>
-            <People {...size} className="flex justify-center" />
+            <People {...size} className="" />
           </section>
-          <section className="page flex background justify-center border-2 ">
-            <About {...size} className="flex flex-col" />
+          <section
+            className="page flex background justify-center border-2 "
+            style={{height: 'unset'}}>
+            <About {...size} className="" />
           </section>
         </>
       )}

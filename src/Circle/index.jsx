@@ -136,7 +136,7 @@ export default function AlchemyCircle(props) {
   const data = initData;
   const selectedElement = defaultData.find(d => d.id === id);
 
-  const radius = Math.min((circleWidth * 2) / 3, 240);
+  const radius = Math.min((circleWidth * 2) / 3, 210);
 
   const MIN_ANGLE = 0.0385;
   const fData = data.map(d => {
@@ -266,7 +266,7 @@ export default function AlchemyCircle(props) {
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
       <h1 className="flex-no-shrink flex-none text-center">Concept</h1>
       <div className="p-4">
-        <Description key="yo" className="w-full max-h-32 md:max-h-72">
+        <Description key="yo" className="w-full max-h-32 md:max-h-48">
           {selectedElement ? (
             <>
               <div
