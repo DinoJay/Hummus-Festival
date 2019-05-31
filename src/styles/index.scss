@@ -72,6 +72,9 @@ html {
   .max-h-48 {
     max-height: 12rem;
   }
+  .max-h-64{
+    max-height: 14rem;
+  }
   .max-h-72 {
     max-height: 18rem;
   }
@@ -558,6 +561,12 @@ h2 {
 
 $smMax: 576px;
 
+  .detail-events {
+    grid-column-end: 3;
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+
 @media only screen and (max-width: $smMax) {
   .event {
     width: 10rem;
@@ -569,7 +578,11 @@ $smMax: 576px;
   .program-stickman-selected {
     transform: translate(-50px, -60px) scale(4.6) rotate(90deg);
   }
+  .detail-events {
+    grid-row-end: 7;
+  }
 }
+
 
 @media only screen and (min-width: $smMax+1) {
   .event {
@@ -582,10 +595,25 @@ $smMax: 576px;
   .program-stickman-selected {
     transform: translate(120px, 320px) scale(6);
   }
+
+  .detail-events {
+    grid-row-end: 7;
+  }
+
 }
 
 
 @media only screen and (min-width: $smMax+1) {
+  .detail-events {
+    grid-row-end: 11;
+  }
+
+  .program-stickman {
+    transform: translate(120px, 280px) scale(5.5);
+  }
+  .program-stickman-selected {
+    transform: translate(-170px, 220px) scale(6.6) rotate(90deg);
+  }
 }
 
 // @media screen sm {

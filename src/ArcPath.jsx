@@ -83,6 +83,7 @@ export const SketchyArcPath = ({
   pathFn,
   defaultData,
   options,
+  duration = 300,
   animOpts = {},
   ...props
 }) => {
@@ -102,7 +103,7 @@ export const SketchyArcPath = ({
           endAngle: olData ? olData.endAngle : defaultData.endAngle
         },
         to: {startAngle: data.startAngle, endAngle: data.endAngle},
-        duration: 200,
+        duration,
         ...animOpts
         // ease: easing.easeInOut,
         // flip: Infinity,

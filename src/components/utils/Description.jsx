@@ -35,19 +35,19 @@ export default function Description(props) {
             extended ? 'max-h-half' : className
           } flex-grow flex-col overflow-y-auto `}
           style={{transition: 'all 500ms'}}>
-          <div className="flex-shrink overflow-hidden text-xl md:text-2xl">
+          <div className="relative flex-shrink overflow-hidden text-xl md:text-2xl">
             {children}
+            {more && !extended && (
+              <div
+                className="border-2 border-black
+              absolute right-0 bottom-0 flex-shrink-0
+              border-solid m-1 p-1 flex ">
+                <button className="btn-invisible m-auto text-xl" type="button">
+                  More...
+                </button>
+              </div>
+            )}
           </div>
-          {more && (
-            <div
-              className="border-t-2
-              mt-auto flex-shrink-0
-              border-solid border-gray-500 m-1 p-1 flex ">
-              <button className="btn-invisible m-auto text-xl" type="button">
-                More...
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>

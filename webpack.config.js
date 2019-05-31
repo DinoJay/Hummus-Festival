@@ -74,7 +74,7 @@ module.exports = {
     new ErrorOverlayPlugin(),
     new HtmlWebpackPlugin({
       template: './src/template.html',
-      title: 'Humus'
+      title: 'Humus Campus'
     }),
     // new webpack.EnvironmentPlugin(apiTokens),
     new webpack.DefinePlugin({

@@ -30,93 +30,98 @@ const earthStroke = theme.colors.yellow[700];
 const airFill = theme.colors.teal[500];
 const airStroke = theme.colors.teal[700];
 
+const generateSvg = ({d, fill, stroke, size = 50, transform}) => (
+  <Svg width={size} height={size}>
+    <g style={{transform}}>
+      <SimplePath
+        d={d}
+        sketchOpts={{
+          // bowing: 20,
+          roughness: 1.3,
+          strokeWidth: 2,
+          fill,
+          stroke,
+          fillStyle: 'zigzag'
+        }}
+      />
+    </g>
+  </Svg>
+);
+
 export const icons = {
   [FIRE]: {
     path: firepath,
     fill: fireFill,
     stroke: fireStroke,
-    svg: (
-      <Svg width="60" height="50">
-        <g style={{transform: 'translate(10px, 8px)'}}>
-          <SimplePath
-            d={firepath}
-            sketchOpts={{
-              // bowing: 20,
-              roughness: 1.3,
-              strokeWidth: 2,
-              fill: fireFill,
-              stroke: fireStroke,
-              fillStyle: 'zigzag',
-            }}
-          />
-        </g>
-      </Svg>
-    )
+    svgLg: generateSvg({
+      size: 100,
+      d: firepath,
+      fill: fireFill,
+      stroke: fireStroke,
+      transform: 'translate(10px, 16px) scale(2)'
+    }),
+    svg: generateSvg({
+      d: firepath,
+      fill: fireFill,
+      stroke: fireStroke,
+      transform: 'translate(10px, 8px)'
+    }),
   },
   [WATER]: {
     path: waterPath,
     fill: waterFill,
     stroke: waterStroke,
-    svg: (
-      <Svg width="50" height="50">
-        <g style={{transform: 'translate(5px, 10px)'}}>
-          <SimplePath
-            d={airPath}
-            sketchOpts={{
-              // bowing: 20,
-              roughness: 1.3,
-              strokeWidth: 2,
-              fill: waterFill,
-              stroke: waterStroke,
-              fillStyle: 'zigzag',
-            }}
-          />
-        </g>
-      </Svg>
-    )
+    svgLg: generateSvg({
+      d: airPath,
+      size: 100,
+      transform: 'translate(5px, 16px) scale(2)',
+      fill: waterFill,
+      stroke: waterStroke
+    }),
+    svg: generateSvg({
+      d: airPath,
+      size: 50,
+      transform: 'translate(5px, 10px)',
+      fill: waterFill,
+      stroke: waterStroke
+    }),
   },
   [EARTH]: {
     path: earthPath,
     fill: earthFill,
     stroke: earthStroke,
-    svg: (
-      <Svg width="50" height="50">
-        <g style={{transform: 'translate(10px, 8px)'}}>
-          <SimplePath
-            d={earthPath}
-            sketchOpts={{
-              // bowing: 20,
-              roughness: 1.3,
-              strokeWidth: 2,
-              fill: earthFill,
-              stroke: earthStroke,
-              fillStyle: 'zigzag',
-            }}
-          />
-        </g>
-      </Svg>
-    )
+    svgLg: generateSvg({
+      d: earthPath,
+      transform: 'translate(10px, 24px) scale(2)',
+      fill: earthFill,
+      stroke: earthStroke,
+      size: 100
+    }),
+    svg: generateSvg({
+      d: earthPath,
+      transform: 'translate(10px, 8px)',
+      fill: earthFill,
+      stroke: earthStroke,
+      size: 50
+    }),
   },
   [AIR]: {
     path: airPath,
     stroke: airStroke,
     fill: airFill,
-    svg: (
-      <Svg width="50" height="50">
-        <g style={{transform: 'translate(10px, 8px)'}}>
-          <SimplePath
-            d={airPath}
-            sketchOpts={{
-              // bowing: 20,
-              roughness: 1.3,
-              strokeWidth: 2,
-              fill: airFill,
-              stroke: airStroke,
-              fillStyle: 'zigzag',
-            }}
-          />
-        </g>
-      </Svg>
-    )
-  }
+    svgLg: generateSvg({
+      d: airPath,
+      fill: airFill,
+      stroke: airStroke,
+      size: 100,
+      transform: 'translate(10px, 20px) scale(2)'
+    }),
+    svg: generateSvg({
+      d: airPath,
+      fill: airFill,
+      stroke: airStroke,
+      size: 50,
+      transform: 'translate(10px, 8px)'
+    }),
+  },
 };

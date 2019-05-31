@@ -31,8 +31,8 @@ const CenterTxt = props => {
 
   return (
     <div
-      className={`bg-white border-2 border-black flex flex-col items-center justify-center px-4 py-1 ${className}`}
-      style={{...style, transform: `translate(-50%,25%)`}}>
+      className={`bg-white border-2 border-black flex flex-col items-center justify-center p-4 ${className}`}
+      style={{...style, transform: `translate(-50%,40%)`}}>
       <div
         className="text-4xl flex items-center"
         style={{fontFamily: '"Cabin Sketch"', transitionDelay: '400ms'}}>
@@ -41,13 +41,6 @@ const CenterTxt = props => {
     </div>
   );
 };
-
-const setColor = hex =>
-  chroma(hex)
-    .saturate(2)
-    .brighten(2)
-    .alpha(0.2)
-    .css();
 
 const initData = defaultData.reduce((acc, d) => [...d.values, ...acc], []);
 
@@ -106,7 +99,6 @@ const Controls = props => {
         <SourceElement
           {...WATER}
           className="water-label"
-          phone={phone}
           active={id === WATER.id}
           onClick={() => setId(id !== WATER.id ? WATER.id : null)}
         />
@@ -114,7 +106,6 @@ const Controls = props => {
       <div className="absolute fire-label" style={{top: 0, right: 0}}>
         <SourceElement
           {...FIRE}
-          phone={phone}
           className="m-1"
           active={id === FIRE.id}
           onClick={() => setId(id !== FIRE.id ? FIRE.id : null)}
@@ -123,7 +114,6 @@ const Controls = props => {
       <div className="absolute earth-label" style={{bottom: 0, right: 0}}>
         <SourceElement
           {...EARTH}
-          phone={phone}
           active={id === EARTH.id}
           className="m-1"
           onClick={() => setId(id !== EARTH.id ? EARTH.id : null)}
@@ -131,7 +121,6 @@ const Controls = props => {
       </div>
       <div className="absolute air-label" style={{left: 0, bottom: 0}}>
         <SourceElement
-          phone={phone}
           active={id === AIR.id}
           {...AIR}
           className="m-1"
@@ -224,25 +213,15 @@ export default function AlchemyCircle(props) {
 
   const insideArcs = (arc, opts) =>
     pieData.map(a => (
-      <SimpleArcPath
+      <path
         svgRef={svgRef}
         data={a}
-        pathFn={d =>
-          arc({
-            ...d,
-            startAngle: d.startAngle,
-            endAngle: d.endAngle + 0.05
-          })
-        }
+        d={arc({
+          ...a,
+          startAngle: a.startAngle,
+          endAngle: a.endAngle + 0.05,
+        })}
         key={a.data.outerLabel}
-        defaultData={initPieData.find(
-          d => a.data.outerLabel === d.data.outerLabel,
-        )}
-        options={{
-          fillWidth: 10,
-          sketch: 30.8,
-          bowing: 5
-        }}
         style={{
           mixBlendMode: 'multiply',
           opacity: 0.7,
@@ -289,7 +268,7 @@ export default function AlchemyCircle(props) {
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
       <h1 className="flex-no-shrink flex-none text-center">Concept</h1>
       <div className="p-4">
-        <Description className="w-full max-h-32 md:max-h-64">
+        <Description key="yo" className="w-full max-h-32 md:max-h-72">
           {selectedElement ? (
             <>
               <div
@@ -297,10 +276,10 @@ export default function AlchemyCircle(props) {
                 style={{
                   fontSize: 100,
                   shapeOutside: 'ellipse(50%)',
-                  width: 75,
-                  height: 80
+                  width: 100,
+                  height: 100
                 }}>
-                {selectedElement.icon.svg}
+                {selectedElement.icon.svgLg}
               </div>
               {selectedElement.text}
             </>
@@ -323,24 +302,10 @@ export default function AlchemyCircle(props) {
       </div>
       <div className="relative mt-auto ">
         <CenterTxt
-          className="absolute z-10 border-black border-2 border-solid"
+          className="absolute z-10 border-black rounded-full border-2 border-solid"
           preview={
             selectedElement ? (
-              <div>
-                <Svg width="40" height="40">
-                  <SimplePath
-                    d={selectedElement.icon.path}
-                    sketchOpts={{
-                      // bowing: 20,
-                      roughness: 1.3,
-                      strokeWidth: 2,
-                      fill: chroma(selectedElement.color).alpha(0.2),
-                      stroke: selectedElement.color,
-                      fillStyle: 'zigzag',
-                    }}
-                  />
-                </Svg>
-              </div>
+              <div>{selectedElement.icon.svg}</div>
             ) : (
               <span className="text-4xl text-black">!!!</span>
             )
@@ -355,9 +320,8 @@ export default function AlchemyCircle(props) {
         <Svg width={width} height={radius * 2}>
           <g
             id="labelArcs"
-            style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {labelArcs}
-          </g>
+            style={{transform: `translate(${width / 2}px, ${radius}px)`}}
+          />
           <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
             {insideArcs(outerArc, {
               mixBlendMode: 'multiply',

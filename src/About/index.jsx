@@ -1,6 +1,5 @@
 import React, {useState, useMemo, useEffect} from 'react';
 
-import * as d3 from 'd3';
 import chroma from 'chroma-js';
 
 import uniqBy from 'lodash/uniqBy';
@@ -14,6 +13,7 @@ import {SimplePath, Svg} from '../ArcPath';
 
 import apeOrgaPath from './Ape_Orga.js';
 import apeLogo from '../apeLogo.js';
+import bikeLogo from './bikeLogo';
 
 // import events, {FIRE, WATER, TERRA, AIR} from './events';
 
@@ -93,11 +93,28 @@ export default function Program(props) {
       </Segment>
       <Segment>
         <h3 className="mt-0">Contacts</h3>
-        <div className="text-lg">
-          <div>Cristina 340 5903937</div>
-          <div>Michele 393 8905355</div>
-          <div>humuscampus@gmail.com</div>
-          <div>facebook.com/estatefertile</div>
+        <div className="flex">
+          <div className="md:text-lg">
+            <div>Cristina 340 5903937</div>
+            <div>Michele 393 8905355</div>
+            <div>humuscampus@gmail.com</div>
+            <div>facebook.com/estatefertile</div>
+          </div>
+          <Svg width="17rem" height={100} ref={svgRef}>
+            <SimplePath
+              sketchOpts={{
+                ...sketchOpts,
+
+                roughness: 1.4,
+                strokeWidth: 4,
+                // fillWeight: 10,
+
+                fill: null
+              }}
+              d={bikeLogo}
+              style={{transform: 'translate(2rem, 3.5rem) scale(0.5)'}}
+            />
+          </Svg>
         </div>
       </Segment>
       <Segment>References</Segment>

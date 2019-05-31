@@ -50,7 +50,7 @@ export default function AuroraExpress(props) {
       style={{fontFamily: "'Cabin Sketch'", width}}>
       <h1 className="mb-4">Aurora Express</h1>
       <div className="p-4 flex-grow flex flex-col">
-        <Description className="max-h-48">
+        <Description className="max-h-48" more>
           <div
             className="big-letter"
             style={{

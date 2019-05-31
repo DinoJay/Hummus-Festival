@@ -128,13 +128,13 @@ export default function Program(props) {
   groupedEvents[0].row = 1;
 
   groupedEvents[1].col = 1;
-  groupedEvents[1].row = 4;
+  groupedEvents[1].row = 6;
 
   groupedEvents[2].col = 1;
-  groupedEvents[2].row = 7;
+  groupedEvents[2].row = 12;
 
   groupedEvents[3].col = 2;
-  groupedEvents[3].row = 2;
+  groupedEvents[3].row = 3;
 
   return (
     <div
@@ -146,46 +146,42 @@ export default function Program(props) {
         style={{
           display: 'grid',
           gridTemplateColumns: `${width / 2 - 10}px ${width / 2 - 10}px`,
-          gridTemplateRows: `repeat(10, 10%)`,
+          gridTemplateRows: `repeat(20, 5%)`,
         }}>
         <PoseGroup>
           {selectedWeek ? (
             <PosedDiv
               shrink
               width={width}
-              className="z-50 bg-white speech-bubble overflow-hidden"
+              className="z-50 bg-white speech-bubble overflow-hidden detail-events"
               onClick={() => setSelectedWeek(null)}
-              key={selectedWeek.key}
-              style={{
-                gridColumnEnd: 3,
-                gridColumnStart: 1,
-                gridRowStart: 1,
-                gridRowEnd: 5
-              }}>
-              <div className="overflow-y-auto h-full">
+              key={selectedWeek.key}>
+              <div className="h-full flex flex-col">
                 <h2 className="flex justify-between items-center my-0 mx-2">
                   <div>{selectedWeek.startWeekStr}</div>{' '}
                   <div>{icons[selectedWeek.theme].svg}</div>{' '}
                   <div>{selectedWeek.endWeekStr}</div>
                 </h2>
-                {selectedWeek.values.map(d => (
-                  <div className="capitalize text-xl mb-2">
-                    <div className="font-bold">{formatDay(d.startDate)}</div>
-                    <div>{d.summary}</div>
-                  </div>
-                ))}
+                <div className="flex-grow overflow-y-auto">
+                  {selectedWeek.values.map(d => (
+                    <div className="capitalize text-xl mb-2">
+                      <div className="font-bold">{formatDay(d.startDate)}</div>
+                      <div>{d.summary}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </PosedDiv>
           ) : (
             groupedEvents.slice(0, 4).map((d, i) => (
               <PosedDiv
-                className="flex justify-center items-center"
+                className="flex justify-center items-center cursor-pointer"
                 key={d.key}
                 onClick={() => setSelectedWeek(d)}
                 style={{
                   gridColumnStart: d.col,
                   gridRowStart: d.row,
-                  gridRowEnd: 'span 2'
+                  gridRowEnd: 'span 4'
                 }}>
                 <div
                   className="event flex relative m-1 text-2xl lg:text-4xl"
@@ -196,7 +192,9 @@ export default function Program(props) {
                     <div className="absolute m-4 top-0 left-0">
                       {d.startWeekStr}
                     </div>
-                    <div className="m-auto">{icons[d.theme].svg}</div>
+                    <div className="m-auto">
+                      {icons[d.theme][width > 400 ? 'svgLg' : 'svg']}
+                    </div>
                     <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
                       {d.endWeekStr}
                     </div>
@@ -209,10 +207,10 @@ export default function Program(props) {
             className="flex justify-center items-center relative"
             key="st"
             style={{
-              gridRowStart: selectedWeek ? 7 : 6,
+              gridRowStart: selectedWeek ? 11 : 11,
               gridColumnStart: 2,
             }}>
-            <Svg className="my-4 absolute overflow-visible">
+            <Svg className="my-4 overflow-visible">
               <SimplePath
                 d={selectedWeek ? stickman2 : stickman}
                 times={50}

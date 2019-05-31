@@ -51,7 +51,7 @@ export default function People(props) {
       <h1 className="mb-4 text-center">People</h1>
       <div
         className={`flex-grow flex flex-wrap w-full justify-center ${
-          artist ? 'overflow-hidden' : 'overflow-y-auto'
+          artist ? 'overflow-hidden' : 'overflow-y-visible'
         }`}
         style={
           {
@@ -74,7 +74,7 @@ export default function People(props) {
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center'
                 }}>
-                <div className="m-1 text-white font-bold lg:text-2xl">
+                <div className="m-1 text-white font-bold md:text-2xl">
                   {d.name}
                 </div>
               </PosedDiv>
@@ -83,13 +83,13 @@ export default function People(props) {
             <PosedDiv
               key={artist.name}
               onClick={() => setArtist(null)}
-              className="w-full h-full flex flex-col"
+              className="w-full h-full overflow-y-auto"
               style={{
                 transform: 'rotate(6deg)',
               }}>
-              <div className="flex-grow flex flex-col p-4 border-2 border-black border-solid border-yo">
+              <div className="p-4 border-2 bg-white border-black border-solid border-yo">
                 <div
-                  className="w-auto border-yo"
+                  className="w-auto border-yo border-solid border-black"
                   style={{
                     height: height / 2.7,
                     backgroundImage: `url(${artist.src})`,
@@ -98,9 +98,11 @@ export default function People(props) {
                     backgroundPosition: 'center',
                   }}
                 />
-                <div className="px-6 py-4 flex-grow">
+                <div className="px-6 py-4 overflow-y-auto">
                   <div className="font-bold text-xl mb-2">{artist.name}</div>
-                  <p className="md:text-lg overflow-y-auto">{artist.text}</p>
+                  <div className="flex-grow md:text-2xl overflow-y-auto">
+                    {artist.text}
+                  </div>
                 </div>
               </div>
             </PosedDiv>
