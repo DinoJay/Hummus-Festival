@@ -269,13 +269,17 @@ export default function AlchemyCircle(props) {
           {selectedElement ? (
             <>
               <div className="small-letter md:big-letter text-black flex justify-center items-center">
-                {selectedElement.icon.svgLg}
+                {selectedElement.icon[width > 400 ? 'svgLg' : 'svg']}
               </div>
               {selectedElement.text}
             </>
           ) : (
             <>
-              <div className="small-letter md:big-letter text-black" style={{fontSize: 50}}>!!!</div>
+              <div
+                className="small-letter md:big-letter text-black"
+                style={{fontSize: 50}}>
+                !!!
+              </div>
               {defaultText}
             </>
           )}
@@ -286,9 +290,11 @@ export default function AlchemyCircle(props) {
           className="absolute z-10 border-black rounded-full border-2 border-solid"
           preview={
             selectedElement ? (
-              <div>{selectedElement.icon.svg}</div>
+              <div className="-ml-1 -mr-1 -my-2 relative">
+                <div className="ml-1">{selectedElement.icon.svg}</div>
+              </div>
             ) : (
-              <span className="text-4xl text-black">!!!</span>
+              <span className="text-4xl mx-2 text-black">!!!</span>
             )
           }
           text={selectedElement ? selectedElement.text : 'YO'}

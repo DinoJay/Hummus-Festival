@@ -49,19 +49,21 @@ function MissionStatement(props) {
         <Description className="max-h-64">
           <div
             className="small-letter md:big-letter"
-            style={{
-              // fontSize: 100,
-              // shapeOutside: 'ellipse(50%)',
-              // width: 70,
-              // height: 100,
-            }}>
+            style={
+              {
+                // fontSize: 100,
+                // shapeOutside: 'ellipse(50%)',
+                // width: 70,
+                // height: 100,
+              }
+            }>
             ?
           </div>
           {text}
         </Description>
       </div>
       <Svg
-        className="mt-auto w-full overflow-visible"
+        className="md:mt-12 w-full overflow-visible"
         style={{height: height / (phone ? 2.3 : 2)}}>
         <g transform={`translate(${width / 2},${20}) scale(${stickmanScale})`}>
           <SimplePath
