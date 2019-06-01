@@ -2,6 +2,8 @@ import React, {useState, useMemo, useEffect} from 'react';
 
 import chroma from 'chroma-js';
 
+import {line} from 'd3';
+
 import PropTypes from 'prop-types';
 import uniqBy from 'lodash/uniqBy';
 // import isEqual from 'lodash/isEqual';
@@ -18,10 +20,12 @@ import text from './text';
 import img0 from './aurora_1.png';
 import img1 from './aurora_2.png';
 
+const makeLine = line();
+
 const BLACK = '#404040';
 
 const verticalText = {
-  transform: 'translate(-25%,0%) rotate(90deg)',
+  transform: 'translate(-25%,0%) rotate(90deg)'
   // transformOrigin: 'left top 0',
 };
 
@@ -32,7 +36,7 @@ const sketchOpts = {
   fillWeight: 10,
   fill: chroma('#01a9d0').alpha(0.2),
   stroke: BLACK,
-  fillStyle: 'zigzag',
+  fillStyle: 'zigzag'
 };
 
 // const text =
@@ -61,25 +65,41 @@ export default function AuroraExpress(props) {
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
-              width: '100%'
+              width: '100%',
             }}
             src={img0}
             className="h-full w-3/4 clip-left absolute left-0"
           />
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="w-full h-full z-20">
+            <text>
+              <textPath
+                style={{fontSize: 10.9, transform: 'skewX(30deg)'}}
+                href="#MyPath">
+                Humus Campus 2017
+              </textPath>
+            </text>
+
+            <path
+              d={makeLine([[42, 100], [65, 0]])}
+              id="MyPath"
+              fill="none"
+              stroke="transparent"
+            />
+          </svg>
           <div
             className="z-50 whitespace-no-wrap absolute vertical-text"
-            style={{left: '36%'}}>
-            <div className="text-4xl aurora-label" style={{}}>
-              Humus Festival 2017
-            </div>
-          </div>
+            style={{left: '36%'}}
+          />
           <div
             style={{
               backgroundImage: `url(${img1}) `,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
-              width: '100%'
+              width: '100%',
             }}
             src={img1}
             className="

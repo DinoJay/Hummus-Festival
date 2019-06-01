@@ -9,7 +9,7 @@ html {
 }
 
 .clip-right{
-  clip-path: polygon(67% 0, 100% 0%, 100% 100%, 41% 100%);
+  clip-path: polygon(67% 0, 100% 0%, 100% 100%, 45% 100%);
 }
 
 .vertical-text {
@@ -28,7 +28,6 @@ html {
     @apply .text-3xl;
     transform: translate(-35%, 450%) rotate(-77deg);
   }
-
 }
 
 @screen md {
@@ -46,8 +45,8 @@ html {
       @apply .float-left;
       font-size: 100;
       shape-outside: ellipse(50%);
-      width: 70;
-      height: 100;
+      width: 70px;
+      height: 100px;
   }
 
   .small-letter {

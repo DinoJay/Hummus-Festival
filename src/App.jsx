@@ -65,7 +65,9 @@ function App() {
           <section className="page background flex justify-center border-2  ">
             <MissionStatement {...size} className="flex " />
           </section>
-          <section className="page flex justify-center background-0  ">
+          <section
+            className="page flex justify-center background-0  "
+            style={{minHeight: height}}>
             <Circle {...size} className="p-2" />
           </section>
           <section

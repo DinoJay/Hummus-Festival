@@ -92,7 +92,7 @@ export const icons = {
     stroke: earthStroke,
     svgLg: generateSvg({
       d: earthPath,
-      transform: 'translate(25px, 34px) scale(1.5)',
+      transform: 'translate(0px, 34px) scale(1.5)',
       fill: earthFill,
       stroke: earthStroke,
       size: 100

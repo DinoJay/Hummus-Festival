@@ -147,12 +147,10 @@ export const SimpleArcPath = ({
 }) => {
   const olData = memo(data);
   const ref = React.useRef();
-  const refId = React.useRef();
   const [shape, setShape] = useState(null);
 
   useEffect(
     () => {
-      const rc = rough.svg(svgRef.current);
       tween({
         from: {
           startAngle: olData ? olData.startAngle : defaultData.startAngle,

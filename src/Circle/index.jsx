@@ -210,14 +210,19 @@ export default function AlchemyCircle(props) {
 
   const insideArcs = (arc, opts) =>
     pieData.map(a => (
-      <path
+      <SimpleArcPath
         svgRef={svgRef}
         data={a}
-        d={arc({
-          ...a,
-          startAngle: a.startAngle,
-          endAngle: a.endAngle + 0.05,
-        })}
+        pathFn={d =>
+          arc({
+            ...d,
+            startAngle: d.startAngle,
+            endAngle: d.endAngle + 0.05,
+          })
+        }
+        defaultData={initPieData.find(
+          d => a.data.outerLabel === d.data.outerLabel,
+        )}
         key={a.data.outerLabel}
         style={{
           mixBlendMode: 'multiply',
@@ -230,7 +235,7 @@ export default function AlchemyCircle(props) {
 
   const strokeInsideArcs = () =>
     pieData.map((a, i) => (
-      <SketchyArcPath
+      <SimpleArcPath
         svgRef={svgRef}
         data={a}
         pathFn={d =>
