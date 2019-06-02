@@ -16,7 +16,7 @@ const defaultText =
   "Il tema che proponiamo quest'anno è la Metamorfosi, vissuta come trasformazione del proprio essere attraverso l’atto creativo.  Per una suddivisione temporale del processo ci siamo fatti ispirare dalla prospettiva alchimistica della creazione, che vede seguire quattro fasi dominate rispettivamente dagli elementi: fuoco, terra, aria, acqua. Il Campus si svolgerà nel mese di giugno durante tutte e quattro le settimane: ogni settimana verrà associata a uno dei quattro elementi .";
 
 const strokeWidth = i =>
-  i === 7 || i === 6 || i === 4 || i === 2 || i === 0 ? 5 : 0;
+  i === 7 || i === 6 || i === 4 || i === 2 || i === 0 ? 10 : 0;
 
 const BLACK = '#404040';
 
@@ -135,7 +135,7 @@ export default function AlchemyCircle(props) {
   const data = initData;
   const selectedElement = defaultData.find(d => d.id === id);
 
-  const radius = Math.min((circleWidth * 2) / 3, 210);
+  const radius = Math.min((circleWidth * 2) / 3, 230);
 
   const MIN_ANGLE = 0.0385;
   const fData = data.map(d => {
@@ -255,11 +255,13 @@ export default function AlchemyCircle(props) {
           bowing: 5,
           fill: a.data.fill,
           ...strokeOpts,
-          strokeWidth: strokeWidth(i),
         }}
+        stroke-linejoin="round"
         style={{
           mixBlendMode: 'multiply',
-          opacity: 0.7,
+          strokeWidth: strokeWidth(i),
+          stroke: 'black',
+          opacity: 0.6,
         }}
       />
     ));
@@ -268,65 +270,69 @@ export default function AlchemyCircle(props) {
     <div
       className={`${className} h-full relative items-center justify-center`}
       style={{fontFamily: "'Cabin Sketch'", height, width}}>
-      <h1 className="flex-no-shrink flex-none text-center">Concept</h1>
-      <div className="p-4">
-        <Description key="yo" className="w-full max-h-32 md:max-h-48">
-          {selectedElement ? (
-            <>
-              <div className="small-letter md:big-letter text-black flex justify-center items-center">
-                {selectedElement.icon[width > 400 ? 'svgLg' : 'svg']}
-              </div>
-              {selectedElement.text}
-            </>
-          ) : (
-            <>
-              <div
-                className="small-letter md:big-letter text-black"
-                style={{fontSize: 50}}>
-                !!!
-              </div>
-              {defaultText}
-            </>
-          )}
-        </Description>
+      <div>
+        <h1 className="flex-no-shrink text-center flex-none ">Concept</h1>
       </div>
-      <div className="relative mt-auto ">
-        <CenterTxt
-          className="absolute z-10 border-black rounded-full border-2 border-solid"
-          preview={
-            selectedElement ? (
-              <div className="-ml-1 -mr-1 -my-2 relative">
-                <div className="ml-1">{selectedElement.icon.svg}</div>
-              </div>
+      <div className="flex-grow flex-col">
+        <div className="p-4">
+          <Description key="yo" className="w-full max-h-32 md:max-h-48">
+            {selectedElement ? (
+              <>
+                <div className="small-letter md:big-letter text-black flex justify-center items-center">
+                  {selectedElement.icon[width > 400 ? 'svgLg' : 'svg']}
+                </div>
+                {selectedElement.text}
+              </>
             ) : (
-              <span className="text-4xl mx-2 text-black">!!!</span>
-            )
-          }
-          text={selectedElement ? selectedElement.text : 'YO'}
-          style={{
-            left: width / 2,
-            bottom: radius
-          }}
-        />
-        <Controls {...props} id={id} setId={setId} />
-        <Svg width={width} height={radius * 2}>
-          <g
-            id="labelArcs"
-            style={{transform: `translate(${width / 2}px, ${radius}px)`}}
+              <>
+                <div
+                  className="small-letter md:big-letter text-black"
+                  style={{fontSize: 50}}>
+                  !!!
+                </div>
+                {defaultText}
+              </>
+            )}
+          </Description>
+        </div>
+        <div className="relative mt-auto ">
+          <CenterTxt
+            className="absolute z-10 border-black rounded-full border-2 border-solid"
+            preview={
+              selectedElement ? (
+                <div className="-ml-1 -mr-1 -my-2 relative">
+                  <div className="ml-1">{selectedElement.icon.svg}</div>
+                </div>
+              ) : (
+                <span className="text-4xl mx-2 text-black">!!!</span>
+              )
+            }
+            text={selectedElement ? selectedElement.text : 'YO'}
+            style={{
+              left: width / 2,
+              bottom: radius,
+            }}
           />
-          <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {insideArcs(outerArc, {
-              mixBlendMode: 'multiply',
-              opacity: 0.5
-              // filter: `url(#gooey)`,
-            })}
-            {outsideArcs(strokeOpts, false)}
-          </g>
-          <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
-            {insideArcs(innerArc)}
-            {strokeInsideArcs()}
-          </g>
-        </Svg>
+          <Controls {...props} id={id} setId={setId} />
+          <Svg width={width} height={radius * 2}>
+            <g
+              id="labelArcs"
+              style={{transform: `translate(${width / 2}px, ${radius}px)`}}
+            />
+            <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+              {insideArcs(outerArc, {
+                mixBlendMode: 'multiply',
+                opacity: 0.5,
+                // filter: `url(#gooey)`,
+              })}
+              {outsideArcs(strokeOpts, false)}
+            </g>
+            <g style={{transform: `translate(${width / 2}px, ${radius}px)`}}>
+              {insideArcs(innerArc)}
+              {strokeInsideArcs()}
+            </g>
+          </Svg>
+        </div>
       </div>
     </div>
   );

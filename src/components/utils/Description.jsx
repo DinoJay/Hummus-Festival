@@ -21,9 +21,9 @@ export default function Description(props) {
   const {children, height, className, more} = props;
   const [extended, setExtended] = useState(false);
   return (
-    <div className="flex flex-col z-20">
+    <div className="flex flex-col z-20 bg-white ">
       <div
-        className="flex-grow flex flex-col px-4 mb-2 speech-bubble bg-white"
+        className="flex-grow relative flex flex-col px-4 mb-2 speech-bubble bg-white"
         style={
           {
             // boxShadow: '5px 7px'
@@ -37,17 +37,17 @@ export default function Description(props) {
           style={{transition: 'all 500ms'}}>
           <div className="relative flex-shrink overflow-hidden text-xl md:text-xl">
             {children}
-            {more && !extended && (
-              <div
-                className=" absolute right-0 bottom-0 flex-shrink-0
-              ml-2 flex ">
-                <button className="btn-invisible m-auto text-xl" type="button">
-                  <Search />
-                </button>
-              </div>
-            )}
           </div>
         </div>
+        {!extended && (
+          <div
+            className=" absolute right-0 bottom-0 flex-shrink-0
+              flex ">
+            <button className="mr-3 mb-2 btn-invisible text-xl" type="button">
+              <Search />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

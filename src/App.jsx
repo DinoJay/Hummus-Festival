@@ -80,9 +80,8 @@ function App() {
             style={{overflow: 'visible'}}>
             <AuroraExpress {...size} className="flex justify-center" />
           </section>
-          <section
-            className="page background-full border-2 flex justify-center"
-            style={{overflow: 'visible'}}>
+        <section className="page background-full border-2 flex justify-center "
+            style={{minHeight: height}}>
             <People {...size} className="" />
           </section>
           <section

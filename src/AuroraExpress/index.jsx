@@ -19,6 +19,8 @@ import text from './text';
 
 import img0 from './aurora_1.png';
 import img1 from './aurora_2.png';
+import img2 from './humus_2017_0.jpg';
+import img3 from './humus_2017_1.jpg';
 
 const makeLine = line();
 
@@ -44,9 +46,11 @@ const sketchOpts = {
 
 export default function AuroraExpress(props) {
   const {className, width, circleWidth, phone, height, style} = props;
-  const svgRef = React.useRef();
 
-  const stickmanScale = width / 550;
+  const [extId, setExtId] = useState(null);
+  const updateExtId = id => setExtId(id === extId ? null : id);
+
+  const extend = (id, defClass) => (id === extId ? 'extendedClip' : defClass);
 
   return (
     <div
@@ -68,12 +72,12 @@ export default function AuroraExpress(props) {
               width: '100%',
             }}
             src={img0}
-            className="h-full w-3/4 clip-left absolute left-0"
+            className="h-full w-3/4 clip-right-0 absolute right-0 bottom-0"
           />
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
-            className="w-full h-full z-20">
+            className="w-full h-full pointer-events-none">
             <text>
               <textPath
                 style={{fontSize: 10.9, transform: 'skewX(30deg)'}}
@@ -104,7 +108,30 @@ export default function AuroraExpress(props) {
             src={img1}
             className="
             absolute right-0
-            h-full clip-right"
+            h-full clip-left-0"
+          />
+          <div
+            style={{
+              backgroundImage: `url(${img2}) `,
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              width: '100%',
+            }}
+            className="
+            absolute right-0
+            h-full clip-left-1"
+          />
+          <div
+            onClick={() => updateExtId(3)}
+            style={{
+              backgroundImage: `url(${img3}) `,
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              width: '100%',
+            }}
+            className={`absolute right-0 h-full clip-right-1 ${extend(3)}`}
           />
         </div>
       </div>

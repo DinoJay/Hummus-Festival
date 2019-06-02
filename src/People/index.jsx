@@ -42,8 +42,6 @@ export default function People(props) {
   const logoScale = width / 400;
   const [artist, setArtist] = useState(null);
 
-  console.log('artist', data);
-
   return (
     <div
       className={`${className} relative`}
@@ -51,7 +49,7 @@ export default function People(props) {
       <h1 className="mb-4 text-center">People</h1>
       <div
         className={`flex-grow flex flex-wrap w-full justify-center ${
-          artist ? 'overflow-hidden' : 'overflow-y-visible'
+          artist ? 'overflow-hidden' : 'overflow-hidden'
         }`}
         style={
           {
@@ -66,7 +64,7 @@ export default function People(props) {
                   artist ? setArtist(null) : setArtist(d);
                 }}
                 key={d.name}
-                className="cursor-pointer h-24 sm:w-24 lg:h-40 lg:w-1/4 lg:m-2 flex items-end m-1 border-2 border-black border-solid border-yo"
+                className="cursor-pointer h-24 w-24 sm:w-32 sm:h-32 flex items-end m-1 border-2 border-black border-solid border-yo"
                 style={{
                   transform: 'rotate(6deg)',
                   backgroundImage: `url(${d.src})`,

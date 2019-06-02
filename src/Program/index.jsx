@@ -181,19 +181,23 @@ export default function Program(props) {
                 style={{
                   gridColumnStart: d.col,
                   gridRowStart: d.row,
-                  gridRowEnd: 'span 3'
+                  gridRowEnd: 'span 3',
                 }}>
                 <div
                   className="event flex relative m-1 text-2xl md: text:2xl"
                   style={{
-                    transform: `rotate(${i % 2 ? -10 : 6}deg)`
+                    transform: `rotate(${i % 2 ? -10 : 6}deg)`,
+
                   }}>
-                  <div className="w-full flex m-1 bg-white border-yo border-black border-solid">
+                  <div className="w-full flex m-1 bg-white border-yo border-black border-solid" style={{
+                    boxShadow: '5px 10px #404040',
+
+                  }}>
                     <div className="absolute m-4 top-0 left-0">
                       {d.startWeekStr}
                     </div>
                     <div className="m-auto">
-                      {icons[d.theme][width > 400 ? 'svgLg' : 'svg']}
+                      {icons[d.theme][width > 400 ? 'svg' : 'svg']}
                     </div>
                     <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
                       {d.endWeekStr}
