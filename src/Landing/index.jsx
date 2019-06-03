@@ -1,5 +1,6 @@
 import React from 'react';
-import * as d3 from 'd3';
+import {arc} from 'd3';
+import Facebook from 'react-feather/dist/icons/facebook';
 
 import chroma from 'chroma-js';
 import {
@@ -59,20 +60,17 @@ export default function Landing(props) {
     fontFamily: 'Cabin Sketch',
     fontStyle: 'bold',
   };
-  const circleGen = d3
-    .arc()
+  const circleGen = arc()
     .innerRadius(0)
     .outerRadius((circleWidth * 5) / 10)
     .startAngle(0)
     .endAngle(Math.PI * 2);
 
-  const bottomCircleGen = d3
-    .arc()
+  const bottomCircleGen = arc()
     .startAngle(((90 * Math.PI) / 2) * 180)
-    .outerRadius(radius - 20);
+    .outerRadius(radius - 33);
 
-  const topCircleGen = d3
-    .arc()
+  const topCircleGen = arc()
     .startAngle(Math.PI)
     .outerRadius(radius);
 
@@ -85,7 +83,7 @@ export default function Landing(props) {
 
   const offset = 30;
   return (
-    <div className={className} style={{width}}>
+    <div className={`${className} relative`} style={{width}}>
       <Svg className="overflow-visible" width={width} height={width + offset}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
           <SimplePath
@@ -232,6 +230,17 @@ export default function Landing(props) {
           </g>
         </g>
       </Svg>
+      <a
+        href="https://www.facebook.com/estatefertile"
+        className="triangle-btn absolute bottom-0 right-0">
+        <div className="relative w-full h-full">
+          <Facebook
+            color="white "
+            className="z-50 px-2 pb-3 bottom-0 right-0 bottom-0 absolute"
+          />
+          <div className="triangle-right " />
+        </div>
+      </a>
       <div
         className="text-3xl text-green italic p-4 uppercase"
         style={{fontFamily: 'Cabin Sketch'}}>

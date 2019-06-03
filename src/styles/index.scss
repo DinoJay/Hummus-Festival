@@ -143,12 +143,18 @@ body {
 
 }
 
-.triangle-left {
+.triangle-btn {
+  width: 70px;
+  height: 70px;
+}
+
+.triangle-right {
   width: 0;
   height: 0;
   border-top: 70px solid transparent;
-  border-left-width: 70px;
-  border-left-style: solid;
+  border-right-width: 70px;
+  border-right-style: solid;
+  border-right-color: theme('colors.black')
 }
 
 
@@ -207,11 +213,6 @@ section {
   background: rgba(255, 215, 0, .15);
 }
 
-.polygon {
-  float: left;
-  shape-outside: polygon(0 0, 0 10rem, 7rem, 10rem);
-  background: linear-gradient(to top right, white, #cae9f1a3);
-}
 
 
 .up p {
@@ -655,6 +656,22 @@ $smMax: 576px;
 
 @screen md  {
   .bycicle {
-  transform: translate(3rem, 2.5rem) scale(0.6);
+  transform: translate(3rem, 3.5rem) scale(0.6);
   }
 }
+
+.about-stickman1 {
+  transform: scale(2);
+}
+
+.about-stickman2 {
+  transform: translate(3rem, 0) scale(2);
+}
+
+.about-stickman3 {
+  transform: translate(5.5rem, 2rem) scale(2);
+}
+.about-stickman4 {
+  transform: translate(9rem, 0) scale(2);
+}
+

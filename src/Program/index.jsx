@@ -2,6 +2,8 @@ import React, {useState, useMemo, useEffect} from 'react';
 import {group} from 'd3-array';
 import {timeParse, timeFormat} from 'd3-time-format';
 import {timeWeek} from 'd3-time';
+import max from 'lodash/max';
+import min from 'lodash/min';
 
 import chroma from 'chroma-js';
 
@@ -33,7 +35,7 @@ const textColor = {
   [FIRE]: 'text-red',
   [WATER]: 'text-blue',
   [EARTH]: 'text-yellow-darker',
-  [AIR]: 'text-green'
+  [AIR]: 'text-green',
 };
 
 const stickman =
@@ -44,16 +46,16 @@ const PosedDiv = posed.div({
     width: ({shrink}) => '90%' || '100%',
     height: '100%',
     // staggerChildren: '100%',
-    delayChildren: 200,
+    delayChildren: 200
   },
   exit: {
     width: '0%',
     height: '0%',
     staggerChildren: '100%',
     transition: {
-      duration: 700,
-    },
-  }
+      duration: 700
+    }
+  },
 
   // You can make a custom transition for the flip-powered
   // shuffling animation by overriding `flip`. You can even
@@ -76,7 +78,7 @@ const PosedDiv = posed.div({
 const BLACK = '#404040';
 
 const verticalText = {
-  transform: 'translate(-25%,0%) rotate(90deg)'
+  transform: 'translate(-25%,0%) rotate(90deg)',
   // transformOrigin: 'left top 0',
 };
 
@@ -87,17 +89,17 @@ const sketchOpts = {
   fillWeight: 10,
   fill: chroma('#01a9d0').alpha(0.2),
   stroke: BLACK,
-  fillStyle: 'zigzag'
+  fillStyle: 'zigzag',
 };
+
+const format = '%Y-%m-%dT%H:%M:%S%Z';
+const formatWeekDate = timeFormat('%b %d');
+const formatDay = timeFormat('%b %d, %H:%MH');
 
 export default function Program(props) {
   const {className, width, height, style} = props;
-  const svgRef = React.useRef();
 
   // "2019-04-29T13:26:33.853Z"
-  const format = '%Y-%m-%dT%H:%M:%S%Z';
-  const formatWeek = timeFormat('%b %d');
-  const formatDay = timeFormat('%b %d, %H:%MH');
 
   const parsedEvents = events.map(d => {
     const startDate = timeParse(format)(d.start.dateTime);
@@ -106,20 +108,39 @@ export default function Program(props) {
       ...d,
       startDate,
       startWeek,
-      weekStr: formatWeek(startWeek),
-      endWeek: timeWeek.offset(startDate, 1)
+      weekStr: formatWeekDate(startWeek),
+      endWeek: timeWeek.offset(startDate, 1),
     };
   });
 
-  const groupedEvents = [
-    ...group(parsedEvents, d => formatWeek(d.startWeek)).entries()
-  ].map(([key, values], i) => ({
-    theme: themeWeeks[i],
-    key,
-    startWeekStr: formatWeek(values[0].startWeek),
-    endWeekStr: formatWeek(values[0].endWeek),
-    values: values.sort((a, b) => a.startDate - b.startDate)
-  }));
+  const tmpGroupedEvents = [
+    ...group(parsedEvents, d => formatWeekDate(d.startWeek)).entries(),
+  ].map(([key, values], i) => {
+    const maxDate = values.reduce(
+      (acc, d) => (d.startDate > acc ? d.startDate : acc),
+      values[0].startDate,
+    );
+    const minDate = values.reduce(
+      (acc, d) => (d.startDate < acc ? d.startDate : acc),
+      values[0].startDate,
+    );
+
+    return {
+      theme: themeWeeks[i],
+      key,
+      startWeekStr: formatWeekDate(values[0].startDate),
+      endWeekStr: formatWeekDate(maxDate),
+      startDay: formatWeekDate(minDate),
+      endDay: formatWeekDate(maxDate),
+      values: values.sort((a, b) => a.startDate - b.startDate)
+    };
+  });
+
+  tmpGroupedEvents[tmpGroupedEvents.length - 2].values = [
+    ...tmpGroupedEvents[tmpGroupedEvents.length - 2].values,
+    ...tmpGroupedEvents[tmpGroupedEvents.length - 1].values
+  ];
+  const groupedEvents = tmpGroupedEvents.slice(0, 4);
   // .slice(0, 4);
 
   const [selectedWeek, setSelectedWeek] = useState(null);
@@ -146,7 +167,7 @@ export default function Program(props) {
         style={{
           display: 'grid',
           gridTemplateColumns: `${width / 2 - 10}px ${width / 2 - 10}px`,
-          gridTemplateRows: `repeat(20, 5%)`,
+          gridTemplateRows: `repeat(20, 5%)`
         }}>
         <PoseGroup>
           {selectedWeek ? (
@@ -158,9 +179,9 @@ export default function Program(props) {
               key={selectedWeek.key}>
               <div className="h-full flex flex-col">
                 <h2 className="flex justify-between items-center my-0 mx-2">
-                  <div>{selectedWeek.startWeekStr}</div>{' '}
+                  <div>{selectedWeek.startDay}</div>{' '}
                   <div>{icons[selectedWeek.theme].svg}</div>{' '}
-                  <div>{selectedWeek.endWeekStr}</div>
+                  <div>{selectedWeek.endDay}</div>
                 </h2>
                 <div className="flex-grow overflow-y-auto">
                   {selectedWeek.values.map(d => (
@@ -173,7 +194,7 @@ export default function Program(props) {
               </div>
             </PosedDiv>
           ) : (
-            groupedEvents.slice(0, 4).map((d, i) => (
+            groupedEvents.map((d, i) => (
               <PosedDiv
                 className="flex justify-center items-center cursor-pointer"
                 key={d.key}
@@ -181,18 +202,18 @@ export default function Program(props) {
                 style={{
                   gridColumnStart: d.col,
                   gridRowStart: d.row,
-                  gridRowEnd: 'span 3',
+                  gridRowEnd: 'span 3'
                 }}>
                 <div
                   className="event flex relative m-1 text-2xl md: text:2xl"
                   style={{
-                    transform: `rotate(${i % 2 ? -10 : 6}deg)`,
-
+                    transform: `rotate(${i % 2 ? -10 : 6}deg)`
                   }}>
-                  <div className="w-full flex m-1 bg-white border-yo border-black border-solid" style={{
-                    boxShadow: '5px 10px #404040',
-
-                  }}>
+                  <div
+                    className="w-full flex m-1 bg-white border-yo border-black border-solid"
+                    style={{
+                      boxShadow: '5px 10px #404040'
+                    }}>
                     <div className="absolute m-4 top-0 left-0">
                       {d.startWeekStr}
                     </div>
@@ -200,7 +221,7 @@ export default function Program(props) {
                       {icons[d.theme][width > 400 ? 'svg' : 'svg']}
                     </div>
                     <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
-                      {d.endWeekStr}
+                      {d.endDay}
                     </div>
                   </div>
                 </div>
@@ -212,7 +233,7 @@ export default function Program(props) {
             key="st"
             style={{
               gridRowStart: selectedWeek ? 11 : 11,
-              gridColumnStart: 2,
+              gridColumnStart: 2
             }}>
             <Svg className="my-4 overflow-visible">
               <SimplePath
@@ -226,7 +247,7 @@ export default function Program(props) {
                   stroke: BLACK,
                   fillStyle: 'zigzag',
                   fillWeight: 5,
-                  fill: 'rgba(1,169,208,0.14)',
+                  fill: 'rgba(1,169,208,0.14)'
                 }}
                 className={
                   selectedWeek

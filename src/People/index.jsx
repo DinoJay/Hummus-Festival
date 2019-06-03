@@ -45,7 +45,7 @@ export default function People(props) {
   return (
     <div
       className={`${className} relative`}
-      style={{fontFamily: "'Cabin Sketch'", width}}>
+      style={{fontFamily: "'Cabin Sketch'", width, minHeight: height}}>
       <h1 className="mb-4 text-center">People</h1>
       <div
         className={`flex-grow flex flex-wrap w-full justify-center ${
@@ -81,9 +81,11 @@ export default function People(props) {
             <PosedDiv
               key={artist.name}
               onClick={() => setArtist(null)}
-              className="w-full h-full overflow-y-auto"
+              className="fixed z-20 top-0 w-full h-full overflow-y-auto"
               style={{
-                transform: 'rotate(6deg)',
+                width,
+                // left: width / 2
+                // transform: 'rotate(6deg)',
               }}>
               <div className="p-4 border-2 bg-white border-black border-solid border-yo">
                 <div

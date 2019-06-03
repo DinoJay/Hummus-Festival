@@ -15,6 +15,8 @@ import apeOrgaPath from './Ape_Orga.js';
 import apeLogo from '../apeLogo.js';
 import bikeLogo from './bikeLogo';
 
+import {stickman1, stickman2, stickman3, stickman4} from './stickmen';
+
 // import events, {FIRE, WATER, TERRA, AIR} from './events';
 
 const Item = posed.li({
@@ -52,9 +54,6 @@ const sketchOpts = {
   stroke: BLACK,
   fillStyle: 'zigzag'
 };
-
-const text =
-  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
 
 const Segment = props => {
   const {children, className} = props;
@@ -123,7 +122,74 @@ export default function Program(props) {
           </Svg>
         </div>
       </Segment>
-      <Segment>References</Segment>
+      <Segment>
+        <h3>References</h3>
+        <div>
+          <Svg className="flex-grow overflow-visible" height={100}>
+            <SimplePath
+              className="about-stickman1"
+              sketchOpts={{
+                ...sketchOpts,
+
+                roughness: 0.4,
+                strokeWidth: 2,
+                // fillWeight: 10,
+
+                fill: null
+              }}
+              d={stickman1}
+            />
+            <SimplePath
+              className="about-stickman2"
+              sketchOpts={{
+                ...sketchOpts,
+
+                roughness: 0.4,
+                strokeWidth: 2,
+                // fillWeight: 10,
+
+                fill: null
+              }}
+              d={stickman2}
+            />
+            <SimplePath
+              className="about-stickman3"
+              sketchOpts={{
+                ...sketchOpts,
+
+                roughness: 0.4,
+                strokeWidth: 2,
+                // fillWeight: 10,
+
+                fill: null
+              }}
+              d={stickman3}
+            />
+            <SimplePath
+              className="about-stickman4"
+              sketchOpts={{
+                ...sketchOpts,
+
+                roughness: 0.4,
+                strokeWidth: 2,
+                // fillWeight: 10,
+
+                fill: null
+              }}
+              d={stickman4}
+            />
+          </Svg>
+          <div className="text-4xl">
+            <span>A</span>
+            <span>.</span>
+            <span>T</span>
+            <span>.</span>
+            <span>C</span>
+            <span>.</span>
+            <span>Q</span>
+          </div>
+        </div>
+      </Segment>
     </div>
   );
 }
