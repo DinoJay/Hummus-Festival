@@ -103,7 +103,6 @@ export default function Program(props) {
               <div>393 8905355</div>
             </div>
             <div>humuscampus@gmail.com</div>
-            <div>facebook.com/estatefertile</div>
           </div>
           <Svg className="flex-grow overflow-visible" height={100} ref={svgRef}>
             <SimplePath
@@ -124,8 +123,8 @@ export default function Program(props) {
       </Segment>
       <Segment>
         <h3>References</h3>
-        <div>
-          <Svg className="flex-grow overflow-visible" height={100}>
+        <div className="flex flex-wrap">
+          <Svg className="overflow-visible" height={100} width={200}>
             <SimplePath
               className="about-stickman1"
               sketchOpts={{
@@ -179,7 +178,9 @@ export default function Program(props) {
               d={stickman4}
             />
           </Svg>
-          <div className="text-4xl">
+          <a
+            href="https://en.wikipedia.org/wiki/A_Tribe_Called_Quest"
+            className="text-4xl">
             <span>A</span>
             <span>.</span>
             <span>T</span>
@@ -187,7 +188,7 @@ export default function Program(props) {
             <span>C</span>
             <span>.</span>
             <span>Q</span>
-          </div>
+          </a>
         </div>
       </Segment>
     </div>
