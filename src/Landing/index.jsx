@@ -1,6 +1,5 @@
 import React from 'react';
 import {arc} from 'd3';
-import Facebook from 'react-feather/dist/icons/facebook';
 
 import chroma from 'chroma-js';
 import {
@@ -230,17 +229,6 @@ export default function Landing(props) {
           </g>
         </g>
       </Svg>
-      <a
-        href="https://www.facebook.com/estatefertile"
-        className="triangle-btn absolute bottom-0 right-0">
-        <div className="relative w-full h-full">
-          <Facebook
-            color="white "
-            className="z-50 px-2 pb-3 bottom-0 right-0 bottom-0 absolute"
-          />
-          <div className="triangle-right " />
-        </div>
-      </a>
       <div
         className="text-3xl text-green italic p-4 uppercase"
         style={{fontFamily: 'Cabin Sketch'}}>

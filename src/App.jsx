@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Facebook from 'react-feather/dist/icons/facebook';
 
 // import scrollSnapPolyfill from 'css-scroll-snap-polyfill';
 
@@ -57,6 +58,16 @@ function App() {
           <section
             className="page border-2 background-0 flex justify-center overflow-hidden"
             style={{height}}>
+            <a
+              href="https://www.facebook.com/estatefertile"
+              className="triangle-btn md:triangle-lg-btn absolute top-0 right-0">
+              <div className="relative w-full h-full">
+                <div className="z-50 px-2 pb-3 right-0 top-0 absolute">
+                  <Facebook className="fb-logo md:fb-lg-logo" color="white" />
+                </div>
+                <div className="triangle-right md:triangle-lg-right" />
+              </div>
+            </a>
             <Landing
               {...size}
               className="overflow-hidden flex flex-col justify-center"
@@ -80,7 +91,8 @@ function App() {
             style={{overflow: 'visible'}}>
             <AuroraExpress {...size} className="flex justify-center" />
           </section>
-        <section className="page background-full border-2 flex justify-center "
+          <section
+            className="page background-full border-2 flex justify-center "
             style={{minHeight: height}}>
             <People {...size} className="" />
           </section>

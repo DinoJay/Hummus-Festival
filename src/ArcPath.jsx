@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 import * as d3 from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 
-import * as rough from 'roughjs/dist/rough.umd';
+import * as rough from 'roughjs/dist/rough-async.umd';
 import {
   styler,
   chain,
@@ -15,10 +15,13 @@ import {
   everyFrame,
   timeline
 } from 'popmotion';
+// import worker from './worker';
 
 // import {interpolate} from 'flubber';
 
 import compareMemoize from './components/utils/compareMemoize';
+
+// console.log('worker', worker);
 
 export const SvgContext = React.createContext({current: null});
 
@@ -96,7 +99,7 @@ export const SketchyArcPath = ({
 
   useEffect(
     () => {
-      const rc = rough.svg(svgRef.current);
+      const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
       tween({
         from: {
           startAngle: olData ? olData.startAngle : defaultData.startAngle,
@@ -121,11 +124,13 @@ export const SketchyArcPath = ({
               if (pp) pp.removeChild(parent);
             }
           }
-          setShape(sketchShape.outerHTML);
-          const newId = getRoughId(sketchShape);
-          refId.current = newId;
+          // setShape(sketchShape.outerHTML);
+          sketchShape.then(sk => {
+            const newId = getRoughId(sk);
+            refId.current = newId;
 
-          setShape(sketchShape.outerHTML);
+            setShape(sk.outerHTML);
+          });
         });
     },
     [compareMemoize(data)],
@@ -219,56 +224,6 @@ export const SimpleArcPath = ({
 //   return <path ref={ref} d={pathStr} {...props} />;
 // };
 
-function circleGen() {
-  // set defaults
-  let r = function(d) {
-    return d.radius;
-  };
-
-  let x = function(d) {
-    return d.x;
-  };
-
-  let y = function(d) {
-    return d.y;
-  };
-
-  // returned function to generate circle path
-  function circle(d) {
-    const cx = d3.functor(x).call(this, d);
-
-    const cy = d3.functor(y).call(this, d);
-
-    const myr = d3.functor(r).call(this, d);
-
-    return (
-      `M${cx},${cy} ` +
-      `m${-myr}, 0 ` +
-      `a${myr},${myr} 0 1,0 ${myr * 2},0 ` +
-      `a${myr},${myr} 0 1,0 ${-myr * 2},0Z`
-    );
-  }
-
-  // getter-setter methods
-  circle.r = function(value) {
-    if (!arguments.length) return r;
-    r = value;
-    return circle;
-  };
-  circle.x = function(value) {
-    if (!arguments.length) return x;
-    x = value;
-    return circle;
-  };
-  circle.y = function(value) {
-    if (!arguments.length) return y;
-    y = value;
-    return circle;
-  };
-
-  return circle;
-}
-
 // export const Ellipse = ({
 //   d,
 //   svgRef,
@@ -326,20 +281,22 @@ export const SimplePath = ({
     () => {
       let intervalId = null;
       if (svgRef.current) {
-        const rc = rough.svg(svgRef.current);
+        const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
 
         intervalId = setIntervalX(
           () => {
             const sketchShape = rc.path(d, {...sketchOpts});
-            const {fill} = sketchShape.children[0].style;
+            // const {fill} = sketchShape.children[0].style;
 
-            if (refId.current) {
-              const p = document.getElementById(refId.current);
-              p.parentNode.removeChild(p);
-            }
-            setShape(sketchShape.outerHTML);
-            const newId = getRoughId(sketchShape);
-            refId.current = newId;
+            sketchShape.then(sk => {
+              if (refId.current) {
+                const p = document.getElementById(refId.current);
+                p.parentNode.removeChild(p);
+              }
+              setShape(sk.outerHTML);
+            });
+            // const newId = getRoughId(sketchShape);
+            // refId.current = newId;
           },
           interval,
           times,
@@ -373,7 +330,7 @@ export const AnimPath = props => {
 
   useEffect(
     () => {
-      const rc = rough.svg(svgRef.current);
+      const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
 
       const intervalId = setIntervalX(
         () => {

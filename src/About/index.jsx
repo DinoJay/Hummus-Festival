@@ -17,6 +17,9 @@ import bikeLogo from './bikeLogo';
 
 import {stickman1, stickman2, stickman3, stickman4} from './stickmen';
 
+import peace from './peacePath';
+
+import keithHaring from './keithHaring.svg';
 // import events, {FIRE, WATER, TERRA, AIR} from './events';
 
 const Item = posed.li({
@@ -41,8 +44,67 @@ const Item = posed.li({
 const BLACK = '#404040';
 
 const verticalText = {
-  transform: 'translate(-25%,0%) rotate(90deg)'
+  transform: 'translate(-25%,0%) rotate(90deg)',
   // transformOrigin: 'left top 0',
+};
+
+const ATCQ = props => {
+  const {className} = props;
+  return (
+    <Svg className={`overflow-visible ${className}`} height="60" width={140}>
+      <SimplePath
+        className="about-stickman1"
+        sketchOpts={{
+          ...sketchOpts,
+
+          roughness: 0.4,
+          strokeWidth: 2,
+          // fillWeight: 10,
+
+          fill: null
+        }}
+        d={stickman1}
+      />
+      <SimplePath
+        className="about-stickman2"
+        sketchOpts={{
+          ...sketchOpts,
+
+          roughness: 0.4,
+          strokeWidth: 2,
+          // fillWeight: 10,
+
+          fill: null
+        }}
+        d={stickman2}
+      />
+      <SimplePath
+        className="about-stickman3"
+        sketchOpts={{
+          ...sketchOpts,
+
+          roughness: 0.4,
+          strokeWidth: 2,
+          // fillWeight: 10,
+
+          fill: null
+        }}
+        d={stickman3}
+      />
+      <SimplePath
+        className="about-stickman4"
+        sketchOpts={{
+          ...sketchOpts,
+          roughness: 0.4,
+          strokeWidth: 2,
+          // fillWeight: 10,
+
+          fill: null
+        }}
+        d={stickman4}
+      />
+    </Svg>
+  );
 };
 
 const sketchOpts = {
@@ -52,7 +114,7 @@ const sketchOpts = {
   fillWeight: 10,
   fill: chroma('#01a9d0').alpha(0.2),
   stroke: BLACK,
-  fillStyle: 'zigzag'
+  fillStyle: 'zigzag',
 };
 
 const Segment = props => {
@@ -73,7 +135,7 @@ export default function Program(props) {
 
   return (
     <div
-      className={`${className} myFont relative overflow-y-auto`}
+      className={`${className} myFont relative overflow-x-hidden overflow-y-auto`}
       style={{width}}>
       <h1 className="flex-shrink-0 text-center">About</h1>
       <Segment id="ape" className="">
@@ -114,7 +176,7 @@ export default function Program(props) {
                 strokeWidth: 4,
                 // fillWeight: 10,
 
-                fill: null
+                fill: null,
               }}
               d={bikeLogo}
             />
@@ -122,73 +184,43 @@ export default function Program(props) {
         </div>
       </Segment>
       <Segment>
-        <h3>References</h3>
-        <div className="flex flex-wrap">
-          <Svg className="overflow-visible" height={100} width={200}>
-            <SimplePath
-              className="about-stickman1"
-              sketchOpts={{
-                ...sketchOpts,
+        <h3 className="mt-0">References</h3>
+        <div className="flex justify-between">
+          <div className="mr-2 items-center justify-between">
+            <div className="flex  items-center">
+              <a
+                href="https://en.wikipedia.org/wiki/A_Tribe_Called_Quest"
+                className="flex justify-between text-2xl w-full">
+                <span>A</span>.<span>T</span>.<span>C</span>.<span>Q</span>.
+              </a>
+            </div>
+            <ATCQ className="mr-1" />
+          </div>
+          <div>
+            <Svg width="70" height="90" className="overflow-visible">
+              <SimplePath
+                className="peace-logo"
+                sketchOpts={{
+                  ...sketchOpts,
+                  roughness: 0.1,
+                  strokeWidth: 2,
+                  // fillWeight: 10,
 
-                roughness: 0.4,
-                strokeWidth: 2,
-                // fillWeight: 10,
-
-                fill: null
-              }}
-              d={stickman1}
-            />
-            <SimplePath
-              className="about-stickman2"
-              sketchOpts={{
-                ...sketchOpts,
-
-                roughness: 0.4,
-                strokeWidth: 2,
-                // fillWeight: 10,
-
-                fill: null
-              }}
-              d={stickman2}
-            />
-            <SimplePath
-              className="about-stickman3"
-              sketchOpts={{
-                ...sketchOpts,
-
-                roughness: 0.4,
-                strokeWidth: 2,
-                // fillWeight: 10,
-
-                fill: null
-              }}
-              d={stickman3}
-            />
-            <SimplePath
-              className="about-stickman4"
-              sketchOpts={{
-                ...sketchOpts,
-
-                roughness: 0.4,
-                strokeWidth: 2,
-                // fillWeight: 10,
-
-                fill: null
-              }}
-              d={stickman4}
-            />
-          </Svg>
-          <a
-            href="https://en.wikipedia.org/wiki/A_Tribe_Called_Quest"
-            className="text-4xl">
-            <span>A</span>
-            <span>.</span>
-            <span>T</span>
-            <span>.</span>
-            <span>C</span>
-            <span>.</span>
-            <span>Q</span>
-          </a>
+                  fill: null,
+                }}
+                d={peace}
+              />
+            </Svg>
+          </div>
+          <div className="flex justify-center items-center flex-wrap ">
+            <img alt="keith_haring" src={keithHaring} width="100" height="80" />
+            <a
+              href="https://en.wikipedia.org/wiki/Keith_Haring"
+              className="text-2xl">
+              KEITH <br />
+              HARING
+            </a>
+          </div>
         </div>
       </Segment>
     </div>

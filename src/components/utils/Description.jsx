@@ -21,7 +21,7 @@ export default function Description(props) {
   const {children, height, className, more} = props;
   const [extended, setExtended] = useState(false);
   return (
-    <div className="flex flex-col z-20 bg-white ">
+    <div className="flex flex-col z-20">
       <div
         className="flex-grow relative flex flex-col px-4 mb-2 speech-bubble bg-white"
         style={

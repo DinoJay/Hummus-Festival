@@ -74,6 +74,49 @@ html {
 
 
 @responsive {
+
+
+  .triangle-lg-btn {
+    width: 90px;
+    height: 90px;
+  }
+
+  .triangle-lg-right {
+    width: 0;
+    height: 0;
+    border-bottom: 90px solid transparent;
+    border-right-width: 90px;
+    border-right-style: solid;
+    border-right-color: theme('colors.black')
+  }
+
+
+  .triangle-btn {
+    width: 70px;
+    height: 70px;
+  }
+
+  .triangle-right {
+    width: 0;
+    height: 0;
+    border-bottom: 70px solid transparent;
+    border-right-width: 70px;
+    border-right-style: solid;
+    border-right-color: theme('colors.black')
+  }
+
+  .fb-logo {
+    @apply .mt-1;
+    width: 30px;
+    height: 30px;
+  }
+
+  .fb-lg-logo{
+    @apply .mt-1;
+    width: 40px;
+    height: 40px;
+  }
+
   .big-letter {
       @apply .float-left .text-black;
       font-size: 100px !important;
@@ -143,19 +186,6 @@ body {
 
 }
 
-.triangle-btn {
-  width: 70px;
-  height: 70px;
-}
-
-.triangle-right {
-  width: 0;
-  height: 0;
-  border-top: 70px solid transparent;
-  border-right-width: 70px;
-  border-right-style: solid;
-  border-right-color: theme('colors.black')
-}
 
 
 .hexagon {
@@ -522,21 +552,21 @@ h2 {
 }
 
 
-  .water-label {
-    transform: translate(-10px,20%) rotate(-45deg)
-  }
+.water-label {
+  transform: translate(-10px,20%) rotate(-45deg)
+}
 
-  .fire-label {
-    transform: translate(20px,30%) rotate(34deg)
-  }
+.fire-label {
+  transform: translate(20px,30%) rotate(34deg)
+}
 
-  .earth-label {
-    transform: translate(20px,-29px) rotate(-49deg)
-  }
+.earth-label {
+  transform: translate(20px,-29px) rotate(-49deg)
+}
 
-  .air-label {
-    transform: translate(0,-15px) rotate(40deg)
-  }
+.air-label {
+  transform: translate(0,-15px) rotate(40deg)
+}
 
 /* Extra small devices (phones, 600px and down) */
 @screen sm {
@@ -602,11 +632,11 @@ h2 {
 
 $smMax: 576px;
 
-  .detail-events {
-    grid-column-end: 3;
-    grid-column-start: 1;
-    grid-row-start: 1;
-  }
+.detail-events {
+  grid-column-end: 3;
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
 
 @media only screen and (max-width: $smMax) {
   .event {
@@ -661,17 +691,21 @@ $smMax: 576px;
 }
 
 .about-stickman1 {
-  transform: scale(2);
+  transform: scale(1.5);
 }
 
 .about-stickman2 {
-  transform: translate(3rem, 0) scale(2);
+  transform: translate(2rem, 0) scale(1.5);
 }
 
 .about-stickman3 {
-  transform: translate(5.5rem, 2rem) scale(2);
+  transform: translate(4.5rem, 1rem) scale(1.5);
 }
 .about-stickman4 {
-  transform: translate(9rem, 0) scale(2);
+  transform: translate(7rem, 0) scale(1.5);
+}
+
+.peace-logo {
+  transform: scale(2.8);
 }
 
