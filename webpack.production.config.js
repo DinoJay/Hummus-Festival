@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -25,7 +26,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'main.js',
-    // publicPath: path.join(__dirname, 'dist'),
+    publicPath: path.join(__dirname, 'public'),
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -49,6 +50,7 @@ module.exports = {
   //   ],
   // },
   plugins: [
+    new CopyPlugin([{from: 'public', to: '.'}]),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
