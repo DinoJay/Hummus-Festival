@@ -1,16 +1,16 @@
-import fumai from './alessandra_fumai.png';
-import daPonte from './cristina_da_ponte.png';
+import fumai from './alessandra_fumai.jpg';
+import daPonte from './cristina_da_ponte.jpg';
 import teppati from './cristina_teppati.png';
-import patrizio from './deborah_patrizio.png';
-import spagone from './elisa_spagone.png';
-import leLarge from './matthieu_lelarge.png';
-import gozzelino from './michele_gozzelino.png';
-import noce from './michele_noce.png';
-import canavesio from './olga_canavesio.png';
-import bergonzi from './paolo_bergonzi.png';
-import berretta from './ricardo_berretta.png';
-import fusca from './samuel_fusca.png';
-import talamona from './veronica_talamona.png';
+import patrizio from './deborah_patrizio.jpg';
+import spagone from './elisa_spagone.jpg';
+import leLarge from './matthieu_lelarge.jpg';
+import gozzelino from './michele_gozzelino.jpg';
+import noce from './michele_noce.jpg';
+import canavesio from './olga_canavesio.jpg';
+import bergonzi from './paolo_bergonzi.jpg';
+import berretta from './ricardo_berretta.jpg';
+import fusca from './samuel_fusca.jpg';
+import talamona from './veronica_talamona.jpg';
 
 export default [
   {
