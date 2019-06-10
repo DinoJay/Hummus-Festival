@@ -138,7 +138,7 @@ export default function Program(props) {
       className={`${className} myFont relative overflow-x-hidden overflow-y-auto`}
       style={{width}}>
       <h1 className="flex-shrink-0 text-center">About</h1>
-      <Segment id="ape" className="flex">
+      <Segment id="ape" className="flex flex-wrap">
         <Svg className="flex-shrink-0" width="17rem" height={140} ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
@@ -153,7 +153,7 @@ export default function Program(props) {
         </Svg>
         <div className="sketchy-font-2 flex flex-wrap font-bold text-4xl">
           <span className="h-4">Arcadia Panik</span>
-          <span className="text-5xl h-12">=|====|==</span>
+          <span className="text-5xl h-12">=*====*==</span>
           <span>Ensemble</span>
         </div>
       </Segment>
@@ -178,7 +178,6 @@ export default function Program(props) {
               className="bycicle"
               sketchOpts={{
                 ...sketchOpts,
-
                 roughness: 1.4,
                 strokeWidth: 4,
                 // fillWeight: 10,
@@ -197,13 +196,18 @@ export default function Program(props) {
             <div className="flex  items-center">
               <a
                 href="https://en.wikipedia.org/wiki/A_Tribe_Called_Quest"
-                className="flex justify-between text-2xl w-full">
+                className="text-3xl flex justify-between text-2xl w-full">
                 <span>A</span>.<span>T</span>.<span>C</span>.<span>Q</span>.
               </a>
             </div>
             <ATCQ className="mr-1" />
           </div>
           <div>
+            <div>
+              <a className="text-3xl" href="">
+                Peace
+              </a>
+            </div>
             <Svg width="70" height="90" className="overflow-visible">
               <SimplePath
                 className="peace-logo"

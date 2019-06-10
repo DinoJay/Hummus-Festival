@@ -83,9 +83,7 @@ function App() {
             style={{height}}>
             <Program {...size} className="flex justify-center" />
           </section>
-          <section
-            className="page h-screen background-full flex justify-center border-2"
-            >
+          <section className="page h-screen background-full flex justify-center border-2">
             <AuroraExpress {...size} className="flex justify-center" />
           </section>
           <section

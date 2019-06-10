@@ -233,6 +233,11 @@ section {
   // scroll-snap-align: start;
 }
 
+.sand {
+  background-color: #fff9d9;
+}
+
+
 .background-0 {
     background: linear-gradient(10deg, rgba(255, 215, 0, 0.15) 27%, rgba(218,225,231, 0.10) 50%
     );
@@ -558,6 +563,9 @@ h2 {
   font-family: 'Annie Use Your Telescope', cursive;
 }
 
+a {
+  @apply .sketchy-font-2 .font-bold;
+}
 
 
 .water-label {
@@ -666,7 +674,7 @@ $smMax: 576px;
 
 @media only screen and (min-width: $smMax+1) {
   .detail-events {
-    grid-row-end: 9;
+    grid-row-end: 12;
   }
 
   .event {
@@ -677,7 +685,7 @@ $smMax: 576px;
     transform: translate(120px, 240px) scale(5.5);
   }
   .program-stickman-selected {
-    transform: translate(-100px, 80px) scale(5.6) rotate(90deg);
+    transform: translate(-100px, 170px) scale(5.6) rotate(90deg);
   }
 }
 
