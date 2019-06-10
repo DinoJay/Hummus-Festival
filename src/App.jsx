@@ -68,10 +68,7 @@ function App() {
                 <div className="triangle-right md:triangle-lg-right" />
               </div>
             </a>
-            <Landing
-              {...size}
-              className="overflow-hidden flex flex-col justify-center"
-            />
+            <Landing {...size} className="page flex flex-col justify-center" />
           </section>
           <section className="page background flex justify-center border-2  ">
             <MissionStatement {...size} className="flex " />
@@ -83,12 +80,12 @@ function App() {
           </section>
           <section
             className="page background-full flex justify-center border-2"
-            style={{overflow: 'visible', height}}>
+            style={{height}}>
             <Program {...size} className="flex justify-center" />
           </section>
           <section
             className="page h-screen background-full flex justify-center border-2"
-            style={{overflow: 'visible'}}>
+            >
             <AuroraExpress {...size} className="flex justify-center" />
           </section>
           <section

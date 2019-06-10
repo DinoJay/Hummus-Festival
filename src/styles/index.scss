@@ -550,9 +550,14 @@ h2 {
 }
 
 .page {
-  @apply .overflow-hidden .w-screen .overflow-hidden;
+  @apply .w-screen .overflow-hidden;
   // scroll-snap-align: start;
 }
+
+.sketchy-font-2 {
+  font-family: 'Annie Use Your Telescope', cursive;
+}
+
 
 
 .water-label {

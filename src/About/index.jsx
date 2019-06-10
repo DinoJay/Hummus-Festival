@@ -138,8 +138,8 @@ export default function Program(props) {
       className={`${className} myFont relative overflow-x-hidden overflow-y-auto`}
       style={{width}}>
       <h1 className="flex-shrink-0 text-center">About</h1>
-      <Segment id="ape" className="">
-        <Svg width="17rem" height={140} ref={svgRef}>
+      <Segment id="ape" className="flex">
+        <Svg className="flex-shrink-0" width="17rem" height={140} ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
             d={apeOrgaPath}
@@ -151,6 +151,11 @@ export default function Program(props) {
             style={{transform: 'translate(10rem, 2.5rem) scale(1)'}}
           />
         </Svg>
+        <div className="sketchy-font-2 flex flex-wrap font-bold text-4xl">
+          <span className="h-4">Arcadia Panik</span>
+          <span className="text-5xl h-12">=|====|==</span>
+          <span>Ensemble</span>
+        </div>
       </Segment>
       <Segment>
         <h3 className="mt-0">Contacts</h3>
@@ -214,14 +219,15 @@ export default function Program(props) {
               />
             </Svg>
           </div>
-          <div className="flex justify-center items-center flex-wrap ">
+          <div className="flex flex-col justify-center items-center">
+            <div>
+              <a
+                href="https://en.wikipedia.org/wiki/Keith_Haring"
+                className="text-2xl">
+                KEITH HARING
+              </a>
+            </div>
             <img alt="keith_haring" src={keithHaring} width="100" height="80" />
-            <a
-              href="https://en.wikipedia.org/wiki/Keith_Haring"
-              className="text-2xl">
-              KEITH <br />
-              HARING
-            </a>
           </div>
         </div>
       </Segment>

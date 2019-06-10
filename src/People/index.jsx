@@ -69,7 +69,7 @@ export default function People(props) {
             <PosedDiv
               key={artist.name}
               onClick={() => setArtist(null)}
-              className="fixed z-20 top-0 w-full h-full overflow-y-auto"
+              className="fixed mt-8 md:mt-16 z-20 top-0 w-full h-full overflow-y-auto"
               style={{
                 width,
                 // left: width / 2
