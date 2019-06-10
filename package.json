@@ -7,7 +7,8 @@
     "build": "webpack --config webpack.production.config.js",
     "start": "webpack-dev-server --config webpack.config.js",
     "analyze": "webpack --config webpack.production.config.js --json > stats.json",
-    "stats": "webpack-bundle-analyzer stats.json"
+    "stats": "webpack-bundle-analyzer stats.json",
+    "tunnel": "./ngrok http 3000"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
-const tailwindcss = require('tailwindcss');
+// const tailwindcss = require('tailwindcss');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -26,7 +26,7 @@ module.exports = {
   mode: 'development',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: path.join(__dirname, 'public'),
+    // publicPath: path.join(__dirname, 'public'),
     filename: 'main.js',
   },
   resolve: {
@@ -76,7 +76,6 @@ module.exports = {
       template: './src/template.html',
       title: 'Humus Campus'
     }),
-    // new webpack.EnvironmentPlugin(apiTokens),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),

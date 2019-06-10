@@ -54,11 +54,11 @@ export default function AuroraExpress(props) {
 
   return (
     <div
-      className=" flex flex-col w-full h-full items-center relative"
-      style={{fontFamily: "'Cabin Sketch'", width}}>
-      <h1 className="mb-4">Aurora Express</h1>
-      <div className="p-4 flex-grow flex flex-col">
-        <Description className="max-h-48" more>
+      className=" w-full h-full items-center relative"
+      style={{fontFamily: "'Cabin Sketch'", width, height}}>
+      <h1 className="mb-4 text-center">Aurora Express</h1>
+      <div className="p-4 flex flex-col">
+        <Description className="max-h-32 md:max-h-48" more>
           <div className="small-letter md:big-letter">?</div>
           {text}
         </Description>

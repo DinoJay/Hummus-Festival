@@ -22,19 +22,6 @@ const verticalText = {
   // transformOrigin: 'left top 0',
 };
 
-// const sketchOpts = {
-//   bowing: 20,
-//   roughness: 0.9,
-//   strokeWidth: 4,
-//   fillWeight: 10,
-//   fill: chroma('#01a9d0').alpha(0.2),
-//   stroke: BLACK,
-//   fillStyle: 'zigzag',
-// };
-
-const text =
-  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum';
-
 export default function People(props) {
   const {className, width, circleWidth, phone, height, style} = props;
 
@@ -44,7 +31,7 @@ export default function People(props) {
 
   return (
     <div
-      className={`${className} relative`}
+      className={`${className} relative overflow-hidden`}
       style={{fontFamily: "'Cabin Sketch'", width, minHeight: height}}>
       <h1 className="mb-4 text-center">People</h1>
       <div
@@ -57,28 +44,27 @@ export default function People(props) {
           }
         }>
         <PoseGroup>
-          {
-            data
-              .filter(d => !artist || artist.name !== d.name)
-              .map(d => (
-                <PosedDiv
-                  onClick={() => {
-                    artist ? setArtist(null) : setArtist(d);
-                  }}
-                  key={d.name}
-                  className="cursor-pointer h-24 w-24 sm:w-32 sm:h-32 flex items-end m-1 border-2 border-black border-solid border-yo"
-                  style={{
-                    transform: 'rotate(6deg)',
-                    backgroundImage: `url(${d.src})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                  }}>
-                  <div className="m-1 text-white font-bold md:text-2xl">
-                    {d.name}
-                  </div>
-                </PosedDiv>
-              ))}
+          {data
+            .filter(d => !artist || artist.name !== d.name)
+            .map(d => (
+              <PosedDiv
+                onClick={() => {
+                  artist ? setArtist(null) : setArtist(d);
+                }}
+                key={d.name}
+                className="cursor-pointer h-24 w-24 sm:w-32 sm:h-32 flex items-end m-1 border-2 border-black border-solid border-yo"
+                style={{
+                  transform: 'rotate(6deg)',
+                  backgroundImage: `url(${d.src})`,
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                }}>
+                <div className="m-1 text-white font-bold md:text-2xl">
+                  {d.name}
+                </div>
+              </PosedDiv>
+            ))}
           {artist && (
             <PosedDiv
               key={artist.name}
