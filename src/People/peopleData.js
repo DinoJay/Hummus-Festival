@@ -1,6 +1,6 @@
 import fumai from './alessandra_fumai.jpg';
 import daPonte from './cristina_da_ponte.jpg';
-import teppati from './cristina_teppati.png';
+import teppati from './cristina_teppati.jpg';
 import patrizio from './deborah_patrizio.jpg';
 import spagone from './elisa_spagone.jpg';
 import leLarge from './matthieu_lelarge.jpg';

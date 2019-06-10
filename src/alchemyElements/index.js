@@ -64,7 +64,15 @@ export const icons = {
       d: firepath,
       fill: fireFill,
       stroke: fireStroke,
+      size: 50,
       transform: 'translate(0px, 8px)'
+    }),
+    svgSm: generateSvg({
+      d: firepath,
+      fill: fireFill,
+      stroke: fireStroke,
+      size: 50,
+      transform: 'translate(0px, 8px) scale(1)'
     }),
   },
   [WATER]: {
@@ -82,6 +90,13 @@ export const icons = {
       d: airPath,
       size: 50,
       transform: 'translate(0px, 10px)',
+      fill: waterFill,
+      stroke: waterStroke
+    }),
+    svgSm: generateSvg({
+      d: airPath,
+      size: 50,
+      transform: 'translate(0px, 10px) scale(0.7)',
       fill: waterFill,
       stroke: waterStroke
     }),
@@ -104,6 +119,13 @@ export const icons = {
       stroke: earthStroke,
       size: 50
     }),
+    svgSm: generateSvg({
+      d: earthPath,
+      transform: 'translate(0px, 8px) scale(0.7)',
+      fill: earthFill,
+      stroke: earthStroke,
+      size: 50
+    }),
   },
   [AIR]: {
     path: airPath,
@@ -122,6 +144,13 @@ export const icons = {
       stroke: airStroke,
       size: 50,
       transform: 'translate(0px, 8px)'
+    }),
+    svgSm: generateSvg({
+      d: airPath,
+      fill: airFill,
+      stroke: airStroke,
+      size: 30,
+      transform: 'translate(0px, 8px) scale(0.7)'
     }),
   },
 };

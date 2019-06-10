@@ -86,55 +86,53 @@ export const SketchyArcPath = ({
   pathFn,
   defaultData,
   options,
-  duration = 300,
+  duration = 100,
   animOpts = {},
   ...props
 }) => {
   const olData = memo(data);
   const ref = React.useRef();
   const refId = React.useRef();
+  // const refId = React.useRef();
   const [shape, setShape] = useState(null);
 
   const svgRef = React.useContext(SvgContext);
 
-  useEffect(
-    () => {
-      const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
-      tween({
-        from: {
-          startAngle: olData ? olData.startAngle : defaultData.startAngle,
-          endAngle: olData ? olData.endAngle : defaultData.endAngle
-        },
-        to: {startAngle: data.startAngle, endAngle: data.endAngle},
-        duration,
-        ...animOpts
-        // ease: easing.easeInOut,
-        // flip: Infinity,
-      })
-        .pipe(d => pathFn(d))
-        .start(d => {
-          const sketchShape = rc.path(d, options);
-          if (refId.current) {
-            const p = document.getElementById(refId.current);
-            const parent = p ? p.parentNode : null;
-            p && p.parentNode.removeChild(p);
-            if (parent && parent.children && parent.children.length === 0) {
-              const pp = parent ? parent.parentNode : null;
+  useEffect(() => {
+    const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
+    tween({
+      from: {
+        startAngle: olData ? olData.startAngle : defaultData.startAngle,
+        endAngle: olData ? olData.endAngle : defaultData.endAngle
+      },
+      to: {startAngle: data.startAngle, endAngle: data.endAngle},
+      duration,
+      ...animOpts
+      // ease: easing.easeInOut,
+      // flip: Infinity,
+    })
+      .pipe(d => pathFn(d))
+      .start(d => {
+        const sketchShape = rc.path(d, options);
+        if (refId.current) {
+          const p = document.getElementById(refId.current);
+          const parent = p ? p.parentNode : null;
+          p && p.parentNode.removeChild(p);
+          if (parent && parent.children && parent.children.length === 0) {
+            const pp = parent ? parent.parentNode : null;
 
-              if (pp) pp.removeChild(parent);
-            }
+            if (pp) pp.removeChild(parent);
           }
-          // setShape(sketchShape.outerHTML);
-          sketchShape.then(sk => {
-            const newId = getRoughId(sk);
-            refId.current = newId;
+        }
+        // setShape(sketchShape.outerHTML);
+        sketchShape.then(sk => {
+          const newId = getRoughId(sk);
+          refId.current = newId;
 
-            setShape(sk.outerHTML);
-          });
+          setShape(sk.outerHTML);
         });
-    },
-    [compareMemoize(data)],
-  );
+      });
+  }, [compareMemoize(data)]);
 
   useEffect(() => {});
 
@@ -154,39 +152,36 @@ export const SimpleArcPath = ({
   const ref = React.useRef();
   const [shape, setShape] = useState(null);
 
-  useEffect(
-    () => {
-      tween({
-        from: {
-          startAngle: olData ? olData.startAngle : defaultData.startAngle,
-          endAngle: olData ? olData.endAngle : defaultData.endAngle
-        },
-        to: {startAngle: data.startAngle, endAngle: data.endAngle},
-        duration: 200,
-        ...animOpts
-      })
-        .pipe(d => pathFn(d))
-        .start(d => {
-          // const sketchShape = rc.path(d, options);
-          // if (refId.current) {
-          //   const p = document.getElementById(refId.current);
-          //   const parent = p ? p.parentNode : null;
-          //   p && p.parentNode.removeChild(p);
-          //   if (parent && parent.children && parent.children.length === 0) {
-          //     const pp = parent ? parent.parentNode : null;
-          //
-          //     if (pp) pp.removeChild(parent);
-          //   }
-          // }
-          // setShape(sketchShape.outerHTML);
-          // const newId = getRoughId(sketchShape);
-          // refId.current = newId;
+  useEffect(() => {
+    tween({
+      from: {
+        startAngle: olData ? olData.startAngle : defaultData.startAngle,
+        endAngle: olData ? olData.endAngle : defaultData.endAngle
+      },
+      to: {startAngle: data.startAngle, endAngle: data.endAngle},
+      duration: 200,
+      ...animOpts
+    })
+      .pipe(d => pathFn(d))
+      .start(d => {
+        // const sketchShape = rc.path(d, options);
+        // if (refId.current) {
+        //   const p = document.getElementById(refId.current);
+        //   const parent = p ? p.parentNode : null;
+        //   p && p.parentNode.removeChild(p);
+        //   if (parent && parent.children && parent.children.length === 0) {
+        //     const pp = parent ? parent.parentNode : null;
+        //
+        //     if (pp) pp.removeChild(parent);
+        //   }
+        // }
+        // setShape(sketchShape.outerHTML);
+        // const newId = getRoughId(sketchShape);
+        // refId.current = newId;
 
-          setShape(d);
-        });
-    },
-    [compareMemoize(data)],
-  );
+        setShape(d);
+      });
+  }, [compareMemoize(data)]);
 
   useEffect(() => {});
 
@@ -277,39 +272,36 @@ export const SimplePath = ({
   const [shape, setShape] = useState(null);
 
   const refId = React.useRef();
-  useEffect(
-    () => {
-      let intervalId = null;
-      if (svgRef.current) {
-        const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
+  useEffect(() => {
+    let intervalId = null;
+    if (svgRef.current) {
+      const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
 
-        intervalId = setIntervalX(
-          () => {
-            const sketchShape = rc.path(d, {...sketchOpts});
-            // const {fill} = sketchShape.children[0].style;
+      intervalId = setIntervalX(
+        () => {
+          const sketchShape = rc.path(d, {...sketchOpts});
+          // const {fill} = sketchShape.children[0].style;
 
-            sketchShape.then(sk => {
-              if (refId.current) {
-                const p = document.getElementById(refId.current);
-                p.parentNode.removeChild(p);
-              }
-              setShape(sk.outerHTML);
-            });
-            // const newId = getRoughId(sketchShape);
-            // refId.current = newId;
-          },
-          interval,
-          times,
-        );
-      }
+          sketchShape.then(sk => {
+            if (refId.current) {
+              const p = document.getElementById(refId.current);
+              p.parentNode.removeChild(p);
+            }
+            setShape(sk.outerHTML);
+          });
+          // const newId = getRoughId(sketchShape);
+          // refId.current = newId;
+        },
+        interval,
+        times,
+      );
+    }
 
-      // TODO: remove stuff
-      return () => {
-        clearInterval(intervalId);
-      };
-    },
-    [d],
-  );
+    // TODO: remove stuff
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [d]);
 
   return <g {...props} ref={ref} dangerouslySetInnerHTML={{__html: shape}} />;
 };
@@ -328,24 +320,21 @@ export const AnimPath = props => {
 
   const svgRef = React.useContext(SvgContext);
 
-  useEffect(
-    () => {
-      const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
+  useEffect(() => {
+    const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
 
-      const intervalId = setIntervalX(
-        () => {
-          const sketchShape = rc.path(d, {...sketchOpts}).outerHTML;
-          // TODO: remove defs
-          setShape(sketchShape);
-        },
-        interval,
-        times,
-      );
+    const intervalId = setIntervalX(
+      () => {
+        const sketchShape = rc.path(d, {...sketchOpts}).outerHTML;
+        // TODO: remove defs
+        setShape(sketchShape);
+      },
+      interval,
+      times,
+    );
 
-      return () => clearInterval(intervalId);
-    },
-    [d, sketchOpts],
-  );
+    return () => clearInterval(intervalId);
+  }, [d, sketchOpts]);
 
   return (
     <g

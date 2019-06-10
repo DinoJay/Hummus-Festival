@@ -164,7 +164,9 @@ export default function Program(props) {
               <div className="w-full md:w-1/2">Michele:</div>
               <div>393 8905355</div>
             </div>
-            <div>humuscampus@gmail.com</div>
+            <div>
+              <a href="mailto:humuscampus@gmail.com">humuscampus@gmail.com</a>
+            </div>
           </div>
           <Svg className="flex-grow overflow-visible" height={100} ref={svgRef}>
             <SimplePath
@@ -185,7 +187,7 @@ export default function Program(props) {
       </Segment>
       <Segment>
         <h3 className="mt-0">References</h3>
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-wrap">
           <div className="mr-2 items-center justify-between">
             <div className="flex  items-center">
               <a

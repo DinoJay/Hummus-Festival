@@ -57,26 +57,28 @@ export default function People(props) {
           }
         }>
         <PoseGroup>
-          {!artist &&
-            data.map(d => (
-              <PosedDiv
-                onClick={() => {
-                  artist ? setArtist(null) : setArtist(d);
-                }}
-                key={d.name}
-                className="cursor-pointer h-24 w-24 sm:w-32 sm:h-32 flex items-end m-1 border-2 border-black border-solid border-yo"
-                style={{
-                  transform: 'rotate(6deg)',
-                  backgroundImage: `url(${d.src})`,
-                  backgroundSize: 'cover',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center'
-                }}>
-                <div className="m-1 text-white font-bold md:text-2xl">
-                  {d.name}
-                </div>
-              </PosedDiv>
-            ))}
+          {
+            data
+              .filter(d => !artist || artist.name !== d.name)
+              .map(d => (
+                <PosedDiv
+                  onClick={() => {
+                    artist ? setArtist(null) : setArtist(d);
+                  }}
+                  key={d.name}
+                  className="cursor-pointer h-24 w-24 sm:w-32 sm:h-32 flex items-end m-1 border-2 border-black border-solid border-yo"
+                  style={{
+                    transform: 'rotate(6deg)',
+                    backgroundImage: `url(${d.src})`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                  }}>
+                  <div className="m-1 text-white font-bold md:text-2xl">
+                    {d.name}
+                  </div>
+                </PosedDiv>
+              ))}
           {artist && (
             <PosedDiv
               key={artist.name}

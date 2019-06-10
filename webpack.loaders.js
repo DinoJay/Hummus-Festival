@@ -79,7 +79,7 @@ module.exports = [
     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
     exclude: /(node_modules|bower_components)/,
     // include: re,
-    loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
+    loader: 'url-loader?limit=true,10000&mimetype=image/svg+xml',
   },
   {
     test: /\.gif/,
@@ -91,12 +91,12 @@ module.exports = [
   {
     test: /\.jpg/,
     exclude: /(node_modules|bower_components)/,
-    loader: 'url-loader?limit=10000&mimetype=image/jpg',
+    loader: 'url-loader?limit=true,10000&mimetype=image/jpg',
   },
   {
     test: /\.png/,
     exclude: /(node_modules|bower_components)/,
-    loader: 'url-loader?limit=10000&mimetype=image/png',
+    loader: 'url-loader?limit=true,10000&mimetype=image/png',
   },
   {
     test: /\.csv/,

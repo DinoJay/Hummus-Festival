@@ -75,6 +75,9 @@ html {
 
 @responsive {
 
+  .fixed-top-left {
+    @apply .fixed .left-0 .top-0;
+  }
 
   .triangle-lg-btn {
     width: 90px;
@@ -647,10 +650,10 @@ $smMax: 576px;
     transform: translate(120px, 230px) scale(4.2);
   }
   .program-stickman-selected {
-    transform: translate(-50px, -60px) scale(4.6) rotate(90deg);
+    transform: translate(-50px, 130px) scale(4.6) rotate(90deg);
   }
   .detail-events {
-    grid-row-end: 7;
+    grid-row-end: 12;
   }
 }
 
@@ -666,7 +669,7 @@ $smMax: 576px;
     height: 10rem;
   }
   .program-stickman {
-    transform: translate(120px, 280px) scale(5.5);
+    transform: translate(120px, 240px) scale(5.5);
   }
   .program-stickman-selected {
     transform: translate(-100px, 80px) scale(5.6) rotate(90deg);
