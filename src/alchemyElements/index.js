@@ -72,7 +72,7 @@ export const icons = {
       fill: fireFill,
       stroke: fireStroke,
       size: 50,
-      transform: 'translate(20px, 20px) scale(0.6)'
+      transform: 'translate(20px, 20px) scale(0.4)'
     }),
   },
   [WATER]: {
@@ -96,7 +96,7 @@ export const icons = {
     svgSm: generateSvg({
       d: airPath,
       size: 50,
-      transform: 'translate(0px, 10px) scale(0.7)',
+      transform: 'translate(0px, 10px) scale(0.4)',
       fill: waterFill,
       stroke: waterStroke
     }),
@@ -121,7 +121,7 @@ export const icons = {
     }),
     svgSm: generateSvg({
       d: earthPath,
-      transform: 'translate(0px, 8px) scale(0.7)',
+      transform: 'translate(0px, 8px) scale(0.4)',
       fill: earthFill,
       stroke: earthStroke,
       size: 50

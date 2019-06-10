@@ -273,7 +273,7 @@ export default function AlchemyCircle(props) {
       <div>
         <h1 className="flex-no-shrink text-center flex-none ">Concept</h1>
       </div>
-      <div className="flex-grow justify-between flex flex-col">
+      <div className="flex-grow justify-between md:flex md:flex-col">
         <div className="p-4">
           <Description key="yo" className="w-full max-h-32 md:max-h-72">
             {selectedElement ? (
