@@ -165,7 +165,7 @@ const EventWeek = posed(
           }}>
           <div className="absolute m-4 top-0 left-0">{startWeekStr}</div>
           <div className="m-auto">
-            {icons[theme][width > 400 ? 'svgSm' : 'svgSm']}
+            {icons[theme][width > 400 ? 'svgLg' : 'svg']}
           </div>
           <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
             {endDay}
