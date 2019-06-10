@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -22,7 +22,7 @@ module.exports = {
     // 'babel-polyfill',
     './src/index.jsx', // your app's entry point
   ],
-  // mode: 'production',
+  mode: 'production',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'main.js',
@@ -60,14 +60,17 @@ module.exports = {
       // chunkFilename: '[id].[hash].css',
       filename: 'style.css'
     }),
-    new CleanWebpackPlugin(['dist/*.*']),
+    new CleanWebpackPlugin(
+      {       cleanOnceBeforeBuildPatterns: ['dist/*.*'],
+      }
+    ),
 
     new HtmlWebpackPlugin({
       template: './src/template.html',
     }),
-    // new webpack.DefinePlugin({
-    //   'process.env.NODE_ENV': JSON.stringify('production'),
-    // }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
     require('autoprefixer'),
   ],
 };

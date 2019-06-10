@@ -26,7 +26,7 @@ module.exports = {
   mode: 'development',
   output: {
     path: path.join(__dirname, 'dist'),
-    // publicPath: path.join(__dirname, 'public'),
+    publicPath: path.join(__dirname, 'public'),
     filename: 'main.js',
   },
   resolve: {
