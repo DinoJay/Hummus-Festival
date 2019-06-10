@@ -5,7 +5,9 @@
   "main": "''",
   "scripts": {
     "build": "webpack --config webpack.production.config.js",
-    "start": "webpack-dev-server --config webpack.config.js"
+    "start": "webpack-dev-server --config webpack.config.js",
+    "analyze": "webpack --config webpack.production.config.js --json > stats.json",
+    "stats": "webpack-bundle-analyzer stats.json"
   },
   "repository": {
     "type": "git",
@@ -83,6 +85,7 @@
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^2.0.0",
     "webpack": "^4.26.1",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.1"
   }

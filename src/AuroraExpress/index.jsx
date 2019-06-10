@@ -17,8 +17,8 @@ import {stickman, bike} from './stickmanPath.js';
 import {seg0, seg1, seg2, seg3, seg4} from './campusLogoSegments.js';
 import text from './text';
 
-import img0 from './aurora_1.png';
-import img1 from './aurora_2.png';
+import img0 from './aurora_1.jpg';
+import img1 from './aurora_2.jpg';
 import img2 from './humus_2017_0.jpg';
 import img3 from './humus_2017_1.jpg';
 
