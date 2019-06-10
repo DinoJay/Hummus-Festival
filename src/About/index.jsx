@@ -139,7 +139,11 @@ export default function Program(props) {
       style={{width}}>
       <h1 className="flex-shrink-0 text-center">About</h1>
       <Segment id="ape" className="flex flex-wrap">
-        <Svg className="flex-shrink-0" width="17rem" height={140} ref={svgRef}>
+        <Svg
+          className="m-auto flex-shrink-0"
+          width="17rem"
+          height={140}
+          ref={svgRef}>
           <SimplePath
             sketchOpts={sketchOpts}
             d={apeOrgaPath}
@@ -151,10 +155,10 @@ export default function Program(props) {
             style={{transform: 'translate(10rem, 2.5rem) scale(1)'}}
           />
         </Svg>
-        <div className="sketchy-font-2 flex flex-wrap font-bold text-4xl">
+        <div className="m-auto sketchy-font-2 flex flex-col flex-wrap font-bold text-4xl items-center">
           <span className="h-4">Arcadia Panik</span>
           <span className="text-5xl h-12">=*====*==</span>
-          <span>Ensemble</span>
+          <span className="m-1">Ensemble</span>
         </div>
       </Segment>
       <Segment>
@@ -173,7 +177,10 @@ export default function Program(props) {
               <a href="mailto:humuscampus@gmail.com">humuscampus@gmail.com</a>
             </div>
           </div>
-          <Svg className="flex-grow overflow-visible" height={100} ref={svgRef}>
+          <Svg
+            className="flex-grow ml-6 overflow-visible"
+            height={100}
+            ref={svgRef}>
             <SimplePath
               className="bycicle"
               sketchOpts={{
@@ -202,9 +209,9 @@ export default function Program(props) {
             </div>
             <ATCQ className="mr-1" />
           </div>
-          <div>
+          <div className="m-auto">
             <div>
-              <a className="text-3xl" href="">
+              <a className="text-3xl text-center" href="">
                 Peace
               </a>
             </div>
@@ -223,7 +230,7 @@ export default function Program(props) {
               />
             </Svg>
           </div>
-          <div className="flex flex-col justify-center items-center">
+          <div className="m-auto flex flex-col justify-center items-center flex-wrap">
             <div>
               <a
                 href="https://en.wikipedia.org/wiki/Keith_Haring"
@@ -231,7 +238,13 @@ export default function Program(props) {
                 KEITH HARING
               </a>
             </div>
-            <img alt="keith_haring" src={keithHaring} width="100" height="80" />
+            <img
+              className="m-auto"
+              alt="keith_haring"
+              src={keithHaring}
+              width="100"
+              height="80"
+            />
           </div>
         </div>
       </Segment>

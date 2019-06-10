@@ -72,7 +72,7 @@ export const icons = {
       fill: fireFill,
       stroke: fireStroke,
       size: 50,
-      transform: 'translate(0px, 8px) scale(1)'
+      transform: 'translate(20px, 20px) scale(0.6)'
     }),
   },
   [WATER]: {

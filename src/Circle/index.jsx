@@ -275,11 +275,11 @@ export default function AlchemyCircle(props) {
       </div>
       <div className="flex-grow justify-between flex flex-col">
         <div className="p-4">
-          <Description key="yo" className="w-full max-h-32 md:max-h-48">
+          <Description key="yo" className="w-full max-h-32 md:max-h-72">
             {selectedElement ? (
               <>
                 <div className="small-letter md:big-letter text-black flex justify-center items-center">
-                  {selectedElement.icon[width > 400 ? 'svgLg' : 'svg']}
+                  {selectedElement.icon[width > 400 ? 'svgLg' : 'svgSm']}
                 </div>
                 {selectedElement.text}
               </>

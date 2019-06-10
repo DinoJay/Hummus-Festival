@@ -154,7 +154,7 @@ const EventWeek = posed(
     return (
       <div
         ref={ref}
-        className="event flex relative m-1 text-2xl md: text:2xl"
+        className="event flex relative m-1 text-2xl md:text:2xl"
         style={{
           transform: `rotate(${i % 2 ? -10 : 6}deg)`,
         }}>
@@ -165,7 +165,7 @@ const EventWeek = posed(
           }}>
           <div className="absolute m-4 top-0 left-0">{startWeekStr}</div>
           <div className="m-auto">
-            {icons[theme][width > 400 ? 'svg' : 'svg']}
+            {icons[theme][width > 400 ? 'svgSm' : 'svgSm']}
           </div>
           <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
             {endDay}
@@ -198,7 +198,7 @@ const EventWeekWrapper = posed(
         ref={ref}
         key={theme}
         className={`${selectedWeek &&
-          'detail-events speech-bubble'} flex justify-center items-center cursor-pointer`}
+          'detail-events speech-bubble'} flex justify-center items-center justify-center cursor-pointer`}
         onClick={() => {
           setSelectedWeek(selectedWeek ? null : event);
         }}
@@ -298,7 +298,7 @@ export default function Program(props) {
       <div
         ref={gridRef}
         className={`flex-grow ${selectedWeek &&
-          'fixed top-0 left-0 z-50 sand md:static'}`}
+          'fixed top-0 left-0 ml-2 z-50 sand md:static'}`}
         style={{
           display: 'grid',
           gridTemplateColumns: `${width / 2 - 10}px ${width / 2 - 10}px`,
