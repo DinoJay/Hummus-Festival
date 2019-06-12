@@ -55,15 +55,15 @@ const SelectedWeek = posed(
     const {
       selectedWeek,
       setSelectedWeek,
-      onClick,
       vals,
       startDay,
       endDay,
-      theme
+      theme,
+      onClick
     } = props;
 
     return (
-      <div ref={ref} className="h-full w-full flex flex-col">
+      <div onClick={onClick} ref={ref} className="h-full w-full flex flex-col">
         <h2 className="flex justify-between items-center my-0 mx-2">
           <div>{startDay}</div> <div>{icons[theme].svg}</div>{' '}
           <div>{endDay}</div>
@@ -75,6 +75,14 @@ const SelectedWeek = posed(
               <div>{d.summary}</div>
             </div>
           ))}
+        </div>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={onClick}
+            className=" border-0 px-2 flex items-center justify-center md:m-2 md:hover:shadow-lg inv-btn text-center cursor-pointer sketchy-font-2 text-end font-bold text-4xl">
+            <div>←</div>
+          </button>
         </div>
       </div>
     );
@@ -209,7 +217,13 @@ const EventWeekWrapper = posed(
           gridColEnd: !selected && 'span 3',
         }}>
         {selected ? (
-          <SelectedWeek {...props} key={theme} />
+          <SelectedWeek
+            onClick={() => {
+              setSelectedWeek(selectedWeek ? null : event);
+            }}
+            {...props}
+            key={theme}
+          />
         ) : (
           <EventWeek {...props} key={theme} />
         )}
@@ -302,7 +316,7 @@ export default function Program(props) {
         style={{
           display: 'grid',
           gridTemplateColumns: `${width / 2 - 10}px ${width / 2 - 10}px`,
-          gridTemplateRows: `repeat(20, 5vh)`,
+          gridTemplateRows: `repeat(20, minmax(5vh,5vw)`,
         }}>
         <PoseGroup>
           {filteredEvents.map((d, i) => (

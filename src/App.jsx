@@ -43,6 +43,7 @@ function App() {
   }, []);
 
   const {height = null, width = null} = size || {};
+  const maxDim = Math.max(height, width);
   return (
     <div
       ref={ref}
@@ -73,27 +74,21 @@ function App() {
           <section className="page background flex justify-center border-2  ">
             <MissionStatement {...size} className="flex " />
           </section>
-          <section
-            className="page flex justify-center background-0  "
-            style={{minHeight: height}}>
+          <section className="page flex justify-center background-0  ">
             <Circle {...size} className="p-2" />
           </section>
-          <section
-            className="page background-full flex justify-center border-2"
-            style={{height}}>
+          <section className="page background-full flex justify-center border-2">
             <Program {...size} className="flex justify-center" />
           </section>
-          <section className="page h-screen background-full flex justify-center border-2">
+          <section className="page h-screen background-full flex justify-center border-2" style={{minHeight: maxDim}}>
             <AuroraExpress {...size} className="flex justify-center" />
           </section>
           <section
             className="page background-full border-2 flex justify-center "
-            style={{minHeight: height}}>
+            style={{minHeight: maxDim}}>
             <People {...size} className="" />
           </section>
-          <section
-            className="page flex background justify-center border-2 "
-            style={{height: 'unset'}}>
+          <section className="page flex background justify-center border-2 ">
             <About {...size} className="" />
           </section>
         </>
