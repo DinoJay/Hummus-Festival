@@ -54,6 +54,9 @@ export default function Landing(props) {
     strokeWidth: 4
   };
   const radius = circleWidth / 2;
+
+  const [roughness, setRoughness] = React.useState(0.2);
+
   const titleStyle = {
     fontSize: radius / 2,
     fontFamily: 'Cabin Sketch',
@@ -97,7 +100,7 @@ export default function Landing(props) {
               sketch: 1.8,
               strokeWidth: 2,
               fillWeight: 5,
-              fillStyle: 'zigzag'
+              fillStyle: 'zigzag',
             }}
             style={
               {
@@ -181,9 +184,11 @@ export default function Landing(props) {
                 10 * stickmanScale}px, ${-40}px)`
             }}>
             <AnimPath
+              onMouseOver={()=> setRoughness(1)}
+              onMouseOut={() => setRoughness(0.2)}
               ref={svgRef}
               d={stickman1}
-              sketchOpts={{...stickmmenSketchOpts, fill: YELLOW}}
+              sketchOpts={{...stickmmenSketchOpts, roughness, fill: YELLOW}}
               style={{
                 transform: `translate(${-radius /
                   1.5}px,100px) scale(${stickmanScale})`,
@@ -191,9 +196,11 @@ export default function Landing(props) {
               }}
             />
             <AnimPath
+              onMouseOver={()=> setRoughness(1)}
+              onMouseOut={() => setRoughness(0.2)}
               ref={svgRef}
               sketchOpts={{
-                ...stickmmenSketchOpts,
+                ...stickmmenSketchOpts,roughness,
                 fill: GREEN,
                 // bowing: 50,
                 // roughness: 0.2,
@@ -207,9 +214,14 @@ export default function Landing(props) {
               }}
             />
             <AnimPath
+              onMouseOver={()=> setRoughness(1)}
+              onMouseOut={() => setRoughness(0.2)}
               ref={svgRef}
               d={stickman3}
-              sketchOpts={{...stickmmenSketchOpts, fill: ORANGE}}
+              sketchOpts={{...stickmmenSketchOpts,
+                roughness,
+
+                fill: ORANGE}}
               style={{
                 ...pathStyle,
                 transform: `translate(${radius / 2 +
@@ -217,11 +229,16 @@ export default function Landing(props) {
               }}
             />
             <AnimPath
+              onMouseOver={()=> setRoughness(1)}
+              onMouseOut={() => setRoughness(0.2)}
               ref={svgRef}
-              sketchOpts={{...stickmmenSketchOpts, fill: 'tomato'}}
+              sketchOpts={{...stickmmenSketchOpts,
+                roughness,
+                fill: 'tomato'}}
               d={stickman4}
               style={{
                 ...pathStyle,
+                roughness,
                 transform: `translate(${radius * 2 -
                   20 * stickmanScale}px, 70px) scale(${stickmanScale}) `
               }}

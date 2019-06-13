@@ -39,7 +39,9 @@ function MissionStatement(props) {
   const svgRef = React.useRef();
 
   const stickmanScale = width / 550;
+  const [sketch, setSketch] = useState(sketchOpts);
 
+  console.log('Sketch', sketch);
   return (
     <div
       className={`${className} flex flex-col w-full h-full items-center relative`}
@@ -67,9 +69,21 @@ function MissionStatement(props) {
         style={{height: height / (phone ? 2.3 : 2)}}>
         <g transform={`translate(${width / 2},${20}) scale(${stickmanScale})`}>
           <SimplePath
+            onMouseOver={() =>
+              setSketch({
+                ...sketchOpts,
+                roughness: 4
+              })
+            }
+            onMouseOut={() =>
+              setSketch({
+                ...sketchOpts,
+                roughness: 0.9
+              })
+            }
             times={1000}
             interval={500}
-            sketchOpts={sketchOpts}
+            sketchOpts={sketch}
             svgRef={svgRef}
             d={stickman}
             style={{transform: 'scale(1)'}}

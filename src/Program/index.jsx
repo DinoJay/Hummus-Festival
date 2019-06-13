@@ -316,7 +316,7 @@ export default function Program(props) {
         style={{
           display: 'grid',
           gridTemplateColumns: `${width / 2 - 10}px ${width / 2 - 10}px`,
-          gridTemplateRows: `repeat(20, minmax(5vh,5vw)`,
+          gridTemplateRows: `repeat(20, 5vh)`,
         }}>
         <PoseGroup>
           {filteredEvents.map((d, i) => (

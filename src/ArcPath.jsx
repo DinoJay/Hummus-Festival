@@ -296,12 +296,10 @@ export const SimplePath = ({
         times,
       );
     }
-
-    // TODO: remove stuff
     return () => {
       clearInterval(intervalId);
     };
-  }, [d]);
+  }, [d, sketchOpts.roughness]);
 
   return <g {...props} ref={ref} dangerouslySetInnerHTML={{__html: shape}} />;
 };

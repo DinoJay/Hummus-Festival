@@ -269,11 +269,11 @@ export default function AlchemyCircle(props) {
   return (
     <div
       className={`${className} h-full relative md:flex md:flex-col md:items-center md:justify-center`}
-      style={{fontFamily: "'Cabin Sketch'", width}}>
+      style={{fontFamily: "'Cabin Sketch'", width, minHeight: height}}>
       <div>
         <h1 className="flex-no-shrink text-center flex-none ">Concept</h1>
       </div>
-      <div className="flex-grow md:flex md:flex-col">
+      <div className="flex-grow md:flex md:flex-col md:justify-even">
         <div className="p-4">
           <Description key="yo" className="w-full max-h-32 md:max-h-72">
             {selectedElement ? (
