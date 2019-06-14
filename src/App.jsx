@@ -42,6 +42,21 @@ function App() {
     return () => window.removeEventListener('resize', resize);
   }, []);
 
+  const [scrolling, setScrolling] = useState(false);
+
+  useEffect(() => {
+    const onScroll = e => {
+      setScrolling(true);
+      // if (!scrolling) {
+      //   setTimeout(() => setScrolling(false), 1000);
+      window.requestAnimationFrame(function() {
+        setScrolling(false);
+      });
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  });
+
   const {height = null, width = null} = size || {};
   const maxDim = Math.max(height, width);
   return (
@@ -69,27 +84,45 @@ function App() {
                 <div className="triangle-right md:triangle-lg-right" />
               </div>
             </a>
-            <Landing {...size} className="page flex flex-col justify-center" />
+            <Landing
+              {...size}
+              scrolling={scrolling}
+              className="page flex flex-col justify-center"
+            />
           </section>
           <section className="page background flex justify-center border-2  ">
-            <MissionStatement {...size} className="flex " />
+            <MissionStatement
+              scrolling={scrolling}
+              {...size}
+              className="flex "
+            />
           </section>
           <section className="page flex justify-center background-0  ">
-            <Circle {...size} className="p-2" />
+            <Circle scrolling={scrolling} {...size} className="p-2" />
           </section>
           <section className="page background-full flex justify-center border-2">
-            <Program {...size} className="flex justify-center" />
+            <Program
+              scrolling={scrolling}
+              {...size}
+              className="flex justify-center"
+            />
           </section>
-          <section className="page h-screen background-full flex justify-center border-2" style={{minHeight: maxDim}}>
-            <AuroraExpress {...size} className="flex justify-center" />
+          <section
+            className="page h-screen background-full flex justify-center border-2"
+            style={{minHeight: maxDim}}>
+            <AuroraExpress
+              scrolling={scrolling}
+              {...size}
+              className="flex justify-center"
+            />
           </section>
           <section
             className="page background-full border-2 flex justify-center "
             style={{minHeight: maxDim}}>
-            <People {...size} className="" />
+            <People scrolling={scrolling} {...size} className="" />
           </section>
           <section className="page flex background justify-center border-2 ">
-            <About {...size} className="" />
+            <About scrolling={scrolling} {...size} className="" />
           </section>
         </>
       )}

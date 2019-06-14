@@ -56,7 +56,7 @@ const getRoughId = (sketchShape, id) => {
 function setIntervalX(callback, delay, repetitions) {
   let x = 0;
   const intervalId = setInterval(() => {
-    callback();
+    window.requestAnimationFrame(callback);
 
     if (++x === repetitions) {
       clearInterval(intervalId);
