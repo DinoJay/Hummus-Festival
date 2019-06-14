@@ -86,7 +86,7 @@ export default function Landing(props) {
     <div className={`${className} relative`} style={{width}}>
       <Svg className="overflow-visible" width={width} height={width + offset}>
         <g style={{transform: `translate(${width / 2}px, ${width / 2}px)`}}>
-          <SimplePath
+          <AnimPath
             svgRef={svgRef}
             d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
             sketchOpts={{
@@ -108,7 +108,7 @@ export default function Landing(props) {
               }
             }
           />
-          <SimplePath
+          <AnimPath
             svgRef={svgRef}
             d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
             sketchOpts={{
@@ -127,7 +127,7 @@ export default function Landing(props) {
               }
             }
           />
-          <SimplePath
+          <AnimPath
             svgRef={svgRef}
             d={circleGen({startAngle: 0, endAngle: 2 * Math.PI})}
             sketchOpts={{

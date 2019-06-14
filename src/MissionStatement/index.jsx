@@ -93,35 +93,65 @@ function MissionStatement(props) {
           <SimplePath
             times={1000}
             interval={500}
-            sketchOpts={{...sketchOpts, roughness: 2, bowing: 3, fill: 'none'}}
+            sketchOpts={{
+              ...sketchOpts,
+              strokeWidth: 3,
+              roughness: 2,
+              bowing: 3,
+              fill: 'none'
+            }}
             d={seg0}
             style={{transform: 'scale(1.5) rotate(0deg)'}}
           />
           <SimplePath
             times={1000}
             interval={500}
-            sketchOpts={{...sketchOpts, roughness: 2, bowing: 3, fill: 'none'}}
+            sketchOpts={{
+              ...sketchOpts,
+              strokeWidth: 3,
+              roughness: 2,
+              bowing: 3,
+              fill: 'none'
+            }}
             d={seg1}
             style={{transform: 'scale(1.5) rotate(0deg)'}}
           />
           <SimplePath
             times={1000}
             interval={500}
-            sketchOpts={{...sketchOpts, roughness: 2, bowing: 3, fill: 'none'}}
+            sketchOpts={{
+              ...sketchOpts,
+              strokeWidth: 3,
+              roughness: 2,
+              bowing: 3,
+              fill: 'none'
+            }}
             d={seg2}
             style={{transform: 'scale(1.5) rotate(0deg)'}}
           />
           <SimplePath
             times={1000}
             interval={500}
-            sketchOpts={{...sketchOpts, roughness: 2, bowing: 3, fill: 'none'}}
+            sketchOpts={{
+              ...sketchOpts,
+              strokeWidth: 3,
+              roughness: 2,
+              bowing: 3,
+              fill: 'none'
+            }}
             d={seg3}
             style={{transform: 'scale(1.5) rotate(0deg)'}}
           />
           <SimplePath
             times={1000}
             interval={500}
-            sketchOpts={{...sketchOpts, roughness: 2, bowing: 3, fill: 'none'}}
+            sketchOpts={{
+              ...sketchOpts,
+              strokeWidth: 2,
+              roughness: 2,
+              bowing: 3,
+              fill: 'none'
+            }}
             d={seg4}
             style={{transform: 'scale(1.5) rotate(0deg)'}}
           />
