@@ -14,7 +14,7 @@ function IndexPage() {
     <>
       <SEO
         title="Home"
-        keywords={[`gatsby`, `tailwind`, `react`, `tailwindcss`]}
+        keywords={[`Humus`, `festival`, `dance`, `music`, 'torino', 'turin']}
       />
     <App/>
     </>
