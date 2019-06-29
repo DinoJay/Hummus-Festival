@@ -3,7 +3,7 @@ import Facebook from 'react-feather/dist/icons/facebook';
 
 // import scrollSnapPolyfill from 'css-scroll-snap-polyfill';
 
-import WebFont from 'webfontloader';
+// import WebFont from 'webfontloader';
 import {hot} from 'react-hot-loader';
 
 import Circle from './Circle';
@@ -39,13 +39,13 @@ function App() {
 
 
 
-const WebFontConfig = {
-  google: {
-    families: ['Cabin Sketch', 'Annie Use Your Telescope']
-  }
-};
+// const WebFontConfig = {
+//   google: {
+//     families: ['Cabin Sketch', 'Annie Use Your Telescope']
+//   }
+// };
 
-WebFont.load(WebFontConfig);
+// WebFont.load(WebFontConfig);
     resize();
     // window.addEventListener('resize', resize);
 
