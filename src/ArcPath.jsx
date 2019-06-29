@@ -13,8 +13,9 @@ import {
   easing,
   schedule,
   everyFrame,
-  timeline
+  timeline,
 } from 'popmotion';
+import FpsCtrl from './fpsCtrl';
 // import worker from './worker';
 
 // import {interpolate} from 'flubber';
@@ -257,7 +258,18 @@ export const SimpleArcPath = ({
 // };
 //
 //
+const promiseTimeout = function(ms, promise) {
+  // Create a promise that rejects in <ms> milliseconds
+  const timeout = new Promise((resolve, reject) => {
+    const id = setTimeout(() => {
+      clearTimeout(id);
+      reject(`Timed out in ${ms}ms.`);
+    }, ms);
+  });
 
+  // Returns a race between our timeout and the passed in promise
+  return Promise.race([promise, timeout]);
+};
 export const SimplePath = ({
   d,
   sketchOpts,
@@ -277,18 +289,22 @@ export const SimplePath = ({
     if (svgRef.current) {
       const rc = rough.svg(svgRef.current, {workerURL: './worker.js'});
 
+      let tmpPromise = new Promise( res=>res());
       intervalId = setIntervalX(
         () => {
           const sketchShape = rc.path(d, {...sketchOpts});
           // const {fill} = sketchShape.children[0].style;
 
-          sketchShape.then(sk => {
-            if (refId.current) {
-              const p = document.getElementById(refId.current);
-              p.parentNode.removeChild(p);
-            }
-            setShape(sk.outerHTML);
-          });
+          tmpPromise = tmpPromise.then(() =>
+            sketchShape.then(sk => {
+              if (refId.current) {
+                const p = document.getElementById(refId.current);
+                p.parentNode.removeChild(p);
+              }
+              setShape(sk.outerHTML);
+              return new Promise(res => res());
+            }),
+          );
           // const newId = getRoughId(sketchShape);
           // refId.current = newId;
         },

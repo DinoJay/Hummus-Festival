@@ -40,13 +40,16 @@ export default function Description(props) {
           </div>
         </div>
         {!extended && (
-          <div
+          <button
+            className="invisible-btn"
+            type="button"
+            onClick={() => setExtended(!extended)}
             className=" absolute right-0 bottom-0 flex-shrink-0
               flex ">
             <button className="mr-3 mb-2 btn-invisible text-xl" type="button">
               <Search />
             </button>
-          </div>
+          </button>
         )}
       </div>
     </div>
