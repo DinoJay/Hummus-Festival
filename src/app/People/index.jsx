@@ -40,6 +40,7 @@ export default function People(props) {
         }`}
         style={
           {
+
             // flexFlow: 'column wrap'
           }
         }>

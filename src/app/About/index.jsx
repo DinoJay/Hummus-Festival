@@ -164,7 +164,7 @@ export default function Program(props) {
       <Segment style={{width: 200}}>
         <h3 className="mt-0 font-bold">Contacts</h3>
         <div className="flex ">
-          <div className="md:text-lg m-auto">
+          <div className="md:text-lg m-auto w-64">
             <div className="flex flex-wrap">
               <div className="w-full md:w-1/2">Cristina:</div>
               <div>340 5903937</div>
@@ -179,7 +179,7 @@ export default function Program(props) {
           </div>
           <Svg
             viewBox="0 0 100 100"
-            className="flex-grow m-auto overflow-visible"
+            className="flex-grow ml-16 overflow-visible"
             height={100}
             width={100}
             ref={svgRef}>
