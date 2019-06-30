@@ -1,6 +1,7 @@
 import colors from '../colors';
 import {FIRE, WATER, EARTH, AIR, icons} from '../alchemyElements';
 
+import {fireFill, fireStroke, waterFill, waterStroke, earthFill, earthStroke, airFill, airStroke} from '../alchemyElements';
 const defaultData = [
   {
     index: 0,
@@ -8,8 +9,8 @@ const defaultData = [
     id: FIRE,
     icon: icons[FIRE],
     // fill: '#E42149',
-    fill: colors.red[3],
-    color: colors.red[5],
+    fill: fireFill,
+    color: fireStroke,
     size: 5 / 16,
     text:
       'La genesi, secondo la prospettiva alchimista, narra che la terra sia stata creata a partire dal sole, quindi dal fuoco che rappresenta la volontà viva e autentica, il potere personale, la manifestazione del proprio essere, trasformando i propri limiti e paure in potere creatore e rigeneratore.',
@@ -21,8 +22,10 @@ const defaultData = [
         icon: '↗',
         innerLabel: "l'io",
         // fill: '#E42149',
-        fill: colors.red[3],
-        color: colors.red[5],
+        // fill: colors.red[3],
+        // color: colors.red[5],
+    fill: fireFill,
+    color: fireStroke,
         size: 5 / 16,
       },
       {
@@ -31,8 +34,12 @@ const defaultData = [
         outerLabel: 'scelta',
         icon: '↜',
         innerLabel: 'azione',
-        fill: colors.orange[3],
-        color: colors.orange[5],
+        // fill: colors.orange[3],
+    fill: fireFill,
+    color: fireStroke,
+        // color: colors.orange[5],
+    fill: fireFill,
+    color: fireStroke,
         size: 3 / 16,
       },
     ]
@@ -41,8 +48,8 @@ const defaultData = [
     index: 1,
     title: 'Earth',
     id: EARTH,
-    fill: colors.orange[3],
-    color: colors.orange[5],
+    fill: earthFill,
+    color: earthStroke,
     icon: icons[EARTH],
     size: 3 / 16,
     text:
@@ -55,8 +62,8 @@ const defaultData = [
         innerLabel: 'La Forma',
         icon: '◗',
         // fill: '#FFF146',
-        fill: colors.yellow[3],
-        color: colors.yellow[5],
+    fill: earthFill,
+    color: earthStroke,
         size: 3 / 16,
       },
       {
@@ -64,8 +71,8 @@ const defaultData = [
         index: 3,
         outerLabel: 'Repulsion',
         innerLabel: 'La Forma',
-        fill: colors.lime[3],
-        color: colors.lime[5],
+    fill: earthFill,
+    color: earthStroke,
         size: 3 / 16,
       },
     ]
@@ -76,8 +83,8 @@ const defaultData = [
     title: 'Air',
     icon: icons[AIR],
     // fill: '#FFF146',
-    fill: colors.yellow[3],
-    color: colors.yellow[5],
+    fill: earthFill,
+    color: earthStroke,
     size: 3 / 16,
     text:
       "Dopo la concretizzazione subentra la riflessione sull'azione compiuta, infatti la terza fase è rappresentata dall'elemento aria che è simbolicamente legato al discernimento, al pensiero, al giudizio, alla presa di coscienza, e nel fisico si traduce in direzione e leggerezza. ",
@@ -88,8 +95,8 @@ const defaultData = [
         outerLabel: 'dialobo',
         icon: '↯',
         innerLabel: "l'altro",
-        fill: colors.cyan[3],
-        color: colors.cyan[5],
+        fill: airFill,
+        color: airStroke,
         size: 3 / 16,
       },
       {
@@ -98,8 +105,8 @@ const defaultData = [
         outerLabel: 'Reflessione',
         innerLabel: "Il'se",
         icon: '↹',
-        fill: colors.fuschia[3],
-        color: colors.fuschia[5],
+        fill: airFill,
+        color: airStroke,
         size: 3 / 16,
       },
     ]
@@ -109,8 +116,8 @@ const defaultData = [
     title: 'Water',
     icon: icons[WATER],
     id: WATER,
-    fill: colors.lime[3],
-    color: colors.blue[3],
+    fill: waterFill,
+    color: waterStroke,
     size: 3 / 16,
     text:
       "La quarta fase è rappresentata dall'elemento acqua che simboleggia l’ adattamento , l’integrazione, la fluidità. L'acqua rappresenta la possibilità di integrare e far scorrere le esperienze all'interno della nostra vita.",
@@ -121,8 +128,8 @@ const defaultData = [
         outerLabel: 'transformation',
         icon: '⇝',
         innerLabel: "Il'se",
-        fill: colors.indigo[3],
-        color: colors.indigo[5],
+    fill: waterFill,
+    color: waterStroke,
         size: 3 / 16,
       },
       {
@@ -132,7 +139,8 @@ const defaultData = [
         icon: '▣',
         innerLabel: 'Il Tutto',
         fill: '#0091E5',
-        color: colors.blue[5],
+    fill: waterFill,
+    color: waterStroke,
         size: 5 / 16,
       },
     ]

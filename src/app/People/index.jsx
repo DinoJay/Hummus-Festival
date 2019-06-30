@@ -9,7 +9,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
 import posed, {PoseGroup} from 'react-pose';
-import Description from '../components/utils/Description';
+import Description from '../Description';
 
 import data from './peopleData';
 

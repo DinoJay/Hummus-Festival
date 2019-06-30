@@ -6,6 +6,17 @@ input::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
+
+.arrow-up {
+
+margin: 0 0 px 0;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+
+  border-bottom: 5px solid black;
+}
 button {
         /*Reset's every elements apperance*/
         background: none repeat scroll 0 0 transparent;
@@ -148,10 +159,16 @@ button {
       @apply .float-left .text-black;
       font-size: 100px !important;
       shape-outside: ellipse(50%) !important ;
-      width: 70px;
-      height: 100px;
+      width: 80px !important;
+      height: 90px !important;
   }
 
+.small-letter {
+  @apply .float-left .text-black;
+  font-size: 70px;
+  shape-outside: ellipse(50%);
+  width: 50px;
+}
   .max-h-10	{
     max-height: 2.5rem;
   }
@@ -174,7 +191,7 @@ button {
   }
 
   .max-h-32 {
-    max-height: 8rem;
+    max-height: 9rem;
   }
   .max-h-40 {
     max-height: 10rem;
@@ -183,10 +200,10 @@ button {
     max-height: 12rem;
   }
   .max-h-64{
-    max-height: 14rem;
+    max-height: 15rem;
   }
   .max-h-72 {
-    max-height: 18rem;
+    max-height: 21rem;
   }
 
   .max-w-4 {
@@ -195,12 +212,6 @@ button {
 }
 
 
-.small-letter {
-  @apply .float-left .text-black;
-  font-size: 70px;
-  shape-outside: ellipse(50%);
-  width: 50px;
-}
 
 
 
@@ -520,7 +531,7 @@ clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 9
 
 
 h1 {
-  @apply .myFont .mb-4 .mt-1;
+  @apply .myFont .mb-4 .mt-1 .text-2xl;
 }
 
 @screen md {

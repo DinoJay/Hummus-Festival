@@ -9,8 +9,12 @@ export const AIR = 'AIR';
 const firepath =
   'M 16.5197,0.59233713 0.7681575,36.945024 37.784299,35.056574 Z';
 
-const fireFill = theme.colors.red[300];
-const fireStroke = theme.colors.red[500];
+export const fireFill =
+  '#ce4d54'
+  // theme.colors.red[300];
+export const fireStroke =
+  '#764043'
+  // theme.colors.red[500];
 
 const waterPath =
   'M 1.6354397,4.2587056 19.350877,37.691604 37.066314,1.0362583 c 0,0 -41.6552162,2.0140299 -35.4308743,3.2224473 z';
@@ -21,14 +25,16 @@ const earthPath =
 const airPath =
   'M 19.276784,1.0446427 1.889881,33.172618 38.553572,31.282736 26.458332,10.494047 3.401784,10.872023 36.285714,9.7380953 H 24.568451 Z';
 
-const waterFill = theme.colors.indigo[300];
-const waterStroke = theme.colors.indigo[500];
+export const waterFill =
+  '#79a6f9'
+  // ktheme.colors.indigo[300];
+export const waterStroke = '#3f557e'//theme.colors.indigo[500];
 
-const earthFill = theme.colors.yellow[500];
-const earthStroke = theme.colors.yellow[700];
+export const earthFill = theme.colors.yellow[500];
+export const earthStroke = theme.colors.yellow[700];
 
-const airFill = theme.colors.teal[500];
-const airStroke = theme.colors.teal[700];
+export const airFill = theme.colors.teal[500];
+export const airStroke = theme.colors.teal[700];
 
 const generateSvg = ({d, fill, stroke, size = 50, transform}) => (
   <Svg width={size} height={size}>
@@ -65,7 +71,7 @@ export const icons = {
       fill: fireFill,
       stroke: fireStroke,
       size: 50,
-      transform: 'translate(0px, 8px)'
+      transform: 'translate(4px, 8px)'
     }),
     svgSm: generateSvg({
       d: firepath,
@@ -89,7 +95,7 @@ export const icons = {
     svg: generateSvg({
       d: airPath,
       size: 50,
-      transform: 'translate(0px, 10px)',
+      transform: 'translate(4px, 5px)',
       fill: waterFill,
       stroke: waterStroke
     }),
@@ -107,21 +113,21 @@ export const icons = {
     stroke: earthStroke,
     svgLg: generateSvg({
       d: earthPath,
-      transform: 'translate(0px, 34px) scale(1.5)',
+      transform: 'translate(20px, 24px) scale(1.5)',
       fill: earthFill,
       stroke: earthStroke,
       size: 100
     }),
     svg: generateSvg({
       d: earthPath,
-      transform: 'translate(0px, 8px)',
+      transform: 'translate(10px, 8px)',
       fill: earthFill,
       stroke: earthStroke,
       size: 50
     }),
     svgSm: generateSvg({
       d: earthPath,
-      transform: 'translate(0px, 8px) scale(0.4)',
+      transform: 'translate(5px, 8px) scale(0.4)',
       fill: earthFill,
       stroke: earthStroke,
       size: 50
@@ -143,7 +149,7 @@ export const icons = {
       fill: airFill,
       stroke: airStroke,
       size: 50,
-      transform: 'translate(0px, 8px)'
+      transform: 'translate(5px, 8px)'
     }),
     svgSm: generateSvg({
       d: airPath,

@@ -6,6 +6,8 @@ import max from 'lodash/max';
 import min from 'lodash/min';
 import toArray from 'lodash/toArray';
 
+import useMedia from '../useMedia'
+
 import {wrapGrid} from 'animate-css-grid';
 //
 import chroma from 'chroma-js';
@@ -67,7 +69,7 @@ const SelectedWeek = posed(
 
     return (
       <div onClick={onClick} ref={ref} className="h-full w-full flex flex-col">
-        <h2 className="flex justify-between items-center my-0 mx-2">
+        <h2 className="flex text-2xl font-bold justify-between items-center my-0 mx-2">
           <div>{startDay}</div> <div>{icons[theme].svg}</div>{' '}
           <div>{endDay}</div>
         </h2>
@@ -162,6 +164,14 @@ const EventWeek = posed(
       onClick
     } = props;
 
+const smallScreen = useMedia(
+    // Media queries
+    ['(max-width: 500px)'],
+    // Column counts (relates to above media queries by array index)
+    [true],
+    // Default column count
+    false
+  );
     return (
       <div
         ref={ref}
@@ -176,7 +186,7 @@ const EventWeek = posed(
           }}>
           <div className="absolute m-4 top-0 left-0">{startWeekStr}</div>
           <div className="m-auto">
-            {icons[theme][width > 400 ? 'svgLg' : 'svg']}
+            {icons[theme][smallScreen ? 'svg': 'svgLg']}
           </div>
           <div className="absolute m-4 right-0 bottom-0 mr-6 mb-2">
             {endDay}
@@ -252,6 +262,14 @@ export default function Program(props) {
     };
   });
 
+const smallScreen = useMedia(
+    // Media queries\\
+    ['(max-width: 450px)'],
+    // Column counts (relates to above media queries by array index)\\
+    [true],
+    // Default column count
+    false
+  );
   const grouped = group(parsedEvents, d => formatWeekDate(d.startWeek))
   console.log('grouped', Array.from(grouped.entries()));
 

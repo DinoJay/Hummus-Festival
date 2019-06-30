@@ -1,25 +1,15 @@
 import Search from 'react-feather/dist/icons/search';
 import posed from 'react-pose';
 
+import useMeasure from './useMeasure';
+
 import React, {useState, useMemo, useEffect} from 'react';
 
-const Extendable = posed.div({
-  exit: {opacity: '0'},
-  closed: {
-    // height: ({height}) => height || '100%',
-    // height: 70
-    // width: 70
-  },
-  open: {
-    // y: ({height}) => height / 2,
-    height: 'auto',
-    // width: '100%'
-  },
-});
-
 export default function Description(props) {
-  const {children, height, className, more} = props;
+  const {children, height, className, more, extendable} = props;
   const [extended, setExtended] = useState(false);
+  const [bind, dim] = useMeasure();
+  console.log('dim', dim);
   return (
     <div className="flex flex-col z-20">
       <div
@@ -35,20 +25,16 @@ export default function Description(props) {
             extended ? 'max-h-half' : className
           } flex-grow flex-col overflow-y-auto `}
           style={{transition: 'all 500ms'}}>
-          <div className="relative flex-shrink overflow-hidden text-xl md:text-xl">
+          <div {...bind} className="relative flex-shrink overflow-hidden md:text-xl">
             {children}
           </div>
         </div>
-        {!extended && (
+        {!extended && extendable && (
           <button
-            className="invisible-btn"
             type="button"
             onClick={() => setExtended(!extended)}
-            className=" absolute right-0 bottom-0 flex-shrink-0
-              flex ">
-            <button className="mr-3 mb-2 btn-invisible text-xl" type="button">
+            className="mb-3 ml-3 mr-1 invisible-btn absolute right-0 bottom-0 flex-shrink-0 flex">
               <Search />
-            </button>
           </button>
         )}
       </div>

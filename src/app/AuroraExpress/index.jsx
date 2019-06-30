@@ -10,7 +10,7 @@ import uniqBy from 'lodash/uniqBy';
 // import cloneDeep from 'lodash/cloneDeep';
 // import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
-import Description from '../components/utils/Description';
+import Description from '../Description';
 
 import {SimplePath, Svg} from '../ArcPath';
 import {stickman, bike} from './stickmanPath.js';

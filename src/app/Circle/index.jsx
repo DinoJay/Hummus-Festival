@@ -5,10 +5,11 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import sortBy from 'lodash/sortBy';
+import useMedia from '../useMedia';
 // import posed from 'react-pose';
 import {styler, tween, easing} from 'popmotion';
 import {SketchyArcPath, SimplePath, SimpleArcPath, Svg} from '../ArcPath';
-import Description from '../components/utils/Description';
+import Description from '../Description';
 
 import defaultData from './circleData';
 
@@ -30,7 +31,7 @@ const CenterTxt = props => {
 
   return (
     <div
-      className={`bg-white border-2 border-black flex flex-col items-center justify-center p-4 ${className}`}
+      className={`bg-white border-2 border-black flex flex-col items-center flex items-center justify-center py-5 px-4 rounded-full ${className}`}
       style={{...style, transform: `translate(-50%,40%)`}}>
       <div
         className="text-4xl flex items-center"
@@ -266,20 +267,29 @@ export default function AlchemyCircle(props) {
       />
     ));
 
+const smallScreen = useMedia(
+    // Media queries\\
+    ['(max-width: 450px)'],
+    // Column counts (relates to above media queries by array index)\\
+    [true],
+    // Default column count
+    false
+  );
+
+
   return (
     <div
       className={`${className} h-full relative md:flex md:flex-col md:items-center md:justify-center`}
       style={{fontFamily: "'Cabin Sketch'", width, minHeight: height}}>
-      <div>
-        <h1 className="flex-no-shrink text-center flex-none ">Concept</h1>
-      </div>
-      <div className="flex-grow md:flex md:flex-col md:justify-even">
+      <h1 className="text-center">Theme</h1>
+
+      <div className="flex-grow md:flex md:flex-col md:justify-between ">
         <div className="p-4">
-          <Description key="yo" className="w-full max-h-32 md:max-h-72">
+          <Description extendable={id ===null && smallScreen} key="yo" className="w-full max-h-32 md:max-h-72">
             {selectedElement ? (
               <>
                 <div className="small-letter md:big-letter text-black flex justify-center items-center">
-                  {selectedElement.icon[width > 400 ? 'svgLg' : 'svgSm']}
+                  {selectedElement.icon[smallScreen ? 'svg' : 'svgLg']}
                 </div>
                 {selectedElement.text}
               </>
@@ -295,16 +305,16 @@ export default function AlchemyCircle(props) {
             )}
           </Description>
         </div>
-        <div className="relative mdmt-auto ">
+        <div className="relative md:mt-auto ">
           <CenterTxt
-            className="absolute z-10 border-black rounded-full border-2 border-solid"
+            className="absolute z-10 "
             preview={
               selectedElement ? (
-                <div className="-ml-1 -mr-1 -my-2 relative">
+                <div className="-ml-3 -mr-3 -my-3 relative">
                   <div className="ml-1">{selectedElement.icon.svg}</div>
                 </div>
               ) : (
-                <span className="text-4xl mx-2 text-black">!!!</span>
+                <span className="text-4xl -my-3 m-1 text-black">!!!</span>
               )
             }
             text={selectedElement ? selectedElement.text : 'YO'}

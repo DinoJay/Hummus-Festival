@@ -161,10 +161,10 @@ export default function Program(props) {
           <span className="m-1">Ensemble</span>
         </div>
       </Segment>
-      <Segment>
-        <h3 className="mt-0">Contacts</h3>
-        <div className="flex">
-          <div className="md:text-lg">
+      <Segment style={{width: 200}}>
+        <h3 className="mt-0 font-bold">Contacts</h3>
+        <div className="flex ">
+          <div className="md:text-lg m-auto">
             <div className="flex flex-wrap">
               <div className="w-full md:w-1/2">Cristina:</div>
               <div>340 5903937</div>
@@ -178,14 +178,17 @@ export default function Program(props) {
             </div>
           </div>
           <Svg
-            className="flex-grow ml-6 overflow-visible"
+            viewBox="0 0 100 100"
+            className="flex-grow m-auto overflow-visible"
             height={100}
+            width={100}
             ref={svgRef}>
             <SimplePath
               className="bycicle"
               sketchOpts={{
                 ...sketchOpts,
-                roughness: 1.4,
+                roughness: 0.4,
+
                 strokeWidth: 4,
                 // fillWeight: 10,
 
@@ -197,7 +200,7 @@ export default function Program(props) {
         </div>
       </Segment>
       <Segment>
-        <h3 className="mt-0">References</h3>
+        <h3 className="mt-0 font-bold">References</h3>
         <div className="flex justify-between flex-wrap">
           <div className="mr-2 items-center justify-between">
             <div className="flex  items-center">

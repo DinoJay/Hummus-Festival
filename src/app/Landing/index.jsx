@@ -14,13 +14,16 @@ import {
 
 import {ArcPath, Svg, SimplePath} from '../ArcPath';
 
+import {fireFill, earthFill, airFill, waterFill} from '../alchemyElements';
+
+
 const BLACK = '#404040';
-const BLUE = '#0362a4';
-const ORANGE = '#f7823d';
-const PURPLE = '#253583';
-const GREEN = '#38c172';
+const RED = fireFill;
+const LIGHT_BLUE = airFill;
+const BLUE = waterFill;
 const LIGHTBLUE = '#01a9d0';
-const YELLOW = '#f8c640';
+const YELLOW = earthFill;
+
 
 function ellipseGen(myr) {
   return (
@@ -184,7 +187,7 @@ export default function Landing(props) {
             <AnimPath
               ref={svgRef}
               d={stickman1}
-              sketchOpts={{...stickmmenSketchOpts, fill: YELLOW}}
+              sketchOpts={{...stickmmenSketchOpts, fill: BLUE}}
               style={{
                 transform: `translate(${-radius /
                   1.5}px,100px) scale(${stickmanScale})`,
@@ -195,7 +198,7 @@ export default function Landing(props) {
               ref={svgRef}
               sketchOpts={{
                 ...stickmmenSketchOpts,
-                fill: GREEN,
+                fill: YELLOW,
                 // bowing: 50,
                 // stroke: BLACK
               }}
@@ -212,7 +215,7 @@ export default function Landing(props) {
               sketchOpts={{
                 ...stickmmenSketchOpts,
 
-                fill: ORANGE
+                fill: RED
               }}
               style={{
                 ...pathStyle,
@@ -225,7 +228,7 @@ export default function Landing(props) {
               sketchOpts={{
                 ...stickmmenSketchOpts,
 
-                fill: 'tomato'
+                fill: LIGHT_BLUE
               }}
               d={stickman4}
               style={{

@@ -8,7 +8,7 @@ import uniqBy from 'lodash/uniqBy';
 // import cloneDeep from 'lodash/cloneDeep';
 // import sortBy from 'lodash/sortBy';
 import {styler, tween, easing} from 'popmotion';
-import Description from '../components/utils/Description';
+import Description from '../Description';
 
 import {SimplePath, Svg} from '../ArcPath';
 import {stickman, bike} from './stickmanPath.js';
@@ -46,9 +46,9 @@ function MissionStatement(props) {
     <div
       className={`${className} flex flex-col w-full h-full items-center relative`}
       style={{fontFamily: "'Cabin Sketch'", width}}>
-      <h1 className="mb-4">Info</h1>
       <div className="p-4">
-        <Description className="max-h-64">
+        <Description className="max-h-64" maxWidth={400}>
+
           <div
             className="small-letter md:big-letter"
             style={
